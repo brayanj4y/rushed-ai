@@ -5,6 +5,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import {
     ChevronDownIcon,
     ChevronLeftIcon,
+    ChevronRightIcon,
     SunMoonIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -56,7 +57,15 @@ export const ProjectHeader = ({ projectId }: Props) => {
                         <Link href="/">
                             <ChevronLeftIcon />
                             <span>
-                                Go to Dashboard
+                                Go to Home
+                            </span>
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                        <Link href="/artifacts">
+                            <ChevronRightIcon />
+                            <span>
+                                All Artifacts
                             </span>
                         </Link>
                     </DropdownMenuItem>
