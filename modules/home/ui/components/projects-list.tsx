@@ -19,7 +19,7 @@ export const ProjectLists = () => {
                 {projects?.length === 0 && (
                     <div className="col-span-full text-center">
                         <p className="text-sm text-muted-foreground">
-                            No partifacts found
+                            No artifacts found
                         </p>
                     </div>
                 )}
@@ -32,7 +32,7 @@ export const ProjectLists = () => {
                     ><Link href={`/project/${project.id}`}>
                             <div className="flex items-center gap-x-4">
                                 <Image
-                                    src="/logo.svg"
+                                    src="/file.png"
                                     alt="Rushed"
                                     width={32}
                                     height={32}

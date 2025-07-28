@@ -1,4 +1,3 @@
-import { CopyCheckIcon, CopyIcon } from "lucide-react";
 import { useState, useMemo, useCallback, Fragment } from "react";
 
 import { Hint } from "./hint";
@@ -136,7 +135,7 @@ export const FileExplorer = ({
 
     return (
         <ResizablePanelGroup direction="horizontal">
-            <ResizablePanel defaultSize={30} minSize={30} className="bg-sidebar">
+            <ResizablePanel defaultSize={20} minSize={15} className="bg-sidebar">
                 <TreeView
                     data={treeData}
                     value={selectedFile}
@@ -147,17 +146,17 @@ export const FileExplorer = ({
             <ResizablePanel defaultSize={70} minSize={50}>
                 {selectedFile && files[selectedFile] ? (
                     <div className="h-full w-full flex flex-col">
-                        <div className="border-b bg-sidebar px-4 py-2 flex justify-between items-center gap-x-2">
+                        <div className="border-b bg-sidebar px-4 py-1 flex justify-between items-center gap-x-2">
                             <FileBreadcumb filePath={selectedFile}/>
                             <Hint text="copy to clipboard" side="bottom">
                                 <Button
                                     variant="outline"
-                                    size="icon"
+                                    size="sm"
                                     className="ml-auto"
                                     onClick={handleCopy}
                                     disabled={copied}
                                 >
-                                    {copied ? <CopyCheckIcon/> : <CopyIcon />}
+                                    {copied ? "Copied" : "Copy"}
                                 </Button>
                             </Hint>
                         </div>

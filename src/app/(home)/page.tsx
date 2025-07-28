@@ -46,7 +46,7 @@ const Page = () => {
             title="Launch in Minutes"
             subtitle="⚡ No Code, No Delay"
             description="Skip the dev backlog. Get from idea to working app in one smooth convo."
-            imageSrc="/images/automation.gif"
+            imageSrc="/city.pn"
             colSpan="col-span-2"
             rowSpan="row-span-2"
           />

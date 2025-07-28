@@ -50,7 +50,8 @@ export function PixelBentoCard({
       <div className="relative z-20">
         <h3 className="font-bold text-sm">{title}</h3>
         {<p className="text-xs mt-1">{subtitle}</p>}
-        {<p className="text-xs text-muted-foreground">{description}</p>}
+        {
+          <p className="text-xs text-muted-foreground">{description}</p>}
       </div>
     </div>
   );
