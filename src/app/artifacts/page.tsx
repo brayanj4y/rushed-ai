@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ProjectLists } from "../../../modules/home/ui/components/projects-list";
+import { ProjectLists } from "../../modules/home/ui/components/projects-list";
 import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon } from "lucide-react";
 

@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { ProjectForm } from "../../../modules/home/ui/components/project-form";
-import { PixelBentoCard } from "../../../modules/home/ui/components/bento-card";
+import { ProjectForm } from "../../modules/home/ui/components/project-form";
+import { PixelBentoCard } from "../../modules/home/ui/components/bento-card";
 
 const Page = () => {
   return (
