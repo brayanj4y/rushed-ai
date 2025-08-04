@@ -10,14 +10,14 @@ interface Props {
 
 
 export const UserControl = ({ showName }: Props) => {
-    const currenTheme = useCurrentTheme();
+    const currentTheme = useCurrentTheme();
 
 
     return (
         <UserButton
             showName={showName}
             appearance={{
-                baseTheme: currenTheme === "dark" ? dark : undefined,
+                baseTheme: currentTheme === "dark" ? dark : undefined,
             }}
         />
     );
