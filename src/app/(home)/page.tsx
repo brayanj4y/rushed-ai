@@ -5,15 +5,16 @@ import { PixelBentoCard } from "../../modules/home/ui/components/bento-card";
 const Page = () => {
   return (
     <div className="flex flex-col max-w-5xl mx-auto w-full px-4">
-      <section className="flex flex-col items-center space-y-12 py-[12vh] 2xl:py-40">
+      <section className="flex flex-col items-center space-y-8 py-[12vh] 2xl:py-40">
 
         <Image
           src="/logo.gif"
           alt="Rushed"
           width={90}
           height={90}
-          className="hidden md:block"
+          className="hidden md:block mt-12"
         />
+
 
         <div className="text-center space-y-4">
           <h1 className="text-3xl md:text-6xl font-bold tracking-tight">
@@ -46,7 +47,7 @@ const Page = () => {
             title="Launch in Minutes"
             subtitle="⚡ No Code, No Delay"
             description="Skip the dev backlog. Get from idea to working app in one smooth convo."
-            imageSrc="/city.pn"
+            imageSrc=""
             colSpan="col-span-2"
             rowSpan="row-span-2"
           />
@@ -55,7 +56,7 @@ const Page = () => {
             title="UI? Done."
             subtitle="🎨 Looks Good Already"
             description="No fiddling with components. Your AI co-dev handles the UI like a pro."
-            imageSrc="/mountain.gif"
+            imageSrc=""
             colSpan="col-span-2"
             rowSpan="row-span-2"
           />
