@@ -1,20 +1,22 @@
-import { Sandbox } from "@e2b/code-interpreter"
+import {
+  openai,
+  createAgent,
+  createTool,
+  createNetwork,
+  type Tool,
+} from "@inngest/agent-kit";
+import { Sandbox } from "@e2b/code-interpreter";
 
-import { createAgent, anthropic, createTool, createNetwork, type Tool } from "@inngest/agent-kit";
 import { inngest } from "./client";
 import { getSandbox, lastAssistantTextMessageContent } from "./utils";
-import { z } from "zod";
+import z from "zod";
 import { PROMPT } from "@/prompt";
 import { prisma } from "@/lib/db";
 
-
 interface AgentState {
   summary: string;
-  files: {[path: string]: string};
-};
-
-
-
+  files: { [path: string]: string };
+}
 
 export const codeAgentFunction = inngest.createFunction(
   { id: "code-agent" },
@@ -24,14 +26,19 @@ export const codeAgentFunction = inngest.createFunction(
       const sandbox = await Sandbox.create("rushed-nextjs-template");
       return sandbox.sandboxId;
     });
+
+    // e.g. transcript step
+    // await step.sleep("wait-a-moment", "5s");
+
+    // Create a new agent with a system prompt (you can add optional tools, too)
     const codeAgent = createAgent<AgentState>({
       name: "code-agent",
       description: "An expert coding agent",
       system: PROMPT,
-      model: anthropic({
-        model: "claude-3-5-sonnet-latest",
+      model: openai({
+        model: "gpt-4.1",
         defaultParameters: {
-          max_tokens: 4096
+          temperature: 0.1, // Randomness (higher = more random)
         },
       }),
       tools: [
@@ -47,15 +54,15 @@ export const codeAgentFunction = inngest.createFunction(
 
               try {
                 const sandbox = await getSandbox(sandboxId);
-                const result = await sandbox.commands.run(command, {
+                const result = sandbox.commands.run(command, {
                   onStdout: (data: string) => {
                     buffers.stdout += data;
                   },
                   onStderr: (data: string) => {
                     buffers.stderr += data;
-                  }
+                  },
                 });
-                return result.stdout;
+                return (await result).stdout;
               } catch (e) {
                 console.error(
                   `Command failed: ${e} \nstdout: ${buffers.stdout}\nstderror: ${buffers.stderr}`,
@@ -67,7 +74,7 @@ export const codeAgentFunction = inngest.createFunction(
         }),
         createTool({
           name: "createOrUpdateFiles",
-          description: "Create or update files in this sandbox",
+          description: "Create or update files in the sandbox",
           parameters: z.object({
             files: z.array(
               z.object({
@@ -78,27 +85,36 @@ export const codeAgentFunction = inngest.createFunction(
           }),
           handler: async (
             { files },
-            { step, network }: Tool.Options<AgentState>
+            { step, network }: Tool.Options<AgentState>,
           ) => {
-            const newFiles = await step?.run("createOrUpdateFiles", async () => {
-              try {
-                const updatedFiles = network.state.data.files || {};
-                const sandbox = await getSandbox(sandboxId);
-                for (const file of files) {
-                  await sandbox.files.write(file.path, file.content);
-                  updatedFiles[file.path] = file.content;
-                }
+            /**
+             * {
+             *   /app.tsx: "<p>hi</p>",
+             * }
+             */
 
-                return updatedFiles;
-              } catch (e) {
-                return "Error: " + e;
-              }
-            });
+            const newFiles = await step?.run(
+              "createOrUpdateFiles",
+              async () => {
+                try {
+                  const updatedFiles = network.state.data.files || {};
+                  const sandbox = await getSandbox(sandboxId);
+                  for (const file of files) {
+                    await sandbox.files.write(file.path, file.content);
+                    updatedFiles[file.path] = file.content;
+                  }
+
+                  return updatedFiles;
+                } catch (e) {
+                  return "Error: " + e;
+                }
+              },
+            );
 
             if (typeof newFiles === "object") {
               network.state.data.files = newFiles;
             }
-          }
+          },
         }),
         createTool({
           name: "readFiles",
@@ -112,6 +128,7 @@ export const codeAgentFunction = inngest.createFunction(
                 const sandbox = await getSandbox(sandboxId);
                 const contents = [];
                 for (const file of files) {
+                  // Prevent hallucination to ensure file exists
                   const content = await sandbox.files.read(file);
                   contents.push({ path: file, content });
                 }
@@ -119,9 +136,9 @@ export const codeAgentFunction = inngest.createFunction(
               } catch (e) {
                 return "Error: " + e;
               }
-            })
-          }
-        })
+            });
+          },
+        }),
       ],
       lifecycle: {
         onResponse: async ({ result, network }) => {
@@ -136,7 +153,7 @@ export const codeAgentFunction = inngest.createFunction(
 
           return result;
         },
-      }
+      },
     });
 
     const network = createNetwork<AgentState>({
@@ -145,11 +162,9 @@ export const codeAgentFunction = inngest.createFunction(
       maxIter: 15,
       router: async ({ network }) => {
         const summary = network.state.data.summary;
-
         if (summary) {
           return;
         }
-
         return codeAgent;
       },
     });
@@ -160,21 +175,26 @@ export const codeAgentFunction = inngest.createFunction(
       !result.state.data.summary ||
       Object.keys(result.state.data.files || {}).length === 0;
 
-    const sandboxUrl = await step.run("getsandbox-url", async () => {
+    // const { output } = await codeAgent.run(
+    //   `Write the following snippet: ${event.data.value}`,
+    // );
+
+    const sandboxUrl = await step.run("get-sandbox-url", async () => {
       const sandbox = await getSandbox(sandboxId);
       const host = sandbox.getHost(3000);
       return `https://${host}`;
     });
 
+    // Save to db
     await step.run("save-result", async () => {
       if (isError) {
         return await prisma.message.create({
           data: {
             projectId: event.data.projectId,
-            content: "Something went wrong, Please try again",
+            content: "Something went wrong. Please try again.",
             role: "ASSISTANT",
             type: "ERROR",
-          }
+          },
         });
       }
 
@@ -187,21 +207,19 @@ export const codeAgentFunction = inngest.createFunction(
           fragment: {
             create: {
               sandboxUrl: sandboxUrl,
-              title: "Artifact",
+              title: "Fragment",
               files: result.state.data.files,
-            }
-
-          }
-        }
-      })
-    })
+            },
+          },
+        },
+      });
+    });
 
     return {
       url: sandboxUrl,
-      title: "Artifact",
+      title: "Fragment",
       files: result.state.data.files,
-      summary: result.state.data.summary
+      summary: result.state.data.summary,
     };
-
   },
 );

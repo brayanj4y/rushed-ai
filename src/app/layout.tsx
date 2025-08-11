@@ -4,12 +4,12 @@ import "./globals.css";
 import { TRPCReactProvider } from "@/trpc/client";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "next-themes";
-import {ClerkProvider} from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const pixelifySans = Pixelify_Sans({
-  weight: ["500"],
   variable: "--font-pixelify-sans",
   subsets: ["latin"],
+  weight: ["400", "700"],
 });
 
 export const metadata: Metadata = {
@@ -26,7 +26,9 @@ export default function RootLayout({
     <ClerkProvider>
       <TRPCReactProvider>
         <html lang="en" suppressHydrationWarning>
-          <body className={`${pixelifySans.variable} font-sans antialiased`}>
+          <body
+            className={`${pixelifySans.variable} antialiased`}
+          >
             <ThemeProvider
               attribute="class"
               defaultTheme="system"
@@ -41,4 +43,4 @@ export default function RootLayout({
       </TRPCReactProvider>
     </ClerkProvider>
   );
-};
+}
