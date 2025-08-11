@@ -17,7 +17,7 @@ export function cn(...inputs: ClassValue[]) {
  * Output: [["src", "Button.tsx"], "README.md"]
  */
 export function convertFilesToTreeItems(
-  files: Record<string, string>
+  files: Record<string, string>,
 ): TreeItem[] {
   // Define proper type for tree structure
   interface TreeNode {
