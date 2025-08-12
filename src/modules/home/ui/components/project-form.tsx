@@ -13,7 +13,7 @@ import { useTRPC } from "@/trpc/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { PROJECT_TEMPLATES } from "../../constants";
+import { PROJECT_TEMPLATES } from "@/constants";
 import { useClerk } from "@clerk/nextjs";
 
 const formSchema = z.object({
