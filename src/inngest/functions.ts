@@ -31,7 +31,7 @@ export const codeAgentFunction = inngest.createFunction(
   { event: "code-agent/run" },
   async ({ event, step }) => {
     const sandboxId = await step.run("get-sandbox-id", async () => {
-      const sandbox = await Sandbox.create("lovable-clone-nextjs-sg-0206");
+      const sandbox = await Sandbox.create("rushed-nextjs-template");
       await sandbox.setTimeout(SANDBOX_TIMEOUT_IN_MS);
       return sandbox.sandboxId;
     });
