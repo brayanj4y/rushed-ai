@@ -1,5 +1,5 @@
 import {
-  openai,
+  anthropic,
   createAgent,
   createTool,
   createNetwork,
@@ -27,19 +27,13 @@ export const codeAgentFunction = inngest.createFunction(
       return sandbox.sandboxId;
     });
 
-    // e.g. transcript step
-    // await step.sleep("wait-a-moment", "5s");
-
-    // Create a new agent with a system prompt (you can add optional tools, too)
     const codeAgent = createAgent<AgentState>({
       name: "code-agent",
       description: "An expert coding agent",
       system: PROMPT,
-      model: openai({
-        model: "gpt-4.1",
-        defaultParameters: {
-          temperature: 0.1, // Randomness (higher = more random)
-        },
+      model: anthropic({
+        model: "claude-3-opus",
+        defaultParameters: { max_tokens: 4096 },
       }),
       tools: [
         createTool({
@@ -87,11 +81,6 @@ export const codeAgentFunction = inngest.createFunction(
             { files },
             { step, network }: Tool.Options<AgentState>,
           ) => {
-            /**
-             * {
-             *   /app.tsx: "<p>hi</p>",
-             * }
-             */
 
             const newFiles = await step?.run(
               "createOrUpdateFiles",
@@ -128,7 +117,7 @@ export const codeAgentFunction = inngest.createFunction(
                 const sandbox = await getSandbox(sandboxId);
                 const contents = [];
                 for (const file of files) {
-                  // Prevent hallucination to ensure file exists
+                  
                   const content = await sandbox.files.read(file);
                   contents.push({ path: file, content });
                 }
@@ -175,17 +164,13 @@ export const codeAgentFunction = inngest.createFunction(
       !result.state.data.summary ||
       Object.keys(result.state.data.files || {}).length === 0;
 
-    // const { output } = await codeAgent.run(
-    //   `Write the following snippet: ${event.data.value}`,
-    // );
-
+   
     const sandboxUrl = await step.run("get-sandbox-url", async () => {
       const sandbox = await getSandbox(sandboxId);
       const host = sandbox.getHost(3000);
       return `https://${host}`;
     });
 
-    // Save to db
     await step.run("save-result", async () => {
       if (isError) {
         return await prisma.message.create({
