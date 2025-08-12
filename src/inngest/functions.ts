@@ -46,7 +46,8 @@ export const codeAgentFunction = inngest.createFunction(
             projectId: event.data.projectId,
           },
           orderBy: {
-            createdAt: "desc",
+            //Order in which the AI receives the messages
+            createdAt: "asc",
           },
           take: 5,
         });

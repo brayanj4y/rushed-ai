@@ -1,21 +1,23 @@
 export const PROJECT_TEMPLATES = [
   {
-    emoji: "📊",
-    title: "Admin Dashboard",
+    emoji: "⚙️",
+    title: "Build a settings page",
     prompt:
-      "Create a responsive admin dashboard with a sidebar, stat cards, a chart placeholder, and a sortable, paginated table. Use consistent spacing, visual grouping, and modern, professional UI patterns.",
+      "Build a modern, responsive settings page with a sidebar for sections (Profile, Security, Notifications), editable form fields with labels and validation, and Save/Cancel buttons. Use clear section grouping, consistent spacing, and typography. Ensure light and dark mode support.",
   },
+
   {
-    emoji: "🗂️",
-    title: "Kanban Board",
+    emoji: "🔑",
+    title: "Build a login page",
     prompt:
-      "Build a kanban board with drag-and-drop (react-beautiful-dnd), task add/remove, and smooth hover states. Ensure balanced column widths, clean spacing, and polished interaction design.",
+      "Create a sleek login page with a centered form (email + password inputs), a prominent login button, 'Forgot password?' and 'Sign up' links, and a background with a subtle gradient or illustration. Ensure mobile responsiveness and dark mode compatibility.",
   },
+
   {
-    emoji: "🎵",
-    title: "Music Player",
+    emoji: "💳",
+    title: "Build a pricing page",
     prompt:
-      "Design a Spotify-style music player with playlists in a sidebar, song details in the main view, and intuitive playback controls. Use local state for playback and selection, with dark mode and a sleek, balanced layout.",
+      "Design a clean pricing page with 3 pricing tiers in responsive cards, feature checklists per tier, and clear 'Select Plan' buttons. Highlight the recommended plan with emphasis. Use balanced spacing, typography, and color contrast for clarity and appeal.",
   },
 ] as const;
 
