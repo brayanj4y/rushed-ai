@@ -1,4 +1,4 @@
-import { CloudCog, CopyCheckIcon, CopyIcon } from "lucide-react";
+import { CopyCheckIcon, CopyIcon } from "lucide-react";
 import { Hint } from "./hint";
 import { Button } from "./ui/button";
 import { Fragment, useCallback, useMemo, useState } from "react";
