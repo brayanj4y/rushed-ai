@@ -81,8 +81,8 @@ const AssistantMessage = ({
         <Image
           src="/logo.svg"
           alt="Rushed"
-          width={18}
-          height={18}
+          width={30}
+          height={30}
           className="shrink-0"
         />
         <span className="text-sm font-medium">Rushed</span>

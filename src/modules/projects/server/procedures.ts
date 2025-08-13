@@ -80,7 +80,7 @@ export const projectsRouter = createTRPCRouter({
       });
 
       await inngest.send({
-        name: "code-agent/run", // needs ot match in functions.ts!
+        name: "rushed-agent/run", // needs ot match in functions.ts!
         data: {
           value: input.value,
           projectId: createdProject.id,

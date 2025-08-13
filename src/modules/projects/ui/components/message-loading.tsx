@@ -2,7 +2,11 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const ShimmerMessages = () => {
-  const messages = ["Thinking...", "Loading...", "Generating..."];
+  const messages = [
+    "Thinking...",
+    "Loading...",
+    "Generating..."
+  ];
 
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
 
@@ -28,10 +32,10 @@ export const MessageLoading = () => {
     <div className="flex flex-col group px-2 pb-4">
       <div className="flex items-center gap-2 pl-2 mb-2">
         <Image
-          src="/logo.svg"
+          src="/logo.gif"
           alt="Rushed"
-          width={18}
-          height={18}
+          width={30}
+          height={30}
           className="shrink-0"
         />
         <span className="text-sm font-medium">Rushed</span>
