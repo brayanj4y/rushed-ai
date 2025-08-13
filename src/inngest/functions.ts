@@ -27,8 +27,8 @@ interface AgentState {
 }
 
 export const codeAgentFunction = inngest.createFunction(
-  { id: "code-agent" },
-  { event: "code-agent/run" },
+  { id: "rushed-agent" },
+  { event: "rushed-agent/run" },
   async ({ event, step }) => {
     const sandboxId = await step.run("get-sandbox-id", async () => {
       const sandbox = await Sandbox.create("rushed-nextjs-template");
@@ -76,7 +76,7 @@ export const codeAgentFunction = inngest.createFunction(
 
     // Create a new agent with a system prompt (you can add optional tools, too)
     const codeAgent = createAgent<AgentState>({
-      name: "code-agent",
+      name: "rushed-agent",
       description: "An expert coding agent",
       system: PROMPT,
       model: anthropic({
@@ -291,7 +291,7 @@ export const codeAgentFunction = inngest.createFunction(
 
     return {
       url: sandboxUrl,
-      title: "Fragment",
+      title: "Artifact",
       files: result.state.data.files,
       summary: result.state.data.summary,
     };

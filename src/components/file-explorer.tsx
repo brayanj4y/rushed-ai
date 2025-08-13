@@ -1,4 +1,3 @@
-import { CopyCheckIcon, CopyIcon } from "lucide-react";
 import { Hint } from "./hint";
 import { Button } from "./ui/button";
 import { Fragment, useCallback, useMemo, useState } from "react";
@@ -143,7 +142,7 @@ export const FileExplorer = ({ files }: FileExplorerProps) => {
                   onClick={handleCopy}
                   disabled={copied}
                 >
-                  {copied ? <CopyCheckIcon /> : <CopyIcon />}
+                  {copied ? <p>Copied</p> : <p>Copy</p> }
                 </Button>
               </Hint>
             </div>

@@ -59,10 +59,10 @@ export const ProjectView = ({ projectId }: Props) => {
             <div className="w-full flex items-center p-2 border-b gap-x-2">
               <TabsList className="h-8 p-0 border rounded-md">
                 <TabsTrigger value="preview" className="rounded-md">
-                  <EyeIcon /> <span>Demo</span>
+                  <EyeIcon /> 
                 </TabsTrigger>
                 <TabsTrigger value="code" className="rounded-md">
-                  <CodeIcon /> <span>Code</span>
+                  <CodeIcon />
                 </TabsTrigger>
               </TabsList>
               <div className="ml-auto flex items-center gap-x-2">
