@@ -34,7 +34,7 @@ export const ProjectView = ({ projectId }: Props) => {
       <ResizablePanelGroup direction="horizontal">
         <ResizablePanel
           defaultSize={35}
-          minSize={20}
+          minSize={25}
           className="flex flex-col min-h-0"
         >
           <Suspense fallback={<p>Loading project...</p>}>

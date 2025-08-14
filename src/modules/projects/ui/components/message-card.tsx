@@ -33,14 +33,14 @@ const FragmentCard = ({
   return (
     <button
       className={cn(
-        "flex items-start text-start gap-2 border rounded-lg bg-muted w-fit p-3 hover:bg-secondary transition-colors",
+        "flex items-start text-start gap-4 border rounded-lg bg-muted w-full max-w-md p-4 hover:bg-secondary transition-colors",
         isActiveFragment &&
           "bg-primary text-primary-foreground border-primary hover:bg-primary",
       )}
       onClick={() => onFragmentClick(fragment)}
     >
       <Code2Icon className="size-4 mt-0.5" />
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1 min-w-0">
         <span className="text-sm font-medium line-clamp-1">
           {fragment.title}
         </span>
