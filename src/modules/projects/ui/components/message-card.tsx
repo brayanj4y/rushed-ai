@@ -1,9 +1,10 @@
-
+import { Card } from "@/components/ui/card";
 import { Fragment, MessageRole, MessageType } from "@/generated/prisma";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { ChevronRightIcon, Code2Icon } from "lucide-react";
 import Image from "next/image";
+import ChatBubble from "./chat-bubble";
 
 interface UserMessageProps {
   content: string;
@@ -12,11 +13,9 @@ interface UserMessageProps {
 const UserMessage = ({ content }: UserMessageProps) => {
   return (
     <div className="flex justify-end pb-4 pr-2 pl-10">
-      <div className="relative bg-blue-500 text-white p-3 shadow-sm max-w-[80%] break-words rounded-2xl rounded-br-md">
+      <ChatBubble variant="sent">
         {content}
-        {/* Tail for the bubble */}
-        <div className="absolute -bottom-0 -right-0 w-3 h-3 bg-blue-500 rounded-bl-full"></div>
-      </div>
+      </ChatBubble>
     </div>
   );
 };
