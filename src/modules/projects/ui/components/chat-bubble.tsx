@@ -2,67 +2,67 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 
 interface ChatBubbleProps {
-  children: React.ReactNode;
-  variant?: 'sent' | 'received';
-  className?: string;
-  showTail?: boolean;
+    children: React.ReactNode;
+    variant?: 'sent' | 'received';
+    className?: string;
+    showTail?: boolean;
 }
 
-const ChatBubble: React.FC<ChatBubbleProps> = ({ 
-  children, 
-  variant = 'sent',
-  className,
-  showTail = true 
+const ChatBubble: React.FC<ChatBubbleProps> = ({
+    children,
+    variant = 'sent',
+    className,
+    showTail = true
 }) => {
-  const isSent = variant === 'sent';
-  
-  return (
-    <div className={cn(
-      "flex pb-4",
-      isSent ? "justify-end pr-2 pl-10" : "justify-start pl-2 pr-10",
-      className
-    )}>
-      <div 
-        className={cn(
-          "relative rounded-2xl p-3 max-w-[80%] break-words",
-          isSent 
-            ? "bg-blue-500 text-white" 
-            : "bg-gray-200 text-gray-900",
-          showTail && (isSent ? "rounded-br-sm" : "rounded-bl-sm")
-        )}
-      >
-        {children}
-        
-        {/* Message tail */}
-        {showTail && (
-          <>
+    const isSent = variant === 'sent';
+
+    return (
+        <div className={cn(
+            "flex pb-4",
+            isSent ? "justify-end pr-2 pl-10" : "justify-start pl-2 pr-10",
+            className
+        )}>
             <div
-              className={cn(
-                "absolute bottom-0 w-5 h-6",
-                isSent 
-                  ? "right-[-7px] bg-blue-500" 
-                  : "left-[-7px] bg-gray-200"
-              )}
-              style={{
-                borderBottomLeftRadius: isSent ? '16px 14px' : '0',
-                borderBottomRightRadius: isSent ? '0' : '16px 14px',
-              }}
-            />
-            <div
-              className={cn(
-                "absolute bottom-0 w-[26px] h-6 bg-white",
-                isSent ? "right-[-26px]" : "left-[-26px]"
-              )}
-              style={{
-                borderBottomLeftRadius: isSent ? '10px' : '0',
-                borderBottomRightRadius: isSent ? '0' : '10px',
-              }}
-            />
-          </>
-        )}
-      </div>
-    </div>
-  );
+                className={cn(
+                    "relative rounded-2xl p-3 max-w-[80%] break-words",
+                    isSent
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-muted text-foreground",
+                    showTail && (isSent ? "rounded-tr-none" : "rounded-tl-none")
+                )}
+            >
+                {children}
+
+                {/* Message tail */}
+                {showTail && (
+                    <>
+                        <div
+                            className={cn(
+                                "absolute top-0 w-5 h-6",
+                                isSent
+                                    ? "right-[-7px] bg-primary"
+                                    : "left-[-7px] bg-muted"
+                            )}
+                            style={{
+                                borderTopLeftRadius: isSent ? '16px 14px' : '0',
+                                borderTopRightRadius: isSent ? '0' : '16px 14px',
+                            }}
+                        />
+                        <div
+                            className={cn(
+                                "absolute top-0 w-[26px] h-6 bg-background",
+                                isSent ? "right-[-26px]" : "left-[-26px]"
+                            )}
+                            style={{
+                                borderTopLeftRadius: isSent ? '10px' : '0',
+                                borderTopRightRadius: isSent ? '0' : '10px',
+                            }}
+                        />
+                    </>
+                )}
+            </div>
+        </div>
+    );
 };
 
 export default ChatBubble;
