@@ -27,7 +27,7 @@ export default function RootLayout({
       <TRPCReactProvider>
         <html lang="en" suppressHydrationWarning>
           <head>
-            <meta property="og:image" content="/preview.png" />
+            <meta property="og:image" content="https://i.imgur.com/WG9XtSx.jpeg" />
             <meta property="og:site_name" content="Rushed" />
             <meta property="og:title" content="Rushed — Build lit with your AI hype squad" />
             <meta property="og:description" content="Rushed is an AI-powered app builder that helps non-technical teams create web apps from scratch quickly and easily at low cost." />
