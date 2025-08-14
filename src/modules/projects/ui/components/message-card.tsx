@@ -1,10 +1,9 @@
-
+import { Card } from "@/components/ui/card";
 import { Fragment, MessageRole, MessageType } from "@/generated/prisma";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { ChevronRightIcon, Code2Icon } from "lucide-react";
 import Image from "next/image";
-import ChatBubble from "./chat-bubble";
 
 interface UserMessageProps {
   content: string;
@@ -13,9 +12,9 @@ interface UserMessageProps {
 const UserMessage = ({ content }: UserMessageProps) => {
   return (
     <div className="flex justify-end pb-4 pr-2 pl-10">
-      <ChatBubble variant="sent">
+      <Card className="rounded-lg bg-muted p-3 shadow-none border-none max-w-[80%] break-words">
         {content}
-      </ChatBubble>
+      </Card>
     </div>
   );
 };
@@ -36,7 +35,7 @@ const FragmentCard = ({
       className={cn(
         "flex items-start text-start gap-4 border rounded-lg bg-muted w-full max-w-md p-4 hover:bg-secondary transition-colors",
         isActiveFragment &&
-        "bg-primary text-primary-foreground border-primary hover:bg-primary",
+          "bg-primary text-primary-foreground border-primary hover:bg-primary",
       )}
       onClick={() => onFragmentClick(fragment)}
     >
