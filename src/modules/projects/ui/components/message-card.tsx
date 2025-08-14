@@ -12,9 +12,11 @@ interface UserMessageProps {
 const UserMessage = ({ content }: UserMessageProps) => {
   return (
     <div className="flex justify-end pb-4 pr-2 pl-10">
-      <Card className="rounded-lg bg-muted p-3 shadow-none border-none max-w-[80%] break-words">
+      <div className="relative bg-blue-500 text-white p-3 shadow-sm max-w-[80%] break-words rounded-2xl rounded-br-md">
         {content}
-      </Card>
+        {/* Tail for the bubble */}
+        <div className="absolute -bottom-0 -right-0 w-3 h-3 bg-blue-500 rounded-bl-full"></div>
+      </div>
     </div>
   );
 };
