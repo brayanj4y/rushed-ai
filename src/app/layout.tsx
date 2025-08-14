@@ -5,6 +5,7 @@ import { TRPCReactProvider } from "@/trpc/client";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "next-themes";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Analytics } from "@vercel/analytics/next"
 
 const pixelifySans = Pixelify_Sans({
   variable: "--font-pixelify-sans",
@@ -44,6 +45,7 @@ export default function RootLayout({
             >
               <Toaster />
               {children}
+              <Analytics />
             </ThemeProvider>
           </body>
         </html>
