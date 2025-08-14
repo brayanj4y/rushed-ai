@@ -18,48 +18,50 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({
 
     return (
         <div className={cn(
-            "flex pb-4",
+            "flex pb-4 max-w-full", // Ensure container respects parent width
             isSent ? "justify-end pr-2 pl-10" : "justify-start pl-2 pr-10",
             className
         )}>
-            <div
-                className={cn(
-                    "relative rounded-2xl p-3 max-w-[80%] break-words",
-                    isSent
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-muted text-foreground",
-                    showTail && (isSent ? "rounded-tr-none" : "rounded-tl-none")
-                )}
-            >
-                {children}
+            <div className="relative max-w-[80%] overflow-hidden"> {/* Wrapper to clip tails */}
+                <div
+                    className={cn(
+                        "relative rounded-2xl p-3 break-words",
+                        isSent
+                            ? "bg-primary text-primary-foreground"
+                            : "bg-muted text-foreground",
+                        showTail && (isSent ? "rounded-tr-none" : "rounded-tl-none")
+                    )}
+                >
+                    {children}
 
-                {/* Message tail */}
-                {showTail && (
-                    <>
-                        <div
-                            className={cn(
-                                "absolute top-0 w-5 h-6",
-                                isSent
-                                    ? "right-[-7px] bg-primary"
-                                    : "left-[-7px] bg-muted"
-                            )}
-                            style={{
-                                borderTopLeftRadius: isSent ? '16px 14px' : '0',
-                                borderTopRightRadius: isSent ? '0' : '16px 14px',
-                            }}
-                        />
-                        <div
-                            className={cn(
-                                "absolute top-0 w-[26px] h-6 bg-background",
-                                isSent ? "right-[-26px]" : "left-[-26px]"
-                            )}
-                            style={{
-                                borderTopLeftRadius: isSent ? '10px' : '0',
-                                borderTopRightRadius: isSent ? '0' : '10px',
-                            }}
-                        />
-                    </>
-                )}
+                    {/* Message tail */}
+                    {showTail && (
+                        <>
+                            <div
+                                className={cn(
+                                    "absolute top-0 w-4 h-5", // Reduced tail width to minimize overflow
+                                    isSent
+                                        ? "right-[-4px] bg-primary"
+                                        : "left-[-4px] bg-muted"
+                                )}
+                                style={{
+                                    borderTopLeftRadius: isSent ? '12px 10px' : '0',
+                                    borderTopRightRadius: isSent ? '0' : '12px 10px',
+                                }}
+                            />
+                            <div
+                                className={cn(
+                                    "absolute top-0 w-[20px] h-5 bg-background", // Reduced width
+                                    isSent ? "right-[-20px]" : "left-[-20px]"
+                                )}
+                                style={{
+                                    borderTopLeftRadius: isSent ? '8px' : '0',
+                                    borderTopRightRadius: isSent ? '0' : '8px',
+                                }}
+                            />
+                        </>
+                    )}
+                </div>
             </div>
         </div>
     );
