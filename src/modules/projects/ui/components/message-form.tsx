@@ -97,7 +97,7 @@ export const MessageForm = ({ projectId }: MessageFormProps) => {
               minRows={2}
               maxRows={8}
               className="pt-4 resize-none border-none w-full outline-none bg-transparent"
-              placeholder="What’s the next big thing you wanna create?"
+              placeholder="Ask Rushed"
               onKeyDown={(e) => {
                 if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
                   e.preventDefault();
