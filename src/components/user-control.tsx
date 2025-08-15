@@ -2,7 +2,7 @@
 
 import { useCurrentTheme } from "@/hooks/theme";
 import { UserButton } from "@clerk/nextjs";
-import { dark, neobrutalism } from "@clerk/themes";
+import { dark,} from "@clerk/themes";
 
 interface Props {
   showName?: boolean;
