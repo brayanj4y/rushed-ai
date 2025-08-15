@@ -1,11 +1,8 @@
 "use client";
 
-import { useCurrentTheme } from "@/hooks/use-current-theme";
 import { SignUp } from "@clerk/nextjs";
-import { dark } from "@clerk/themes";
 
 const Page = () => {
-  const currentTheme = useCurrentTheme();
 
   return (
     <div className="flex flex-col max-w-3xl mx-auto w-full">
@@ -13,9 +10,10 @@ const Page = () => {
         <div className="flex flex-col items-center">
           <SignUp
             appearance={{
-              baseTheme: currentTheme === "dark" ? dark : undefined,
-            }}
-          />
+              variables: {
+                colorPrimary: 'black'
+              }
+            }} />
         </div>
       </section>
     </div>
