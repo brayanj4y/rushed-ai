@@ -45,9 +45,7 @@ const Page = () => {
 
 
               <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-                <p className="text-gray-700 dark:text-gray-300 text-sm italic">
-                  "Game-changer for our team productivity. Highly recommended!"
-                </p>
+                <p>&quot;Game-changer for our team productivity. Highly recommended!&quot;</p>
                 <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
                   - Emma Davis
                 </div>
