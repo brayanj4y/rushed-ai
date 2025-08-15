@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const result = await getUsageStatus();
     return NextResponse.json(result);
-  } catch (err) {
+  } catch {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 }
