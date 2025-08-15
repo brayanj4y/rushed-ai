@@ -25,11 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider
-    appearance={{
-        baseTheme: [neobrutalism],
-      }}
-    >
+    <ClerkProvider>
       <TRPCReactProvider>
         <html lang="en" suppressHydrationWarning>
           <head>
