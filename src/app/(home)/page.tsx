@@ -1,3 +1,4 @@
+import FeaturesSection from "@/modules/home/ui/components/features-card";
 import { Navbar } from "@/modules/home/ui/components/navbar";
 import { ProjectForm } from "@/modules/home/ui/components/project-form";
 import { ProjectsList } from "@/modules/home/ui/components/projects-list";
@@ -43,6 +44,10 @@ export default function Page() {
           </div>
         </section>
         <ProjectsList />
+        <h1 className="text-2xl md:text-5xl md:py-12 font-bold text-center">
+            Our features
+          </h1>
+          <FeaturesSection/>
       </div>
     </div>
   );
