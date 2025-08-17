@@ -30,8 +30,6 @@ const Page = () => {
           </div>
         </div>
 
-        <div className="w-px bg-gray-300 dark:bg-gray-700 opacity-50 h-full"></div>
-
         <div className="flex-1 flex flex-col justify-center items-center px-8 bg-white dark:bg-gray-900">
           <SignUp
             appearance={{
