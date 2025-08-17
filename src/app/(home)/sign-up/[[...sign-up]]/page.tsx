@@ -114,29 +114,6 @@ export default function Page() {
                 </SignUp.Action>
               </SignUp.Strategy>
 
-              {/* Phone verification */}
-              <SignUp.Strategy name="phone_code">
-                <header className="text-center">
-                  <h1 className="mt-4 text-xl font-medium tracking-tight text-neutral-950">
-                    Verify phone code
-                  </h1>
-                </header>
-                <Clerk.GlobalError className="block text-sm text-red-600" />
-                <Clerk.Field name="code">
-                  <Clerk.Label className="sr-only">Phone code</Clerk.Label>
-                  <Clerk.Input
-                    type="otp"
-                    required
-                    placeholder="Phone code"
-                    className="w-full border-b border-neutral-200 bg-white pb-2 text-sm/6 text-neutral-950 outline-none placeholder:text-neutral-400 hover:border-neutral-300 focus:border-neutral-600 data-[invalid]:border-red-600 data-[invalid]:text-red-600"
-                  />
-                  <Clerk.FieldError className="mt-2 block text-xs text-red-600" />
-                </Clerk.Field>
-                <SignUp.Action submit asChild>
-                  <Button className="w-full">Login</Button>
-                </SignUp.Action>
-              </SignUp.Strategy>
-
               <p className="text-center text-sm text-neutral-500">
                 Have an account?{" "}
                 <Clerk.Link
