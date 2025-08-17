@@ -1,57 +1,44 @@
 "use client";
 
 import { SignIn } from "@clerk/nextjs";
-import Image from "next/image";
 import { neobrutalism } from "@clerk/themes";
+import { ArrowLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
+  const router = useRouter();
+
   return (
-    <div className="relative ">
+    <div className="relative">
+      <button
+        onClick={() => router.back()}
+        className="absolute top-6 left-6 z-20 p-2 rounded-lg bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all duration-200"
+      >
+        <ArrowLeft className="w-6 h-6 text-black" />
+      </button>
 
-      <div className="relative flex w-full pt-17">
+      <div className="relative flex w-full pt-20">
+        <div className="flex-1 relative">
 
-        <div className="flex-1 flex flex-col justify-center items-center px-8">
+          <div className="relative z-10 flex flex-col justify-center items-center h-full px-8">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-black dark:text-black leading-none text-center break-words">
+              <span className="block">GOOD TO</span>
+              <span className="block">SEE</span>
+              <span className="block">YOU</span>
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">AGAIN!</span>
+            </h1>
+          </div>
+        </div>
+
+        <div className="w-px bg-gray-300 dark:bg-gray-700 opacity-50 h-full"></div>
+
+        <div className="flex-1 flex flex-col justify-center items-center px-8 bg-white dark:bg-gray-900">
           <SignIn
             appearance={{
               baseTheme: [neobrutalism],
               variables: { colorPrimary: "black" }
             }}
           />
-        </div>
-
-
-        <div className="w-px bg-gray-300 dark:bg-gray-700 opacity-50"></div>
-
-
-        <div className="flex-1 flex flex-col justify-center items-center px-8 space-y-8">
-
-          <div className="flex justify-center">
-            <Image
-              src="/zombie2.gif"
-              alt="Random Image 2"
-              width={350}
-              height={350}
-              className="rounded-lg"
-            />
-          </div>
-
-
-          <div className="w-full max-w-md space-y-6">
-            <h3 className="text-2xl font-bold text-center text-gray-800 dark:text-gray-200">
-              What Our Users Say
-            </h3>
-
-            <div className="space-y-4">
-
-
-              <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-                <p>&quot;Game-changer for our team productivity. Highly recommended!&quot;</p>
-                <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                  - Emma Davis
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
