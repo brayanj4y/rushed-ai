@@ -47,9 +47,9 @@ export const ProjectForm = () => {
 
         if (error.data?.code === "UNAUTHORIZED") {
           if (!clerk.user) {
-            clerk.openSignIn();
+            router.push("/sign-in");
           } else {
-            // maybe sign out or redirect
+            //sign out or redirect
             router.push("/sign-in");
           }
         }
