@@ -32,9 +32,9 @@ export default function Page() {
                   Sign Up to Rushed
                 </h1>
               </header>
-              
+
               <Clerk.GlobalError className="block text-sm text-red-600" />
-              
+
               <Clerk.Field name="emailAddress">
                 <Clerk.Label className="sr-only">Email</Clerk.Label>
                 <Clerk.Input
@@ -49,7 +49,7 @@ export default function Page() {
               <SignUp.Captcha className="empty:hidden" />
 
               <SignUp.Action submit asChild>
-                <Button className="w-full">Continue</Button>
+                <Button className="w-full">Sign Up</Button>
               </SignUp.Action>
 
               <div className="rounded-xl bg-neutral-100 p-5">
@@ -97,9 +97,9 @@ export default function Page() {
                     We sent a code to your email address
                   </p>
                 </header>
-                
+
                 <Clerk.GlobalError className="block text-sm text-red-600" />
-                
+
                 <Clerk.Field name="code">
                   <Clerk.Label className="sr-only">Email verification code</Clerk.Label>
                   <Clerk.Input
@@ -110,13 +110,13 @@ export default function Page() {
                   />
                   <Clerk.FieldError className="mt-2 block text-xs text-red-600" />
                 </Clerk.Field>
-                
+
                 <SignUp.Action submit asChild>
                   <Button className="w-full">Verify Email</Button>
                 </SignUp.Action>
 
-                <SignUp.Action 
-                  resend 
+                <SignUp.Action
+                  resend
                   className="text-neutral-500 text-sm hover:text-neutral-700"
                   fallback={({ resendableAfter }: { resendableAfter: number }) => (
                     <p className="text-sm text-neutral-500">

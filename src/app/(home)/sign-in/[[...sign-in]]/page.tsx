@@ -12,7 +12,7 @@ export default function Page() {
 
   return (
     <div className="relative">
-      
+
       <button
         onClick={() => router.back()}
         className="absolute top-6 left-6 z-20 p-2 rounded-lg bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all duration-200"
@@ -22,10 +22,10 @@ export default function Page() {
 
       <div className="relative flex w-full pt-20">
 
-      
+
         <div className="flex-1 flex flex-col justify-center items-center px-8 bg-white dark:bg-gray-900">
           <SignIn.Root>
-           
+
             <SignIn.Step
               name="start"
               className="w-full space-y-6 rounded-2xl px-4 py-10 sm:w-96 sm:px-8"
@@ -50,7 +50,7 @@ export default function Page() {
                 <Button className="w-full">Sign In</Button>
               </SignIn.Action>
 
-            
+
               <div className="rounded-xl bg-neutral-100 p-5">
                 <p className="mb-4 text-center text-sm/5 text-neutral-500">
                   Alternatively, sign in with these platforms
@@ -82,12 +82,12 @@ export default function Page() {
               </p>
             </SignIn.Step>
 
-            
+
             <SignIn.Step
               name="verifications"
               className="w-full space-y-6 rounded-2xl px-4 py-10 sm:w-96 sm:px-8"
             >
-              
+
               <SignIn.Strategy name="email_code">
                 <header className="text-center">
                   <h1 className="mt-4 text-xl font-medium tracking-tight text-neutral-950">
@@ -107,6 +107,18 @@ export default function Page() {
                 </Clerk.Field>
                 <SignIn.Action submit asChild>
                   <Button className="w-full">Continue</Button>
+                </SignIn.Action>
+
+                <SignIn.Action
+                  resend
+                  className="text-neutral-500 text-sm hover:text-neutral-700"
+                  fallback={({ resendableAfter }: { resendableAfter: number }) => (
+                    <p className="text-sm text-neutral-500">
+                      Resend code in {resendableAfter} seconds
+                    </p>
+                  )}
+                >
+                  Didn&apos;t receive a code? Resend
                 </SignIn.Action>
               </SignIn.Strategy>
 
