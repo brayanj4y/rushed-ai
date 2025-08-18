@@ -43,9 +43,6 @@ export default function Page() {
           </div>
         </section>
         <ProjectsList />
-        <h1 className="text-2xl md:text-5xl md:py-12 font-bold text-center">
-            Our features
-          </h1>
       </div>
     </div>
   );
