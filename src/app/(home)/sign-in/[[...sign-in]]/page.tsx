@@ -12,7 +12,7 @@ export default function Page() {
 
   return (
     <div className="relative">
-      {/* Back button */}
+      
       <button
         onClick={() => router.back()}
         className="absolute top-6 left-6 z-20 p-2 rounded-lg bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all duration-200"
@@ -22,10 +22,10 @@ export default function Page() {
 
       <div className="relative flex w-full pt-20">
 
-        {/* Right side — Clerk Sign In */}
+      
         <div className="flex-1 flex flex-col justify-center items-center px-8 bg-white dark:bg-gray-900">
           <SignIn.Root>
-            {/* --- Start Step --- */}
+           
             <SignIn.Step
               name="start"
               className="w-full space-y-6 rounded-2xl px-4 py-10 sm:w-96 sm:px-8"
@@ -50,7 +50,7 @@ export default function Page() {
                 <Button className="w-full">Sign In</Button>
               </SignIn.Action>
 
-              {/* Social sign-in */}
+            
               <div className="rounded-xl bg-neutral-100 p-5">
                 <p className="mb-4 text-center text-sm/5 text-neutral-500">
                   Alternatively, sign in with these platforms
@@ -82,12 +82,12 @@ export default function Page() {
               </p>
             </SignIn.Step>
 
-            {/* --- Verification Step --- */}
+            
             <SignIn.Step
               name="verifications"
               className="w-full space-y-6 rounded-2xl px-4 py-10 sm:w-96 sm:px-8"
             >
-              {/* Email verification */}
+              
               <SignIn.Strategy name="email_code">
                 <header className="text-center">
                   <h1 className="mt-4 text-xl font-medium tracking-tight text-neutral-950">

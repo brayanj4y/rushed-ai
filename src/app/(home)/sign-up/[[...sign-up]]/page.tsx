@@ -12,7 +12,6 @@ export default function Page() {
 
   return (
     <div className="relative">
-      {/* Back button */}
       <button
         onClick={() => router.back()}
         className="absolute top-6 left-6 z-20 p-2 rounded-lg bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all duration-200"
@@ -21,11 +20,9 @@ export default function Page() {
       </button>
 
       <div className="relative flex w-full pt-20">
-
-        {/* Right side — Clerk Sign In */}
         <div className="flex-1 flex flex-col justify-center items-center px-8 bg-white dark:bg-gray-900">
           <SignUp.Root>
-            {/* --- Start Step --- */}
+            {/* Start step - collect email */}
             <SignUp.Step
               name="start"
               className="w-full space-y-6 rounded-2xl px-4 py-10 sm:w-96 sm:px-8"
@@ -35,8 +32,10 @@ export default function Page() {
                   Sign Up to Rushed
                 </h1>
               </header>
+              
               <Clerk.GlobalError className="block text-sm text-red-600" />
-              <Clerk.Field name="identifier">
+              
+              <Clerk.Field name="emailAddress">
                 <Clerk.Label className="sr-only">Email</Clerk.Label>
                 <Clerk.Input
                   type="email"
@@ -46,14 +45,16 @@ export default function Page() {
                 />
                 <Clerk.FieldError className="mt-2 block text-xs text-red-600" />
               </Clerk.Field>
+
+              <SignUp.Captcha className="empty:hidden" />
+
               <SignUp.Action submit asChild>
-                <Button className="w-full">Sign Up</Button>
+                <Button className="w-full">Continue</Button>
               </SignUp.Action>
 
-              {/* Social sign-in */}
               <div className="rounded-xl bg-neutral-100 p-5">
                 <p className="mb-4 text-center text-sm/5 text-neutral-500">
-                  Alternatively, sign in with these platforms
+                  Alternatively, sign up with these platforms
                 </p>
                 <div className="space-y-2">
                   <Clerk.Connection name="google" asChild>
@@ -71,8 +72,6 @@ export default function Page() {
                 </div>
               </div>
 
-              <div id="clerk-captcha" className="mt-4" />
-
               <p className="text-center text-sm text-neutral-500">
                 Have an account?{" "}
                 <Clerk.Link
@@ -82,35 +81,50 @@ export default function Page() {
                   Sign in
                 </Clerk.Link>
               </p>
-
             </SignUp.Step>
 
-            {/* --- Verification Step --- */}
-            
+            {/* Verifications step - email code */}
             <SignUp.Step
               name="verifications"
               className="w-full space-y-6 rounded-2xl px-4 py-10 sm:w-96 sm:px-8"
             >
-              {/* Email verification */}
               <SignUp.Strategy name="email_code">
                 <header className="text-center">
                   <h1 className="mt-4 text-xl font-medium tracking-tight text-neutral-950">
-                    Verify email code
+                    Verify your email
                   </h1>
+                  <p className="mt-2 text-sm text-neutral-500">
+                    We sent a code to your email address
+                  </p>
                 </header>
+                
                 <Clerk.GlobalError className="block text-sm text-red-600" />
+                
                 <Clerk.Field name="code">
-                  <Clerk.Label className="sr-only">Email code</Clerk.Label>
+                  <Clerk.Label className="sr-only">Email verification code</Clerk.Label>
                   <Clerk.Input
                     type="otp"
                     required
-                    placeholder="Email code"
+                    placeholder="Enter verification code"
                     className="w-full border-b border-neutral-200 bg-white pb-2 text-sm/6 text-neutral-950 outline-none placeholder:text-neutral-400 hover:border-neutral-300 focus:border-neutral-600 data-[invalid]:border-red-600 data-[invalid]:text-red-600"
                   />
                   <Clerk.FieldError className="mt-2 block text-xs text-red-600" />
                 </Clerk.Field>
+                
                 <SignUp.Action submit asChild>
-                  <Button className="w-full">Continue</Button>
+                  <Button className="w-full">Verify Email</Button>
+                </SignUp.Action>
+
+                <SignUp.Action 
+                  resend 
+                  className="text-neutral-500 text-sm hover:text-neutral-700"
+                  fallback={({ resendableAfter }: { resendableAfter: number }) => (
+                    <p className="text-sm text-neutral-500">
+                      Resend code in {resendableAfter} seconds
+                    </p>
+                  )}
+                >
+                  Didn&apos;t receive a code? Resend
                 </SignUp.Action>
               </SignUp.Strategy>
 
