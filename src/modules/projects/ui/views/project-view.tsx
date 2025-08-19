@@ -17,6 +17,7 @@ import Link from "next/link";
 import { FileExplorer } from "@/components/file-explorer";
 import { UserControl } from "@/components/user-control";
 import { useAuth } from "@clerk/nextjs";
+import Image from "next/image";
 
 interface Props {
   projectId: string;
@@ -59,7 +60,7 @@ export const ProjectView = ({ projectId }: Props) => {
             <div className="w-full flex items-center p-2 border-b gap-x-2">
               <TabsList className="h-8 p-0 border rounded-md">
                 <TabsTrigger value="preview" className="rounded-md">
-                  <EyeIcon /> 
+                  <EyeIcon />
                 </TabsTrigger>
                 <TabsTrigger value="code" className="rounded-md">
                   <CodeIcon />
@@ -67,9 +68,15 @@ export const ProjectView = ({ projectId }: Props) => {
               </TabsList>
               <div className="ml-auto flex items-center gap-x-2">
                 {!hasProAccess && (
-                  <Button asChild size="sm" variant={"tertiary"}>
-                    <Link href="/pricing">
-                      <CrownIcon /> Upgrade
+                  <Button asChild size="sm" variant={"tertiary"} className="ml-auto">
+                    <Link href="/pricing" className="flex items-center gap-2">
+                      <Image
+                        src="/upgrade-icon.png"
+                        alt="Upgrade"
+                        width={16}
+                        height={16}
+                      />
+                      Upgrade
                     </Link>
                   </Button>
                 )}

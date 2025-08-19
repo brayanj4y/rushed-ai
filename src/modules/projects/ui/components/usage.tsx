@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@clerk/nextjs";
 import { formatDuration, intervalToDuration } from "date-fns";
 import { CrownIcon } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 interface Props {
@@ -33,8 +34,14 @@ export default function Usage({ points, msBeforeNext }: Props) {
         </div>
         {!hasProAccess && (
           <Button asChild size="sm" variant={"tertiary"} className="ml-auto">
-            <Link href="/pricing">
-              <CrownIcon /> Upgrade
+            <Link href="/pricing" className="flex items-center gap-2">
+              <Image
+                src="/upgrade-icon.png"
+                alt="Upgrade"
+                width={16}
+                height={16}
+              />
+              Upgrade
             </Link>
           </Button>
         )}
