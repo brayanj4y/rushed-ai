@@ -73,8 +73,8 @@ export const ProjectView = ({ projectId }: Props) => {
                       <Image
                         src="/upgrade-icon.png"
                         alt="Upgrade"
-                        width={16}
-                        height={16}
+                        width={20}
+                        height={20}
                       />
                       Upgrade
                     </Link>
