@@ -17,6 +17,7 @@ import Link from "next/link";
 import { FileExplorer } from "@/components/file-explorer";
 import { UserControl } from "@/components/user-control";
 import { useAuth } from "@clerk/nextjs";
+import { Loader } from '@/components/ai-elements/loader';
 
 interface Props {
   projectId: string;
@@ -37,10 +38,10 @@ export const ProjectView = ({ projectId }: Props) => {
           minSize={25}
           className="flex flex-col min-h-0"
         >
-          <Suspense fallback={<p>Loading project...</p>}>
+          <Suspense fallback={<Loader />}>
             <ProjectHeader projectId={projectId} />
           </Suspense>
-          <Suspense fallback={<p>Loading...</p>}>
+          <Suspense fallback={<Loader />}>
             <MessagesContainer
               projectId={projectId}
               activeFragment={activeFragment}
