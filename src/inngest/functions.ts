@@ -113,13 +113,14 @@ export const codeAgentFunction = inngest.createFunction(
                 return result.stdout;
               } catch (error) {
                 console.error(
-                  `command failed: ${error}\nstdOut: ${buffers.stdout}\nstdError: ${buffers.stderr}`
+                  `command failed: ${error}\nstdout: ${buffers.stdout}\nstderror: ${buffers.stderr}`
                 );
-                return `command failed: ${error}\nstdOut: ${buffers.stdout}\nstdError: ${buffers.stderr}`;
+                return `command failed: ${error}\nstdout: ${buffers.stdout}\nstderror: ${buffers.stderr}`;
               }
             });
           },
         }),
+
         createTool({
           name: "createOrUpdateFiles",
           description: "Create or update files in the sandbox",
@@ -151,8 +152,8 @@ export const codeAgentFunction = inngest.createFunction(
                 } catch (error) {
                   return "Error: " + error;
                 }
-              }
-            );
+              });
+           
 
             if (typeof newFiles === "object") {
               network.state.data.files = newFiles;
