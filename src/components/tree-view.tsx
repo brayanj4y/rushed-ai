@@ -77,8 +77,7 @@ const Tree = ({ item, selectedValue, onSelect, parentPath }: TreeProps) => {
             "transition-colors duration-200",
             isSelected && [
               "bg-accent text-accent-foreground",
-              "hover:bg-accent hover:text-accent-foreground",
-              "border-l-2 border-primary"
+              "hover:bg-accent hover:text-accent-foreground"
             ]
           )}
           onClick={() => onSelect?.(currentPath)}
@@ -95,15 +94,15 @@ const Tree = ({ item, selectedValue, onSelect, parentPath }: TreeProps) => {
     <SidebarMenuItem>
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
         <CollapsibleTrigger asChild>
-          <SidebarMenuButton
+          <SidebarMenuButton 
             className="hover:bg-accent/50 transition-colors duration-200"
             onClick={() => setIsOpen(!isOpen)}
           >
-            <ChevronRightIcon
+            <ChevronRightIcon 
               className={cn(
                 "h-4 w-4 transition-transform duration-200",
                 isOpen && "rotate-90"
-              )}
+              )} 
             />
             {isOpen ? (
               <FolderOpenIcon className="h-4 w-4 text-blue-600 dark:text-blue-400" />
