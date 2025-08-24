@@ -12,12 +12,12 @@ import { ProjectHeader } from "../components/project-header";
 import { FragmentWeb } from "../components/fragment-web";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CodeIcon, EyeIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { FileExplorer } from "@/components/file-explorer";
 import { UserControl } from "@/components/user-control";
 import { useAuth } from "@clerk/nextjs";
 import Image from "next/image";
-import UpgradeButton from "@/components/upgrade_button";
 
 interface Props {
   projectId: string;
@@ -68,17 +68,18 @@ export const ProjectView = ({ projectId }: Props) => {
               </TabsList>
               <div className="ml-auto flex items-center gap-x-2">
                 {!hasProAccess && (
-                  <UpgradeButton asChild className="ml-auto">
+                  <Button asChild className="ml-auto">
                     <Link href="/pricing" className="flex items-center gap-2">
                       <Image
-                        src="/upgrade-icon.png"
-                        alt="Upgrade"
+                        src="/coin.jpeg"
+                        alt="Coin"
                         width={20}
                         height={20}
+                        className="rounded-full"
                       />
-                      Upgrade
+                      Buy Gems
                     </Link>
-                  </UpgradeButton>
+                  </Button>
                 )}
                 <UserControl />
               </div>
