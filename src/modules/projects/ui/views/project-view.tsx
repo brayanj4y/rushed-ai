@@ -16,7 +16,6 @@ import Link from "next/link";
 import { FileExplorer } from "@/components/file-explorer";
 import { UserControl } from "@/components/user-control";
 import { useAuth } from "@clerk/nextjs";
-import Image from "next/image";
 import UpgradeButton from "@/components/upgrade_button";
 
 interface Props {

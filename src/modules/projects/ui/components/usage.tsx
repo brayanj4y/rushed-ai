@@ -1,7 +1,6 @@
 import UpgradeButton from "@/components/upgrade_button";
 import { useAuth } from "@clerk/nextjs";
 import { formatDuration, intervalToDuration } from "date-fns";
-import Image from "next/image";
 import Link from "next/link";
 
 interface Props {
