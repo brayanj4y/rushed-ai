@@ -68,15 +68,16 @@ export const ProjectView = ({ projectId }: Props) => {
               </TabsList>
               <div className="ml-auto flex items-center gap-x-2">
                 {!hasProAccess && (
-                  <Button asChild size="sm" variant={"tertiary"} className="ml-auto">
+                  <Button asChild className="ml-auto" variant="outline" size="sm">
                     <Link href="/pricing" className="flex items-center gap-2">
                       <Image
-                        src="/upgrade-icon.png"
-                        alt="Upgrade"
+                        src="/coin.jpeg"
+                        alt="Coin"
                         width={20}
                         height={20}
+                        className="rounded-full"
                       />
-                      Upgrade
+                      Buy Gems
                     </Link>
                   </Button>
                 )}
