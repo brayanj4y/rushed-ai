@@ -6,6 +6,11 @@ interface UpgradeButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   children?: React.ReactNode;
 }
 
+interface ChildProps {
+  className?: string;
+  children?: React.ReactNode;
+}
+
 const UpgradeButton = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, UpgradeButtonProps>(
   ({ asChild, children, className = "", ...props }, ref) => {
     const buttonClasses = `group relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 dark:from-black dark:via-gray-900 dark:to-gray-800 text-white font-bold py-2 px-4 rounded-xl shadow-xl hover:shadow-gray-600/50 dark:hover:shadow-gray-400/30 transition-all duration-300 hover:scale-105 hover:-translate-y-1 active:scale-95 active:translate-y-0 ${className}`;
@@ -20,10 +25,10 @@ const UpgradeButton = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Up
     );
 
     if (asChild && React.isValidElement(children)) {
-      const childProps = children.props as any;
+      const childProps = children.props as ChildProps;
       const combinedClassName = `${buttonClasses} ${childProps.className || ''}`;
       
-      return React.cloneElement(children as React.ReactElement<any>, {
+      return React.cloneElement(children as React.ReactElement<ChildProps>, {
         ...props,
         className: combinedClassName,
         children: (
