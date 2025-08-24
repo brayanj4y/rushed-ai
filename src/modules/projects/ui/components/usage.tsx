@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import UpgradeButton from "@/components/upgrade_button";
 import { useAuth } from "@clerk/nextjs";
 import { formatDuration, intervalToDuration } from "date-fns";
 import Image from "next/image";
@@ -32,7 +33,7 @@ export default function Usage({ points, msBeforeNext }: Props) {
           </p>
         </div>
         {!hasProAccess && (
-          <Button asChild size="sm" variant={"tertiary"} className="ml-auto">
+          <UpgradeButton asChild className="ml-auto">
             <Link href="/pricing" className="flex items-center gap-2">
               <Image
                 src="/upgrade-icon.png"
@@ -42,7 +43,7 @@ export default function Usage({ points, msBeforeNext }: Props) {
               />
               Upgrade
             </Link>
-          </Button>
+          </UpgradeButton>
         )}
       </div>
     </div>

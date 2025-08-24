@@ -18,6 +18,7 @@ import { FileExplorer } from "@/components/file-explorer";
 import { UserControl } from "@/components/user-control";
 import { useAuth } from "@clerk/nextjs";
 import Image from "next/image";
+import UpgradeButton from "@/components/upgrade_button";
 
 interface Props {
   projectId: string;
@@ -68,7 +69,7 @@ export const ProjectView = ({ projectId }: Props) => {
               </TabsList>
               <div className="ml-auto flex items-center gap-x-2">
                 {!hasProAccess && (
-                  <Button asChild size="sm" variant={"tertiary"} className="ml-auto">
+                  <UpgradeButton asChild className="ml-auto">
                     <Link href="/pricing" className="flex items-center gap-2">
                       <Image
                         src="/upgrade-icon.png"
@@ -78,7 +79,7 @@ export const ProjectView = ({ projectId }: Props) => {
                       />
                       Upgrade
                     </Link>
-                  </Button>
+                  </UpgradeButton>
                 )}
                 <UserControl />
               </div>
