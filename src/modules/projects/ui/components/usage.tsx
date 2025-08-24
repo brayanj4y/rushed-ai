@@ -14,7 +14,7 @@ export default function Usage({ points, msBeforeNext }: Props) {
   const hasProAccess = has?.({ plan: "turbo" });
 
   return (
-    <div className="rounded-t-xl bg-background border border-b-0 p-2.5">
+    <div className="rounded-xl bg-background border p-2.5">
       <div className="flex items-center gap-x-2">
         <div>
           <p className="text-sm">

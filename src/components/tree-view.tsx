@@ -11,12 +11,14 @@ import {
   SidebarProvider,
   SidebarRail,
 } from "./ui/sidebar";
-import { ChevronRightIcon, FileIcon, FolderIcon } from "lucide-react";
+import { ChevronRightIcon, FileIcon, FolderIcon, FolderOpenIcon } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "./ui/collapsible";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface TreeViewProps {
   data: TreeItem[];
@@ -61,39 +63,58 @@ interface TreeProps {
 const Tree = ({ item, selectedValue, onSelect, parentPath }: TreeProps) => {
   const [name, ...items] = Array.isArray(item) ? item : [item];
   const currentPath = parentPath ? `${parentPath}/${name}` : name;
+  const [isOpen, setIsOpen] = useState(true);
 
   if (!items.length) {
     // It's a file
     const isSelected = selectedValue === currentPath;
 
     return (
-      <SidebarMenuButton
-        isActive={isSelected}
-        className="data-[active=true]:bg-transparent"
-        onClick={() => onSelect?.(currentPath)}
-      >
-        <FileIcon />
-        <span className="truncate">{name}</span>
-      </SidebarMenuButton>
+      <SidebarMenuItem>
+        <SidebarMenuButton
+          isActive={isSelected}
+          className={cn(
+            "transition-colors duration-200",
+            isSelected && [
+              "bg-accent text-accent-foreground",
+              "hover:bg-accent hover:text-accent-foreground",
+              "border-l-2 border-primary"
+            ]
+          )}
+          onClick={() => onSelect?.(currentPath)}
+        >
+          <FileIcon className="h-4 w-4 text-muted-foreground" />
+          <span className="truncate">{name}</span>
+        </SidebarMenuButton>
+      </SidebarMenuItem>
     );
   }
 
   // It's a folder
   return (
     <SidebarMenuItem>
-      <Collapsible
-        className="group/collapsible [&[data-state=open]>button>svg:first-child]:rotate-90"
-        defaultOpen
-      >
+      <Collapsible open={isOpen} onOpenChange={setIsOpen}>
         <CollapsibleTrigger asChild>
-          <SidebarMenuButton>
-            <ChevronRightIcon className="transition-transform" />
-            <FolderIcon />
-            <span className="truncate">{name}</span>
+          <SidebarMenuButton
+            className="hover:bg-accent/50 transition-colors duration-200"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <ChevronRightIcon
+              className={cn(
+                "h-4 w-4 transition-transform duration-200",
+                isOpen && "rotate-90"
+              )}
+            />
+            {isOpen ? (
+              <FolderOpenIcon className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+            ) : (
+              <FolderIcon className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+            )}
+            <span className="truncate font-medium">{name}</span>
           </SidebarMenuButton>
         </CollapsibleTrigger>
-        <CollapsibleContent>
-          <SidebarMenuSub>
+        <CollapsibleContent className="transition-all duration-200">
+          <SidebarMenuSub className="ml-4 border-l border-border/50 pl-2">
             {items.map((subItem, index) => (
               <Tree
                 key={index}
