@@ -87,7 +87,6 @@ export const ProjectHeader = ({ projectId }: Props) => {
           align="start"
           sideOffset={4}
         >
-          {/* Project Info Section */}
           <div className="px-2 py-1.5 text-sm text-muted-foreground">
             <div className="font-medium text-foreground truncate">
               {project.name}
@@ -98,7 +97,7 @@ export const ProjectHeader = ({ projectId }: Props) => {
           </div>
           <DropdownMenuSeparator />
           
-          {/* Navigation */}
+          
           <DropdownMenuItem asChild className="cursor-pointer">
             <Link href="/" className="flex items-center gap-2">
               <ArrowLeftIcon className="size-4 text-muted-foreground" />
@@ -108,7 +107,6 @@ export const ProjectHeader = ({ projectId }: Props) => {
           
           <DropdownMenuSeparator />
           
-          {/* Theme Selection */}
           <DropdownMenuSub>
             <DropdownMenuSubTrigger className="gap-2 cursor-pointer">
               {getThemeIcon(theme || 'system')}
@@ -146,7 +144,6 @@ export const ProjectHeader = ({ projectId }: Props) => {
             </DropdownMenuPortal>
           </DropdownMenuSub>
           
-          {/* Additional Actions */}
           <DropdownMenuSeparator />
           <DropdownMenuItem className="gap-2 cursor-pointer">
             <SettingsIcon className="size-4 text-muted-foreground" />
