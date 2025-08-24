@@ -92,7 +92,7 @@ export const ProjectHeader = ({ projectId }: Props) => {
               {project.name}
             </div>
             <div className="text-xs">
-              Project Settings
+              Artifact Settings
             </div>
           </div>
           <DropdownMenuSeparator />
@@ -147,7 +147,7 @@ export const ProjectHeader = ({ projectId }: Props) => {
           <DropdownMenuSeparator />
           <DropdownMenuItem className="gap-2 cursor-pointer">
             <SettingsIcon className="size-4 text-muted-foreground" />
-            <span>Project Settings</span>
+            <span>Artifact Settings</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
