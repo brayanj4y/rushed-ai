@@ -32,7 +32,7 @@ export default function Usage({ points, msBeforeNext }: Props) {
           </p>
         </div>
         {!hasProAccess && (
-          <Button asChild className="ml-auto">
+          <Button asChild variant="outline" size="sm" className="ml-auto">
             <Link href="/pricing" className="flex items-center gap-2">
               <Image
                 src="/coin.jpeg"

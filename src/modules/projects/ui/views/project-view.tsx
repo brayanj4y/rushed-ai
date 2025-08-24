@@ -68,7 +68,7 @@ export const ProjectView = ({ projectId }: Props) => {
               </TabsList>
               <div className="ml-auto flex items-center gap-x-2">
                 {!hasProAccess && (
-                  <Button asChild className="ml-auto">
+                  <Button asChild className="ml-auto" variant="outline" size="sm">
                     <Link href="/pricing" className="flex items-center gap-2">
                       <Image
                         src="/coin.jpeg"
