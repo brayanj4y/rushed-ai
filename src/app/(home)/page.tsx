@@ -33,10 +33,10 @@ export default function Page() {
             />
           </div>
           <h1 className="text-2xl md:text-5xl font-bold text-center">
-            Build lit with Rushed — your AI hype squad for coding
+            Rushed: Code fast. Stay hyped.
           </h1>
           <p className="text-lg md:text-muted-foreground text-center">
-            Chat your way to apps and sites, no sweat ⚡.
+            From idea to app, consider it done ⚡.
           </p>
           <div className="max-w-3xl mx-auto w-full">
             <ProjectForm />
