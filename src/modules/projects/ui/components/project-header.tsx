@@ -15,7 +15,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { ChevronDownIcon, ChevronLeftIcon, SunMoonIcon } from "lucide-react";
+import { 
+  ChevronDownIcon, 
+  ArrowLeftIcon, 
+  SunIcon,
+  MoonIcon,
+  MonitorIcon,
+  SettingsIcon 
+} from "lucide-react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 
@@ -31,49 +38,120 @@ export const ProjectHeader = ({ projectId }: Props) => {
 
   const { setTheme, theme } = useTheme();
 
+  const getThemeIcon = (themeValue: string) => {
+    switch (themeValue) {
+      case 'light':
+        return <SunIcon className="size-4" />;
+      case 'dark':
+        return <MoonIcon className="size-4" />;
+      default:
+        return <MonitorIcon className="size-4" />;
+    }
+  };
+
+  const getCurrentThemeLabel = () => {
+    switch (theme) {
+      case 'light':
+        return 'Light';
+      case 'dark':
+        return 'Dark';
+      default:
+        return 'System';
+    }
+  };
+
   return (
-    <header className="p-2 flex justify-between items-center border-b">
+    <header className="px-4 py-3 flex justify-between items-center border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
-            size="sm"
-            className="focus-visible:ring-0 hover:bg-transparent hover:opacity-75 transition-opacity pl-2!"
+            className="gap-2 h-10 px-3 hover:bg-accent hover:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground transition-colors"
           >
-            <Image src="/logo.svg" alt="Rushed" width={30} height={30} />
-            <span className="text-sm font-medium">{project.name}</span>
-            <ChevronDownIcon />
+            <Image 
+              src="/logo.svg" 
+              alt="Rushed" 
+              width={24} 
+              height={24}
+              className="shrink-0" 
+            />
+            <span className="font-medium text-foreground truncate max-w-[200px]">
+              {project.name}
+            </span>
+            <ChevronDownIcon className="size-4 text-muted-foreground shrink-0" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent side="bottom" align="start">
-          <DropdownMenuItem asChild>
-            <Link href="/">
-              <ChevronLeftIcon />
-              <span>Go to Dashboard</span>
+        <DropdownMenuContent 
+          className="w-56" 
+          side="bottom" 
+          align="start"
+          sideOffset={4}
+        >
+          {/* Project Info Section */}
+          <div className="px-2 py-1.5 text-sm text-muted-foreground">
+            <div className="font-medium text-foreground truncate">
+              {project.name}
+            </div>
+            <div className="text-xs">
+              Project Settings
+            </div>
+          </div>
+          <DropdownMenuSeparator />
+          
+          {/* Navigation */}
+          <DropdownMenuItem asChild className="cursor-pointer">
+            <Link href="/" className="flex items-center gap-2">
+              <ArrowLeftIcon className="size-4 text-muted-foreground" />
+              <span>Back to Dashboard</span>
             </Link>
           </DropdownMenuItem>
+          
           <DropdownMenuSeparator />
+          
+          {/* Theme Selection */}
           <DropdownMenuSub>
-            <DropdownMenuSubTrigger className="gap-2">
-              <SunMoonIcon className="size-4 text-muted-foreground" />
-              <span>Appearance</span>
+            <DropdownMenuSubTrigger className="gap-2 cursor-pointer">
+              {getThemeIcon(theme || 'system')}
+              <span>Theme</span>
+              <span className="ml-auto text-xs text-muted-foreground">
+                {getCurrentThemeLabel()}
+              </span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
-              <DropdownMenuSubContent>
+              <DropdownMenuSubContent className="w-40">
                 <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
-                  <DropdownMenuRadioItem value="light">
+                  <DropdownMenuRadioItem 
+                    value="light" 
+                    className="gap-2 cursor-pointer"
+                  >
+                    <SunIcon className="size-4" />
                     <span>Light</span>
                   </DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value="dark">
+                  <DropdownMenuRadioItem 
+                    value="dark" 
+                    className="gap-2 cursor-pointer"
+                  >
+                    <MoonIcon className="size-4" />
                     <span>Dark</span>
                   </DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value="system">
+                  <DropdownMenuRadioItem 
+                    value="system" 
+                    className="gap-2 cursor-pointer"
+                  >
+                    <MonitorIcon className="size-4" />
                     <span>System</span>
                   </DropdownMenuRadioItem>
                 </DropdownMenuRadioGroup>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>
+          
+          {/* Additional Actions */}
+          <DropdownMenuSeparator />
+          <DropdownMenuItem className="gap-2 cursor-pointer">
+            <SettingsIcon className="size-4 text-muted-foreground" />
+            <span>Project Settings</span>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>
