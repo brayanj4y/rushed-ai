@@ -16,6 +16,7 @@ import Link from "next/link";
 import { FileExplorer } from "@/components/file-explorer";
 import { UserControl } from "@/components/user-control";
 import { useAuth } from "@clerk/nextjs";
+import Image from "next/image";
 import UpgradeButton from "@/components/upgrade_button";
 
 interface Props {
@@ -69,6 +70,13 @@ export const ProjectView = ({ projectId }: Props) => {
                 {!hasProAccess && (
                   <UpgradeButton asChild className="ml-auto">
                     <Link href="/pricing" className="flex items-center gap-2">
+                      <Image
+                        src="/upgrade-icon.png"
+                        alt="Upgrade"
+                        width={20}
+                        height={20}
+                      />
+                      Upgrade
                     </Link>
                   </UpgradeButton>
                 )}
