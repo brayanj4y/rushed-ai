@@ -7,7 +7,7 @@ export default function Custom404() {
   const handleReportIssue = () => {
     const subject = "404 Error Report"
     const body = "I encountered a 404 error on: " + window.location.href
-    window.open(`mailto:support@yourapp.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, "_blank")
+    window.open(`mailto:souopsylvain@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, "_blank")
   }
 
   return (
