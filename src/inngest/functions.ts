@@ -46,7 +46,6 @@ export const codeAgentFunction = inngest.createFunction(
             projectId: event.data.projectId,
           },
           orderBy: {
-            //Order in which the AI receives the messages
             createdAt: "desc",
           },
           take: 5,
@@ -74,7 +73,6 @@ export const codeAgentFunction = inngest.createFunction(
       }
     );
 
-    // Create a new agent with a system prompt (you can add optional tools, too)
     const codeAgent = createAgent<AgentState>({
       name: "rushed-agent",
       description: "An expert coding agent",
@@ -226,7 +224,7 @@ export const codeAgentFunction = inngest.createFunction(
       model: anthropic({
         model: "claude-3-5-sonnet-latest",
         defaultParameters: { 
-          max_tokens: 4096 
+          max_tokens: 1096 
         },
       }),
     });
@@ -238,7 +236,7 @@ export const codeAgentFunction = inngest.createFunction(
       model: anthropic({
         model: "claude-3-5-sonnet-latest",
         defaultParameters: { 
-          max_tokens: 4096 
+          max_tokens: 2096 
         },
       }),
     });
