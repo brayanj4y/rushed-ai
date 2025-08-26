@@ -81,8 +81,8 @@ export const codeAgentFunction = inngest.createFunction(
       system: PROMPT,
       model: anthropic({
         model: "claude-3-5-sonnet-latest",
-        defaultParameters: {
-          max_tokens: 4096
+        defaultParameters: { 
+          max_tokens: 4096 
         },
       }),
       tools: [
@@ -136,32 +136,30 @@ export const codeAgentFunction = inngest.createFunction(
             { files },
             { step, network }: Tool.Options<AgentState>
           ) => {
-            const result = await step?.run("createOrUpdateFiles", async () => {
-              try {
-                const updatedFiles = network.state.data.files || {};
-                const sandbox = await getSandbox(sandboxId);
+            const newFiles = await step?.run(
+              "createOrUpdateFiles",
+              async () => {
+                try {
+                  const updatedFiles = network.state.data.files || {};
+                  const sandbox = await getSandbox(sandboxId);
 
-                for (const file of files) {
-                  await sandbox.files.write(file.path, file.content);
-                  updatedFiles[file.path] = file.content;
+                  for (const file of files) {
+                    await sandbox.files.write(file.path, file.content);
+                    updatedFiles[file.path] = file.content;
+                  }
+
+                  return updatedFiles;
+                } catch (error) {
+                  return "Error: " + error;
                 }
+              });
+           
 
-                return { success: true, files: updatedFiles };
-              } catch (error) {
-                return { success: false, error: error instanceof Error ? error.message : String(error) };
-              }
-            });
-
-            if (result && 'success' in result && result.success && 'files' in result) {
-              network.state.data.files = result.files as FileCollection;
-              return "Files updated successfully";
-            } else {
-              const errorMsg = result && 'error' in result ? result.error : "Unknown error";
-              throw new Error(`Failed to update files: ${errorMsg}`);
+            if (typeof newFiles === "object") {
+              network.state.data.files = newFiles;
             }
           },
         }),
-        
         createTool({
           name: "readFiles",
           description: "Read files from the sandbox",
@@ -227,8 +225,8 @@ export const codeAgentFunction = inngest.createFunction(
       system: FRAGMENT_TITLE_PROMPT,
       model: anthropic({
         model: "claude-3-5-sonnet-latest",
-        defaultParameters: {
-          max_tokens: 4096
+        defaultParameters: { 
+          max_tokens: 4096 
         },
       }),
     });
@@ -239,8 +237,8 @@ export const codeAgentFunction = inngest.createFunction(
       system: RESPONSE_PROMPT,
       model: anthropic({
         model: "claude-3-5-sonnet-latest",
-        defaultParameters: {
-          max_tokens: 4096
+        defaultParameters: { 
+          max_tokens: 4096 
         },
       }),
     });
