@@ -104,9 +104,12 @@ export const ProjectForm = () => {
                 className="pt-4 resize-none border-none w-full outline-none bg-transparent"
                 placeholder="What’s the next big thing you wanna create?"
                 onKeyDown={(e) => {
-                  if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+                  if (e.key === "Enter") {
                     e.preventDefault();
-                    form.handleSubmit(onSubmit)(e);
+                    if (!isButtonDisabled && form.formState.isValid) {
+                      const values = form.getValues();
+                      onSubmit(values);
+                    }
                   }
                 }}
               />
@@ -115,7 +118,7 @@ export const ProjectForm = () => {
           <div className="flex gap-x-2 items-end justify-between pt-2">
             <div className="text-[10px] text-muted-foreground font-mono">
               <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
-                <span>&#8984;</span>Enter
+                Enter
               </kbd>
               &nbsp; to submit
             </div>

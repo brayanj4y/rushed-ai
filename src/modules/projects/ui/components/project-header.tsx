@@ -101,7 +101,7 @@ export const ProjectHeader = ({ projectId }: Props) => {
           <DropdownMenuItem asChild className="cursor-pointer">
             <Link href="/" className="flex items-center gap-2">
               <ArrowLeftIcon className="size-4 text-muted-foreground" />
-              <span>Back to Dashboard</span>
+              <span>Back to Home</span>
             </Link>
           </DropdownMenuItem>
           
