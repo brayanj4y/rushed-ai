@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Rushed Documentation
+
+## Overview
+Rushed is an AI-powered web app builder that transforms natural language into functional code. Built for teams seeking rapid web application development through an intuitive chat interface.
+
+## Key Features
+- **🤖 AI Code Generation**: Instant Next.js components from text descriptions
+- **📂 Project Management**: Streamlined project organization and versioning
+- **👀 Live Preview**: Real-time component visualization in sandbox
+- **💎 Gem System**: Flexible usage credits with free and premium options
+- **🌓 Theme Support**: Polished dark and light modes
 
 ## Getting Started
 
-First, run the development server:
+### 1. Account Setup
+Create your account using any of:
+- Email/Password
+- Google OAuth
+- GitHub OAuth
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 2. Project Creation
+1. Navigate to dashboard
+2. Choose template or start from scratch:
+   - Settings Page
+   - Login Page
+   - Pricing Page
+   - Custom Layout
+3. Describe your requirements
+4. Review and customize generated code
+
+### 3. Credit Management
+- Track Gems in navigation bar
+- Free tier: Periodic credit refresh
+- Pro tier: Unlimited access
+
+## Technical Stack
+```text
+Frontend           Backend            Authentication
+─────────────────────────────────────────────────────
+Next.js 13+       TRPC               Clerk
+TypeScript        Prisma             OAuth 2.0
+Tailwind CSS      NeonDB             JWT
+Shadcn/UI
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project Structure
+```text
+rushed/
+├── app/               # Next.js routes
+├── components/
+│   └── ui/           # Shared components
+├── modules/          # Feature modules
+├── prisma/          # Database config
+├── public/          # Static assets
+└── src/             # Core source
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Setup
+```env
+# Required Environment Variables
+DATABASE_URL=<NeonDB URL>
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+E2B_API_KEY=<e2b Sandbox Key>
+ANTHROPIC_API_KEY=<Anthropic API Key>
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Clerk Authentication
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<Clerk Public Key>
+CLERK_SECRET_KEY=<Clerk Secret>
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/
+NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/
+```
 
-## Learn More
+## Local Development
+```bash
+# Install dependencies
+npm install
 
-To learn more about Next.js, take a look at the following resources:
+# Start development server
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Visit `http://localhost:3000` to view your application.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Support
+- Issues: [GitHub Issues](https://github.com/rushed/issues)
