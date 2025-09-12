@@ -84,4 +84,4 @@ npm run dev
 Visit `http://localhost:3000` to view your application.
 
 ## Support
-- Issues: [GitHub Issues](https://github.com/rushed/issues)
+- Issues: [GitHub Issues](https://github.com/brayanj4y/rushed-ai/issues)
