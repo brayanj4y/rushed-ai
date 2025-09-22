@@ -6,7 +6,7 @@ import Image from "next/image";
 export default function Page() {
   return (
     <div className="relative min-h-screen">
-      <Navbar/>
+
       <div
         className="fixed inset-0 -z-10 
           bg-white dark:bg-black 
