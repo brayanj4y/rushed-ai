@@ -1,4 +1,3 @@
-import { Navbar } from "@/modules/home/ui/components/navbar";
 import { ProjectForm } from "@/modules/home/ui/components/project-form";
 import { ProjectsList } from "@/modules/home/ui/components/projects-list";
 import Image from "next/image";
@@ -6,7 +5,7 @@ import Image from "next/image";
 export default function Page() {
   return (
     <div className="relative min-h-screen">
-      <Navbar/>
+
       <div
         className="fixed inset-0 -z-10 
           bg-white dark:bg-black 
