@@ -2,12 +2,7 @@ import { SignIn } from '@clerk/nextjs'
 
 export default function Page() {
   return (
-    <div style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '100vh'
-    }}>
+    <div className="flex justify-center items-start min-h-screen pt-20">
       <SignIn />
     </div>
   )
