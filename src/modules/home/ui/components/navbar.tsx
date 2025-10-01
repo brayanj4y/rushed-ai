@@ -26,7 +26,7 @@ export const Navbar = () => {
           setGemsRemaining(data.remainingPoints);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   return (
@@ -37,26 +37,15 @@ export const Navbar = () => {
       )}
     >
       <div className="max-w-5xl mx-auto w-full flex justify-between items-center">
-  
+
         <Link href="/" className="flex items-center gap-2">
           <Image src="/logo.svg" alt="Rushed" width={32} height={32} />
           <span className="font-semibold text-lg">Rushed</span>
         </Link>
 
-        
-        <div className="flex gap-6 font-medium">
-          <Link href="/pricing" className="hover:underline">
-            Pricing
-          </Link>
-          <Link href="/enterprise" className="hover:underline">
-            Enterprise
-          </Link>
-          <Link href="/learn" className="hover:underline">
-            Learn
-          </Link>
-        </div>
 
-        
+
+
         <div className="flex items-center gap-4">
           <SignedOut>
             <div className="flex gap-2">
