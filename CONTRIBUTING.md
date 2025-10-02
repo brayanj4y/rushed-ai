@@ -16,13 +16,18 @@ All types of contributions are encouraged and valued. See the [Table of Contents
 
 - [I Have a Question](#i-have-a-question)
 - [I Want To Contribute](#i-want-to-contribute)
-- [Reporting Bugs](#reporting-bugs)
-- [Suggesting Enhancements](#suggesting-enhancements)
-- [Your First Code Contribution](#your-first-code-contribution)
-- [Improving The Documentation](#improving-the-documentation)
+  - [Reporting Bugs](#reporting-bugs)
+  - [Suggesting Enhancements](#suggesting-enhancements)
+  - [Your First Code Contribution](#your-first-code-contribution)
+    - [Prerequisites](#prerequisites)
+    - [Setting Up Development Environment](#setting-up-development-environment)
+  - [Improving The Documentation](#improving-the-documentation)
 - [Styleguides](#styleguides)
-- [Commit Messages](#commit-messages)
-- [Join The Project Team](#join-the-project-team)
+  - [Code Style](#code-style)
+  - [Component Guidelines](#component-guidelines)
+  - [Git Workflow](#git-workflow)
+  - [Commit Messages](#commit-messages)
+  - [Credits](#credits)
 
 
 
@@ -126,26 +131,139 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/brayan
 <!-- You might want to create an issue template for enhancement suggestions that can be used as a guide and that defines the structure of the information to be included. If you do so, reference it here in the description. -->
 
 ### Your First Code Contribution
-<!-- TODO
-include Setup of env, IDE and typical getting started instructions?
 
--->
+#### Prerequisites
+
+Before you begin contributing, ensure you have:
+
+- Node.js 13 or higher installed
+- Git installed
+- A code editor (preferably VS Code)
+
+#### Setting Up Development Environment
+
+1. Fork the repository
+
+2. Clone your fork:
+
+   ```bash
+   git clone https://github.com/brayanj4y/rushed-ai.git
+   cd rushed-ai
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+4. Set up environment variables:
+
+
+```env
+# Required Environment Variables
+DATABASE_URL=<NeonDB URL>
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+E2B_API_KEY=<e2b Sandbox Key>
+ANTHROPIC_API_KEY=<Anthropic API Key>
+
+# Clerk Authentication
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<Clerk Public Key>
+CLERK_SECRET_KEY=<Clerk Secret>
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/
+NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/
+```
+   - Copy `.env.example` to `.env.local`
+   - Fill in required environment variables:
+     - Database URL
+     - Clerk authentication keys
+     - Other necessary API keys
+
+1. Set up the database:
+
+   ```bash
+   npx prisma generate
+   npx prisma db push
+   ```
+
+2. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+The application should now be running at `http://localhost:3000`.
 
 ### Improving The Documentation
-<!-- TODO
-Updating, improving and correcting the documentation
 
--->
+Documentation improvements are always welcome. Here's what you can help with:
+
+1. README.md improvements
+2. Code comments and documentation
+3. API documentation
+4. Contributing guidelines
+5. Installation and setup instructions
+
+When documenting:
+
+- Use clear, concise language
+- Include code examples where relevant
+- Add screenshots for UI-related changes
+- Ensure proper formatting and markdown usage
+- Keep documentation up to date with code changes
 
 ## Styleguides
+
+### Code Style
+
+- Use TypeScript for all new code
+- Follow the existing code formatting style
+- Use ES6+ features when possible
+- Add proper TypeScript types
+- Use meaningful variable and function names
+
+### Component Guidelines
+
+- Use functional components with hooks
+- Keep components small and focused
+- Use proper prop typing
+- Follow the file naming convention: `kebab-case.tsx`
+- Place components in appropriate directories
+
+### Git Workflow
+
+1. Create a new branch for each feature/fix
+2. Use meaningful branch names (e.g., `feature/user-authentication`, `fix/login-validation`)
+3. Make regular, small commits
+4. Keep pull requests focused on a single change
+
 ### Commit Messages
+
+Follow these guidelines for commit messages:
+
+1. Use the present tense ("Add feature" not "Added feature")
+2. Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
+3. Limit the first line to 72 characters or less
+4. Reference issues and pull requests liberally after the first line
+5. Consider starting the commit message with an applicable emoji:
+   - ✨ `:sparkles:` when adding a new feature
+   - 🐛 `:bug:` when fixing a bug
+   - 📚 `:books:` when adding or updating documentation
+   - ♻️ `:recycle:` when refactoring code
+   - 🎨 `:art:` when improving the format/structure of the code
+   - ⚡️ `:zap:` when improving performance
+   - 🔒 `:lock:` when dealing with security
+
+
+### Credits
+
+This contributing guide is adapted from the [Atom](https://github.com/atom/atom/blob/master/CONTRIBUTING.md) contributing guide.
+
 <!-- TODO
 
 -->
-
-## Join The Project Team
-<!-- TODO -->
-
 <!-- omit in toc -->
 ## Attribution
 This guide is based on the [contributing.md](https://contributing.md/generator)!
