@@ -1,5 +1,5 @@
 
-## 🚀 Pull Request Overview
+## PR Overview
 
 ### Description
 Please provide a brief summary of the changes in this PR:
@@ -11,9 +11,7 @@ Closes #[issue-number]
 Fixes #[issue-number]  
 (Use keywords to link issues automatically)
 
----
-
-## ✅ Checklist
+## Checklist
 
 - [ ] I have tested my changes locally
 - [ ] I have added relevant documentation/comments
@@ -21,23 +19,21 @@ Fixes #[issue-number]
 - [ ] I have reviewed my code for security and performance
 - [ ] I have rebased my branch onto `main` and resolved conflicts
 
----
-
-## 🧪 Testing Steps
+## Testing Steps
 
 Please describe how reviewers can test your changes:
 1. Step one
 2. Step two
 3. ...
 
----
 
-## 📸 Screenshots (if applicable)
+
+## Screenshots (if applicable)
 
 Add screenshots or recordings to help reviewers understand the UI changes.
 
----
 
-## 👀 Reviewer Notes
+
+## Reviewer Notes
 
 Anything specific you want reviewers to focus on?
