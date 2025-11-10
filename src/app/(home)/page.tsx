@@ -1,3 +1,4 @@
+import FlipCards from "@/modules/home/ui/components/flipcard";
 import { ProjectForm } from "@/modules/home/ui/components/project-form";
 import { ProjectsList } from "@/modules/home/ui/components/projects-list";
 import Image from "next/image";
@@ -43,6 +44,11 @@ export default function Page() {
         </section>
         <ProjectsList />
       </div>
+      <h2 className="text-4xl sm:text-6xl md:text-8xl font-bold text-center mt-12 mb-6">
+        OK, why us?
+      </h2>
+
+      <FlipCards />
     </div>
   );
 }

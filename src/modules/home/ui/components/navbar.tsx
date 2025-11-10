@@ -41,7 +41,11 @@ export const Navbar = () => {
         <Link href="/" className="flex items-center gap-2">
           <Image src="/logo.svg" alt="Rushed" width={32} height={32} />
           <span className="font-semibold text-lg">Rushed</span>
+          <span className="ml-1 px-1.5 py-[1px] text-[10px] font-medium rounded bg-yellow-200 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-200">
+            Development
+          </span>
         </Link>
+
 
 
 
