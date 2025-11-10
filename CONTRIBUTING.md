@@ -154,7 +154,7 @@ Before you begin contributing, ensure you have:
 3. Install dependencies:
 
    ```bash
-   npm install
+   npm install --legacy-peer-deps --legacy-peer-deps
    ```
 
 4. Set up environment variables:
