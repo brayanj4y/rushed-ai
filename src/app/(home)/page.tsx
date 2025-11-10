@@ -1,4 +1,3 @@
-import { DevNotice } from "@/modules/home/ui/components/devnote";
 import { ProjectForm } from "@/modules/home/ui/components/project-form";
 import { ProjectsList } from "@/modules/home/ui/components/projects-list";
 import Image from "next/image";
@@ -43,7 +42,6 @@ export default function Page() {
           </div>
         </section>
         <ProjectsList />
-        <DevNotice />
       </div>
     </div>
   );
