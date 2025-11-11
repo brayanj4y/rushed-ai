@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 import {
   SignedIn,
   SignedOut,
-  SignInButton,
   SignUpButton,
 } from "@clerk/nextjs";
 import Image from "next/image";
@@ -55,12 +54,9 @@ export const Navbar = () => {
             <div className="flex gap-2">
               <SignUpButton>
                 <Button variant="outline" size="sm">
-                  Sign up
+                  Join the Waitlist
                 </Button>
               </SignUpButton>
-              <SignInButton>
-                <Button size="sm">Sign in</Button>
-              </SignInButton>
             </div>
           </SignedOut>
 
