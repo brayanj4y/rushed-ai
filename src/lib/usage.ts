@@ -1,6 +1,6 @@
 import { prisma } from "./db";
 import { auth } from "@clerk/nextjs/server";
-import { TOKENS_PER_GEM, calculateGemsForTokens } from "./dodo";
+import { calculateGemsForTokens } from "./dodo";
 
 /**
  * Get the current gem balance for the authenticated user

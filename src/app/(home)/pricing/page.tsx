@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { GEM_PACKS_CLIENT, GemPackType } from "@/lib/gem-packs";
 import { Gem, Sparkles, Zap, Crown, Rocket } from "lucide-react";
-import { useState } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
@@ -24,17 +24,23 @@ const PACK_COLORS: Record<GemPackType, string> = {
   enterprise: "border-red-500/30 hover:border-red-500",
 };
 
-const Page = () => {
-  const [loadingPack, setLoadingPack] = useState<GemPackType | null>(null);
+function SuccessToast() {
   const searchParams = useSearchParams();
   const success = searchParams.get("success");
 
-  // Show success toast if redirected after payment
-  if (success === "true") {
-    toast.success("Payment successful! Your gems have been added.", {
-      id: "payment-success",
-    });
-  }
+  useEffect(() => {
+    if (success === "true") {
+      toast.success("Payment successful! Your gems have been added.", {
+        id: "payment-success",
+      });
+    }
+  }, [success]);
+
+  return null;
+}
+
+function PricingContent() {
+  const [loadingPack, setLoadingPack] = useState<GemPackType | null>(null);
 
   const handlePurchase = async (packType: GemPackType) => {
     try {
@@ -127,6 +133,15 @@ const Page = () => {
       </section>
     </div>
   );
-};
+}
 
-export default Page;
+export default function Page() {
+  return (
+    <>
+      <Suspense fallback={null}>
+        <SuccessToast />
+      </Suspense>
+      <PricingContent />
+    </>
+  );
+}
