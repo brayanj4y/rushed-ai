@@ -62,7 +62,18 @@ model Fragment {
 }
 
 model Usage {
-  key String @id
-  points Int
-  expire DateTime?
+  userId String @id
+  gems Int @default(0)
+  updatedAt DateTime @updatedAt
+}
+
+model GemPurchase {
+  id String @id @default(uuid())
+  userId String
+  packType String // "starter", "basic", "standard", "pro", "enterprise"
+  gems Int
+  amountPaid Int // in cents
+  currency String @default("USD")
+  paymentId String @unique // Dodo payment ID
+  createdAt DateTime @default(now())
 }
