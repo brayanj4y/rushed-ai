@@ -7,6 +7,8 @@ import { Gem, Sparkles, Zap, Crown, Rocket } from "lucide-react";
 import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
+import { useTRPC } from "@/trpc/client";
+import { useMutation } from "@tanstack/react-query";
 
 const PACK_ICONS: Record<GemPackType, React.ReactNode> = {
   starter: <Gem className="size-6 text-blue-500" />,
@@ -41,33 +43,26 @@ function SuccessToast() {
 
 function PricingContent() {
   const [loadingPack, setLoadingPack] = useState<GemPackType | null>(null);
+  const trpc = useTRPC();
+
+  const createCheckout = useMutation(
+    trpc.checkout.createSession.mutationOptions({
+      onSuccess: (data) => {
+        if (data.checkoutUrl) {
+          window.location.href = data.checkoutUrl;
+        }
+      },
+      onError: (error) => {
+        console.error("Purchase error:", error);
+        toast.error(error.message || "Failed to start checkout. Please try again.");
+        setLoadingPack(null);
+      },
+    })
+  );
 
   const handlePurchase = async (packType: GemPackType) => {
-    try {
-      setLoadingPack(packType);
-
-      const response = await fetch("/api/checkout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ packType }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to create checkout");
-      }
-
-      // Redirect to Dodo checkout
-      window.location.href = data.checkoutUrl;
-    } catch (error) {
-      console.error("Purchase error:", error);
-      toast.error("Failed to start checkout. Please try again.");
-    } finally {
-      setLoadingPack(null);
-    }
+    setLoadingPack(packType);
+    createCheckout.mutate({ packType });
   };
 
   return (
