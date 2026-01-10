@@ -1,6 +1,6 @@
 import { RateLimiterPrisma } from "rate-limiter-flexible";
 import { prisma } from "./db";
-import { auth } from "@clerk/nextjs/server";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 
 const FREE_POINTS = 2;
 const PRO_POINTS = 100;
@@ -21,12 +21,38 @@ export async function getUsageTracker() {
   return usageTracker;
 }
 
-export async function resetUsage() {
+export async function cancelSubscriptionOnDepletion() {
   const { userId } = await auth();
 
   if (!userId) {
     throw new Error("User not authenticated");
   }
+
+  try {
+    const client = await clerkClient();
+    const user = await client.users.getUser(userId);
+    const subscriptionId = user.privateMetadata.subscriptionId as string | undefined;
+
+    if (subscriptionId) {
+      await (client.billing as any).cancelSubscriptionItem(subscriptionId, {
+        cancelImmediately: true
+      });
+
+
+      await client.users.updateUserMetadata(userId, {
+        privateMetadata: {
+          subscriptionId: null
+        }
+      });
+    } else {
+
+    }
+
+  } catch (error) {
+    console.error("Failed to cancel subscription:", error);
+
+  }
+
 
   const usageTracker = await getUsageTracker();
   await usageTracker.delete(userId);
@@ -44,14 +70,14 @@ export async function consumeCredits() {
   try {
     const result = await usageTracker.consume(userId, GENERATION_COST);
 
-    // If gems are now depleted, reset immediately so user gets fresh allocation
+
     if (result.remainingPoints <= 0) {
       await usageTracker.delete(userId);
     }
 
     return result;
   } catch (error) {
-    // Rate limit exceeded - reset and re-throw so user gets fresh gems
+
     await usageTracker.delete(userId);
     throw error;
   }
