@@ -59,8 +59,8 @@ async function main() {
         await prisma.usage.deleteMany({
             where: { key: TEST_USER_ID },
         });
-    } catch (e: any) {
-        if (e.code === 'P2021') {
+    } catch (e: unknown) {
+        if (typeof e === 'object' && e !== null && 'code' in e && (e as { code: string }).code === 'P2021') {
             console.error("Usage table does not exist. Attempting to consume credits anyway (RateLimiter might handle it or fail)...");
         } else {
             throw e;
