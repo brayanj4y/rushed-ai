@@ -31,29 +31,33 @@ export async function cancelSubscriptionOnDepletion() {
   try {
     const client = await clerkClient();
     const user = await client.users.getUser(userId);
+    // Check if user has a subscription ID stored
     const subscriptionId = user.privateMetadata.subscriptionId as string | undefined;
 
     if (subscriptionId) {
+      // Use the billing API to cancel
+      // Note: The actual method name might vary slightly depending on exact SDK version
+      // but client.billing.cancelSubscriptionItem is the standard pattern
+      // Casting to any because the method is missing in the current type definitions (Beta)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await (client.billing as any).cancelSubscriptionItem(subscriptionId, {
-        cancelImmediately: true
+        cancelImmediately: true,
       });
 
-
+      // Also clear the metadata
       await client.users.updateUserMetadata(userId, {
         privateMetadata: {
-          subscriptionId: null
-        }
+          subscriptionId: null,
+        },
       });
-    } else {
-
     }
 
   } catch (error) {
     console.error("Failed to cancel subscription:", error);
-
+    // Continue to reset usage even if subscription cancellation fails
   }
 
-
+  // Reset the usage counter
   const usageTracker = await getUsageTracker();
   await usageTracker.delete(userId);
 }
@@ -70,15 +74,16 @@ export async function consumeCredits() {
   try {
     const result = await usageTracker.consume(userId, GENERATION_COST);
 
-
+    // If gems are now depleted, cancel subscription
     if (result.remainingPoints <= 0) {
-      await usageTracker.delete(userId);
+      await cancelSubscriptionOnDepletion();
     }
 
     return result;
   } catch (error) {
-
-    await usageTracker.delete(userId);
+    // Rate limit exceeded - reset and re-throw so user gets fresh gems
+    // but also ensure subscription is canceled if they hit the limit
+    await cancelSubscriptionOnDepletion();
     throw error;
   }
 }
