@@ -21,6 +21,17 @@ export async function getUsageTracker() {
   return usageTracker;
 }
 
+export async function resetUsage() {
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error("User not authenticated");
+  }
+
+  const usageTracker = await getUsageTracker();
+  await usageTracker.delete(userId);
+}
+
 export async function consumeCredits() {
   const { userId } = await auth();
 
@@ -29,9 +40,21 @@ export async function consumeCredits() {
   }
 
   const usageTracker = await getUsageTracker();
-  const result = await usageTracker.consume(userId, GENERATION_COST);
 
-  return result;
+  try {
+    const result = await usageTracker.consume(userId, GENERATION_COST);
+
+    // If gems are now depleted, reset immediately so user gets fresh allocation
+    if (result.remainingPoints <= 0) {
+      await usageTracker.delete(userId);
+    }
+
+    return result;
+  } catch (error) {
+    // Rate limit exceeded - reset and re-throw so user gets fresh gems
+    await usageTracker.delete(userId);
+    throw error;
+  }
 }
 
 export async function getUsageStatus() {
