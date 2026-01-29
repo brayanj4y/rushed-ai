@@ -51,17 +51,21 @@ export const Navbar = () => {
 
 
         <div className="flex items-center gap-4">
-          <Link
-            href="https://github.com/brayanj4y/rushed-ai"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden md:block"
+          <Button
+            variant="outline"
+            size="sm"
+            className="hidden md:inline-flex gap-2"
+            asChild
           >
-            <Button variant="outline" size="sm" className="gap-2">
+            <Link
+              href="https://github.com/brayanj4y/rushed-ai"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Star className="size-4 fill-yellow-400 text-yellow-500" />
               Star on GitHub
-            </Button>
-          </Link>
+            </Link>
+          </Button>
           <SignedOut>
             <div className="flex gap-2">
               <SignUpButton>
