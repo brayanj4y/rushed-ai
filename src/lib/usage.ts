@@ -2,10 +2,11 @@ import { RateLimiterPrisma } from "rate-limiter-flexible";
 import { prisma } from "./db";
 import { auth } from "@clerk/nextjs/server";
 
-const FREE_POINTS = 2;
-const PRO_POINTS = 5;
-const DURATION = 24 * 60 * 60; // 1 day
-const GENERATION_COST = 0.5;
+const POINTS_PER_GEM = 2;
+const FREE_POINTS = 2 * POINTS_PER_GEM;
+const PRO_POINTS = 5 * POINTS_PER_GEM;
+const DURATION = 24 * 60 * 60;
+const GENERATION_COST = 1;
 
 export async function getUsageTracker() {
   const { has } = await auth();
@@ -49,10 +50,13 @@ export async function getUsageStatus() {
 
   if (!result) {
     return {
-      remainingPoints: maxPoints,
+      remainingPoints: maxPoints / POINTS_PER_GEM,  // Convert to gems for display
       msBeforeNext: DURATION * 1000,
     };
   }
 
-  return result;
+  return {
+    ...result,
+    remainingPoints: result.remainingPoints / POINTS_PER_GEM,  // Convert to gems for display
+  };
 }
