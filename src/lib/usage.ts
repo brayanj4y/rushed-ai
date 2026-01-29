@@ -35,14 +35,24 @@ export async function consumeCredits() {
 }
 
 export async function getUsageStatus() {
-  const { userId } = await auth();
+  const { userId, has } = await auth();
 
   if (!userId) {
     throw new Error("User not authenticated");
   }
 
+  const hasProAccess = has({ plan: "turbo" });
+  const maxPoints = hasProAccess ? PRO_DAILY_LIMIT : FREE_DAILY_LIMIT;
+
   const usageTracker = await getUsageTracker();
   const result = await usageTracker.get(userId);
+
+  if (!result) {
+    return {
+      remainingPoints: maxPoints,
+      msBeforeNext: DURATION * 1000,
+    };
+  }
 
   return result;
 }
