@@ -12,6 +12,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Star } from "lucide-react";
 
 export const Navbar = () => {
   const isScrolled = useScroll();
@@ -50,6 +51,17 @@ export const Navbar = () => {
 
 
         <div className="flex items-center gap-4">
+          <Link
+            href="https://github.com/brayanj4y/rushed-ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden md:block"
+          >
+            <Button variant="outline" size="sm" className="gap-2">
+              <Star className="size-4 fill-yellow-400 text-yellow-500" />
+              Star on GitHub
+            </Button>
+          </Link>
           <SignedOut>
             <div className="flex gap-2">
               <SignUpButton>

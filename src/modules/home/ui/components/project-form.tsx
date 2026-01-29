@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { PROJECT_TEMPLATES } from "@/constants";
 import { useClerk } from "@clerk/nextjs";
+import { GithubStarButton } from "@/components/github-star-button";
 
 const formSchema = z.object({
   value: z
@@ -83,6 +84,9 @@ export const ProjectForm = () => {
   return (
     <Form {...form}>
       <section className="space-y-6">
+        <div className="flex justify-center md:hidden">
+          <GithubStarButton />
+        </div>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className={cn(
