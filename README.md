@@ -1,16 +1,21 @@
-# Rushed  
-**Rushed** is an AI-powered web application builder that transforms natural language into functional code. Designed for creators and teams who want to build modern web apps fast—without the friction.
+# rushed  
+**rushed** is an ai-powered web application builder that turns natural language into real, working code. it’s built for speed, clarity, and momentum.
 
-## 🛠️ Built For  
-- Developers seeking rapid prototyping  
-- Designers refining UI components  
-- Startups building MVPs with speed and precision  
-- Anyone who wants to turn ideas into code—fast
+## 🛠️ built for  
+- developers who want to prototype fast  
+- designers shaping and refining ui components  
+- startups shipping mvps under pressure  
+- anyone who wants ideas → code, immediately
 
-## 🌐 Connect With Me
+## 🤝 contribute  
+rushed is open to collaborators. if you want to improve the core, add features, fix bugs, or challenge assumptions—jump in.
 
-[![Twitter](https://img.shields.io/badge/Twitter-%23000000.svg?logo=X&logoColor=white)](https://x.com/brayanj4y)
-[![Email](https://img.shields.io/badge/Email-D14836?logo=gmail&logoColor=white)](mailto:souopsylvain@gmail.com)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/brayanj4y)
+- read the contribution guide: [contributing.md](./CONTRIBUTING.md)  
+- open issues, propose ideas, or submit prs  
+- no gatekeeping. signal > noise.
 
-> _“Rushed is a labor of love. If it helps you build faster or sparks an idea, I’d be thrilled to hear about it.”_ — brayanj4y
+## 🌐 connect with me  
+[![twitter](https://img.shields.io/badge/twitter-%23000000.svg?logo=x&logoColor=white)](https://x.com/brayanj4y)
+[![email](https://img.shields.io/badge/email-d14836?logo=gmail&logoColor=white)](mailto:souopsylvain@gmail.com)
+[![linkedin](https://img.shields.io/badge/linkedin-0a66c2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/brayanj4y)
+
