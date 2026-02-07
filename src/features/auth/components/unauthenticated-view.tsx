@@ -1,4 +1,4 @@
-import { ShieldAlertIcon } from "lucide-react";
+import { FaShieldHalved } from "react-icons/fa6";
 
 import {
   Item,
@@ -13,11 +13,11 @@ import { Button } from "@/components/ui/button";
 
 export const UnauthenticatedView = () => {
   return (
-    <div className="flex items-center justify-center h-screen bg-background">
-      <div className="w-full max-w-lg bg-muted">
-        <Item variant="outline">
-          <ItemMedia variant="icon">
-            <ShieldAlertIcon />
+    <div className="flex items-center justify-center h-screen bg-background p-4">
+      <div className="w-full max-w-lg bg-muted rounded-xl border border-border overflow-hidden">
+        <Item variant="default" className="border-none!">
+          <ItemMedia variant="icon" className="rounded-md">
+            <FaShieldHalved className="size-4" />
           </ItemMedia>
           <ItemContent>
             <ItemTitle>Unauthorized Access</ItemTitle>
@@ -27,7 +27,7 @@ export const UnauthenticatedView = () => {
           </ItemContent>
           <ItemActions>
             <SignInButton>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="rounded-lg">
                 Sign in
               </Button>
             </SignInButton>
