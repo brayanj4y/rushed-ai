@@ -6,6 +6,9 @@ import { FaGithub } from "react-icons/fa";
 
 import { cn } from "@/lib/utils";
 import { EditorView } from "@/features/editor/components/editor-view";
+import { useFiles } from "../hooks/use-files";
+import { useProject } from "../hooks/use-projects";
+import { ImportGithubDialog } from "./import-github-dialog";
 
 import { FileExplorer } from "./file-explorer";
 import { Id } from "../../../../convex/_generated/dataModel";
@@ -39,15 +42,25 @@ const Tab = ({
   );
 };
 
-export const ProjectIdView = ({ 
+export const ProjectIdView = ({
   projectId
-}: { 
+}: {
   projectId: Id<"projects">
 }) => {
   const [activeView, setActiveView] = useState<"editor" | "preview">("editor");
+  const [importDialogOpen, setImportDialogOpen] = useState(false);
+
+  const project = useProject(projectId);
+  const files = useFiles(projectId);
+
+  const showImport = !project?.importStatus && (files?.length ?? 0) === 0;
 
   return (
     <div className="h-full flex flex-col">
+      <ImportGithubDialog
+        open={importDialogOpen}
+        onOpenChange={setImportDialogOpen}
+      />
       <nav className="h-8.75 flex items-center bg-sidebar border-b">
         <Tab
           label="Code"
@@ -60,6 +73,15 @@ export const ProjectIdView = ({
           onClick={() => setActiveView("preview")}
         />
         <div className="flex-1 flex justify-end h-full">
+          {showImport && (
+            <div
+              onClick={() => setImportDialogOpen(true)}
+              className="flex items-center gap-1.5 h-full px-3 cursor-pointer text-muted-foreground border-l hover:bg-accent/30"
+            >
+              <FaGithub className="size-3.5" />
+              <span className="text-sm">Import</span>
+            </div>
+          )}
           <ExportPopover projectId={projectId} />
         </div>
       </nav>

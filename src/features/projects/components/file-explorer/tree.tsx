@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { ChevronRightIcon } from "lucide-react";
+import { IoChevronForward } from "react-icons/io5";
 import { FileIcon, FolderIcon } from "@react-symbols/icons/utils";
 
 import { cn } from "@/lib/utils";
@@ -82,7 +82,7 @@ export const Tree = ({
     }
   };
 
-  const startCreating =(type: "file" | "folder") => {
+  const startCreating = (type: "file" | "folder") => {
     setIsOpen(true);
     setCreating(type);
   };

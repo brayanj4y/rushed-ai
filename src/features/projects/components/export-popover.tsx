@@ -253,7 +253,7 @@ export const ExportPopover = ({ projectId }: ExportPopoverProps) => {
                       <SelectItem value="public">Public</SelectItem>
                     </SelectContent>
                   </Select>
-            
+
                 </Field>
               );
             }}

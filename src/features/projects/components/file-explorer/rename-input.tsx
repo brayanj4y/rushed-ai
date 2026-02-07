@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronRightIcon } from "lucide-react";
+import { IoChevronForward } from "react-icons/io5";
 import { FileIcon, FolderIcon } from "@react-symbols/icons/utils";
 import { getItemPadding } from "./constants";
 import { cn } from "@/lib/utils";
@@ -32,8 +32,8 @@ export const RenameInput = ({
     >
       <div className="flex items-center gap-0.5">
         {type === "folder" && (
-          <ChevronRightIcon className={cn(
-            "size-4 shrink-0 text-muted-foreground",
+          <IoChevronForward className={cn(
+            "size-4 shrink-0 text-muted-foreground transition-transform duration-200",
             isOpen && "rotate-90",
           )} />
         )}

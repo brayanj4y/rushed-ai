@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
 import { formatDistanceToNow } from "date-fns";
-import { AlertCircleIcon, ArrowRightIcon, GlobeIcon, Loader2Icon } from "lucide-react";
+import { FaArrowRight, FaCircleExclamation, FaGlobe, FaSpinner } from "react-icons/fa6";
 
 import { Kbd } from "@/components/ui/kbd";
 import { Spinner } from "@/components/ui/spinner";
@@ -12,7 +12,7 @@ import { Doc } from "../../../../convex/_generated/dataModel";
 import { useProjectsPartial } from "../hooks/use-projects";
 
 const formatTimestamp = (timestamp: number) => {
-  return formatDistanceToNow(new Date(timestamp), { 
+  return formatDistanceToNow(new Date(timestamp), {
     addSuffix: true
   });
 };
@@ -23,16 +23,16 @@ const getProjectIcon = (project: Doc<"projects">) => {
   }
 
   if (project.importStatus === "failed") {
-    return <AlertCircleIcon className="size-3.5 text-muted-foreground" />;
+    return <FaCircleExclamation className="size-3.5 text-muted-foreground" />;
   }
 
   if (project.importStatus === "importing") {
     return (
-      <Loader2Icon className="size-3.5 text-muted-foreground animate-spin" />
+      <FaSpinner className="size-3.5 text-muted-foreground animate-spin" />
     );
   }
 
-  return <GlobeIcon className="size-3.5 text-muted-foreground" />;
+  return <FaGlobe className="size-3.5 text-muted-foreground" />;
 }
 
 interface ProjectsListProps {
@@ -52,7 +52,7 @@ const ContinueCard = ({
       <Button
         variant="outline"
         asChild
-        className="h-auto items-start justify-start p-4 bg-background border rounded-none flex flex-col gap-2"
+        className="h-auto items-start justify-start p-4 bg-background border rounded-xl flex flex-col gap-2"
       >
         <Link href={`/projects/${data._id}`} className="group">
           <div className="flex items-center justify-between w-full">
@@ -62,7 +62,7 @@ const ContinueCard = ({
                 {data.name}
               </span>
             </div>
-            <ArrowRightIcon className="size-4 text-muted-foreground group-hover:translate-x-0.5 transition-transform" />
+            <FaArrowRight className="size-3 text-muted-foreground group-hover:translate-x-0.5 transition-transform" />
           </div>
           <span className="text-xs text-muted-foreground">
             {formatTimestamp(data.updatedAt)}
@@ -73,13 +73,13 @@ const ContinueCard = ({
   )
 };
 
-const ProjectItem = ({ 
+const ProjectItem = ({
   data
 }: {
   data: Doc<"projects">;
 }) => {
   return (
-    <Link 
+    <Link
       href={`/projects/${data._id}`}
       className="text-sm text-foreground/60 font-medium hover:text-foreground py-1 flex items-center justify-between w-full group"
     >
@@ -94,7 +94,7 @@ const ProjectItem = ({
   );
 };
 
-export const ProjectsList = ({ 
+export const ProjectsList = ({
   onViewAll
 }: ProjectsListProps) => {
   const projects = useProjectsPartial(6);

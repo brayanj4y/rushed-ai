@@ -7,7 +7,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 
 import { useProject } from "../../hooks/use-projects"
 import { Id } from "../../../../../convex/_generated/dataModel"
-import { 
+import {
   useCreateFile,
   useCreateFolder,
   useFolderContents
@@ -16,9 +16,9 @@ import { CreateInput } from "./create-input"
 import { LoadingRow } from "./loading-row"
 import { Tree } from "./tree"
 
-export const FileExplorer = ({ 
+export const FileExplorer = ({
   projectId
-}: { 
+}: {
   projectId: Id<"projects">
 }) => {
   const [isOpen, setIsOpen] = useState(true);

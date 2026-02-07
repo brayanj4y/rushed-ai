@@ -596,7 +596,6 @@ export const createProject = mutation({
       name: args.name,
       ownerId: args.ownerId,
       updatedAt: Date.now(),
-      importStatus: "importing",
     });
 
     return projectId;
