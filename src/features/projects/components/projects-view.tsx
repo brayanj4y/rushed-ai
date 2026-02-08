@@ -134,7 +134,7 @@ export const ProjectsView = () => {
             <PromptInput onSubmit={handlePromptSubmit} className="bg-background rounded-xl overflow-hidden">
               <PromptInputBody>
                 <PromptInputTextarea
-                  placeholder="Ask Rushed to build..."
+                  placeholder="Yo, tell Rushed what to build!"
                   onChange={(e) => setInput(e.target.value)}
                   value={input}
                   disabled={isSubmitting}

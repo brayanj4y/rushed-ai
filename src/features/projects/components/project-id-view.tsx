@@ -82,7 +82,7 @@ export const ProjectIdView = ({
               <span className="text-sm">Import</span>
             </div>
           )}
-          <ExportPopover projectId={projectId} />
+          {(files?.length ?? 0) > 0 && <ExportPopover projectId={projectId} />}
         </div>
       </nav>
       <div className="flex-1 relative">

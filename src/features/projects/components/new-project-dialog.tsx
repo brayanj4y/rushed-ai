@@ -76,7 +76,7 @@ export const NewProjectDialog = ({
         <PromptInput onSubmit={handleSubmit} className="border-none!">
           <PromptInputBody>
             <PromptInputTextarea
-              placeholder="Ask Rushed to build..."
+              placeholder="Wanna build something cool?"
               onChange={(e) => setInput(e.target.value)}
               value={input}
               disabled={isSubmitting}

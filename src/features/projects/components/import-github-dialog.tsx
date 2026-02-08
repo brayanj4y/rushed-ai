@@ -48,8 +48,8 @@ export const ImportGithubDialog = ({
           .post("/api/github/import", {
             json: { url: value.url },
           })
-          .json<{ 
-            success: boolean; 
+          .json<{
+            success: boolean;
             projectId: Id<"projects">,
             eventId: string;
           }>()
@@ -122,7 +122,7 @@ export const ImportGithubDialog = ({
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
                     aria-invalid={isInvalid}
-                    placeholder="https://github.com/owner/repo"
+                    placeholder="Paste that repo link here..."
                   />
                   {isInvalid && <FieldError errors={field.state.meta.errors} />}
                 </Field>
@@ -141,7 +141,7 @@ export const ImportGithubDialog = ({
               selector={(state) => [state.canSubmit, state.isSubmitting]}
             >
               {([canSubmit, isSubmitting]) => (
-                <Button 
+                <Button
                   type="submit"
                   disabled={!canSubmit || isSubmitting}
                 >

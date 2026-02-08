@@ -224,7 +224,7 @@ export const ExportPopover = ({ projectId }: ExportPopoverProps) => {
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
                     aria-invalid={isInvalid}
-                    placeholder="my-project"
+                    placeholder="give it a cool name"
                   />
                   {isInvalid && <FieldError errors={field.state.meta.errors} />}
                 </Field>
@@ -276,7 +276,7 @@ export const ExportPopover = ({ projectId }: ExportPopoverProps) => {
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
                     aria-invalid={isInvalid}
-                    placeholder="A short description of your project"
+                    placeholder="What's this one about?"
                     rows={2}
                   />
                   {isInvalid && <FieldError errors={field.state.meta.errors} />}

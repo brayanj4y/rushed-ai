@@ -56,7 +56,7 @@ const createQuickEditTooltip = (state: EditorState): readonly Tooltip[] => {
 
         const input = document.createElement("input");
         input.type = "text";
-        input.placeholder = "Edit selected code";
+        input.placeholder = "Change this code to...";
         input.className =
           "bg-transparent border-none outline-none px-2 py-1 font-sans w-100";
         input.autofocus = true;

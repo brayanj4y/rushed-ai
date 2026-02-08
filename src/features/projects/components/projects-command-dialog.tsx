@@ -56,7 +56,7 @@ export const ProjectsCommandDialog = ({
       title="Search Projects"
       description="Search and navigate to your projects"
     >
-      <CommandInput placeholder="Search projects..." />
+      <CommandInput placeholder="Find your stuff..." />
       <CommandList>
         <CommandEmpty>No projects found.</CommandEmpty>
         <CommandGroup heading="Projects">
