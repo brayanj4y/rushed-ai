@@ -72,12 +72,12 @@ export const PreviewSettingsPopover = ({
     <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
         <Button
-          size="sm"
+          size="icon-sm"
           variant="ghost"
-          className="h-full rounded-none"
+          className="rounded-full"
           title="Preview settings"
         >
-          <SettingsIcon className="size-3" />
+          <SettingsIcon className="size-4" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-80" align="end">

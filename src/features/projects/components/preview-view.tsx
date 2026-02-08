@@ -1,8 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Allotment } from "allotment";
 import {
+  RotateCw,
+  Copy,
+  Wallet,
   Loader2Icon,
   TerminalSquareIcon,
   AlertTriangleIcon,
@@ -23,6 +26,7 @@ export const PreviewView = ({ projectId }: { projectId: Id<"projects"> }) => {
   const project = useProject(projectId);
   const [showTerminal, setShowTerminal] = useState(true);
 
+
   const {
     status, previewUrl, error, restart, terminalOutput
   } = useWebContainer({
@@ -35,43 +39,57 @@ export const PreviewView = ({ projectId }: { projectId: Id<"projects"> }) => {
 
   return (
     <div className="h-full flex flex-col bg-background">
-      <div className="h-8.75 flex items-center border-b bg-sidebar shrink-0">
-        <Button
-          size="sm"
-          variant="ghost"
-          className="h-full rounded-none"
-          disabled={isLoading}
-          onClick={restart}
-          title="Restart container"
-        >
-          <RefreshCwIcon className="size-3" />
-        </Button>
-
-        <div className="flex-1 h-full flex items-center px-3 bg-background border-x text-xs text-muted-foreground truncate font-mono">
-          {isLoading && (
-            <div className="flex items-center gap-1.5">
-              <Loader2Icon className="size-3 animate-spin" />
-              {status === "booting" ? "Starting..." : "Installing..."}
-            </div>
-          )}
-          {previewUrl && <span className="truncate">{previewUrl}</span>}
-          {!isLoading && !previewUrl && !error && <span>Ready to preview</span>}
+      <div className="flex items-center justify-between p-2 px-4 gap-2 border-b bg-sidebar shrink-0">
+        <div className="flex items-center gap-2">
+          <Button
+            size="icon-sm"
+            variant="ghost"
+            className="rounded-full"
+            onClick={restart}
+            disabled={isLoading}
+          >
+            <RotateCw className={isLoading ? "animate-spin size-4" : "size-4"} />
+          </Button>
         </div>
 
-        <Button
-          size="sm"
-          variant="ghost"
-          className="h-full rounded-none"
-          title="Toggle terminal"
-          onClick={() => setShowTerminal((value) => !value)}
-        >
-          <TerminalSquareIcon className="size-3" />
-        </Button>
-        <PreviewSettingsPopover
-          projectId={projectId}
-          initialValues={project?.settings}
-          onSave={restart}
-        />
+        <div className="flex-1 max-w-xl mx-auto flex items-center h-8 px-3 bg-background/50 border rounded-full text-xs text-muted-foreground shadow-sm">
+          {isLoading ? (
+            <div className="flex items-center gap-2 w-full justify-center">
+              <Loader2Icon className="size-3.5 animate-spin" />
+              <span>{status === "booting" ? "Starting container..." : "Installing packages..."}</span>
+            </div>
+          ) : (
+            <div className="flex items-center justify-center w-full gap-2 group">
+              <span className="truncate max-w-[300px]">{previewUrl || "https://localhost:3000"}</span>
+              {previewUrl && (
+                <Button
+                  size="icon-xs"
+                  variant="ghost"
+                  className="size-5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                  onClick={() => navigator.clipboard.writeText(previewUrl)}
+                >
+                  <Copy className="size-3" />
+                </Button>
+              )}
+            </div>
+          )}
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Button
+            size="icon-sm"
+            variant={showTerminal ? "secondary" : "ghost"}
+            className="rounded-full"
+            onClick={() => setShowTerminal((v) => !v)}
+          >
+            <TerminalSquareIcon className="size-4" />
+          </Button>
+          <PreviewSettingsPopover
+            projectId={projectId}
+            initialValues={project?.settings}
+            onSave={restart}
+          />
+        </div>
       </div>
 
       <div className="flex-1 min-h-0">

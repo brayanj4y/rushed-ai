@@ -137,23 +137,27 @@ export const ConversationSidebar = ({
         onOpenChange={setPastConversationsOpen}
         onSelect={setSelectedConversationId}
       />
-      <div className="flex flex-col h-full bg-sidebar">
-        <div className="h-8.75 flex items-center justify-between border-b">
-          <div className="text-sm truncate pl-3">
+      <div className="flex flex-col h-full bg-sidebar rounded-xl border overflow-hidden">
+        <div className="flex items-center justify-between border-b p-2">
+          <div className="text-sm truncate pl-2 font-medium">
             {activeConversation?.title ?? DEFAULT_CONVERSATION_TITLE}
           </div>
-          <div className="flex items-center px-1 gap-1">
+          <div className="flex items-center gap-1">
             <Button
               size="icon-xs"
-              variant="highlight"
+              variant="ghost"
+              className="size-6 hover:bg-background rounded-full"
               onClick={() => setPastConversationsOpen(true)}
+              title="History"
             >
               <HistoryIcon className="size-3.5" />
             </Button>
             <Button
               size="icon-xs"
-              variant="highlight"
+              variant="ghost"
+              className="size-6 hover:bg-background rounded-full"
               onClick={handleCreateConversation}
+              title="New Conversation"
             >
               <PlusIcon className="size-3.5" />
             </Button>

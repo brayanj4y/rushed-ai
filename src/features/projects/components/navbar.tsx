@@ -69,7 +69,7 @@ export const Navbar = ({
   };
 
   return (
-    <nav className="flex justify-between items-center gap-x-2 p-2 bg-sidebar border-b">
+    <nav className="flex justify-between items-center gap-x-2 p-2 bg-sidebar">
       <div className="flex items-center gap-x-2">
         <Breadcrumb>
           <BreadcrumbList className="gap-0!">
