@@ -40,11 +40,11 @@ export const EditorView = ({ projectId }: { projectId: Id<"projects"> }) => {
         {!activeFile && (
           <div className="size-full flex items-center justify-center">
             <Image
-              src="/logo-alt.svg"
+              src="/logo-alt.png"
               alt="Rushed"
-              width={50}
-              height={50}
-              className="opacity-25"
+              width={90}
+              height={90}
+              className="opacity-45"
             />
           </div>
         )}
