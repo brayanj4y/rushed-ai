@@ -1,11 +1,10 @@
-// This file configures the initialization of Sentry on the client.
-// The added config here will be used whenever a users loads a page in their browser.
-// https://docs.sentry.io/platforms/javascript/guides/nextjs/
+// This file configures the initialization of Sentry on the client.// The added config here will be used whenever a users loads a page in their browser.
+// https://docs.sentry.io/platforms/javascript/guides/nextjs/      
 
 import * as Sentry from "@sentry/nextjs";
 
 Sentry.init({
-  dsn: "https://5a5ad5d9846faece0a4727540f810281@o4510149980258304.ingest.de.sentry.io/4510621155983440",
+  dsn: "https://19b85a89fd66aaa70431f103cb41f247@o4509929254223872.ingest.us.sentry.io/4510859799953408",
 
   // Add optional integrations for additional features
   integrations: [Sentry.replayIntegration()],
@@ -17,13 +16,13 @@ Sentry.init({
 
   // Define how likely Replay events are sampled.
   // This sets the sample rate to be 10%. You may want this to be 100% while
-  // in development and sample at a lower rate in production
+  // in development and sample at a lower rate in production       
   replaysSessionSampleRate: 0.1,
 
   // Define how likely Replay events are sampled when an error occurs.
   replaysOnErrorSampleRate: 1.0,
 
-  // Enable sending user PII (Personally Identifiable Information)
+  // Enable sending user PII (Personally Identifiable Information) 
   // https://docs.sentry.io/platforms/javascript/guides/nextjs/configuration/options/#sendDefaultPii
   sendDefaultPii: true,
 });
