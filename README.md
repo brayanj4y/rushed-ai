@@ -12,7 +12,6 @@ rushed is open to collaborators. if you want to improve the core, add features, 
 
 - read the contribution guide: [contributing.md](./CONTRIBUTING.md)  
 - open issues, propose ideas, or submit prs  
-- no gatekeeping. signal > noise.
 
 ## 🌐 connect with me  
 [![twitter](https://img.shields.io/badge/twitter-%23000000.svg?logo=x&logoColor=white)](https://x.com/brayanj4y)
