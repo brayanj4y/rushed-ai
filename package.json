@@ -20,6 +20,7 @@
     "@codemirror/lang-markdown": "^6.5.0",
     "@codemirror/lang-python": "^6.2.1",
     "@codemirror/theme-one-dark": "^6.1.3",
+    "@dodopayments/convex": "^0.2.8",
     "@hookform/resolvers": "^5.2.2",
     "@inngest/agent-kit": "^0.13.2",
     "@inngest/middleware-sentry": "^0.1.3",

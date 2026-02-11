@@ -6,6 +6,9 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import ky from "ky";
 
+
+import { CreditBalancePill } from "@/components/credit-balance-pill";
+
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Kbd } from "@/components/ui/kbd";
@@ -120,6 +123,9 @@ export const ProjectsView = () => {
               )}>
                 Rushed
               </h1>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <CreditBalancePill />
             </div>
           </div>
 

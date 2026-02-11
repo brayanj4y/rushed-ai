@@ -5,6 +5,10 @@ import { auth } from "@clerk/nextjs/server";
 import { anthropic } from "@ai-sdk/anthropic";
 
 import { firecrawl } from "@/lib/firecrawl";
+import { convex } from "@/lib/convex-client";
+import { CREDIT_ERROR_MESSAGES } from "@/lib/credits";
+
+import { api } from "../../../../convex/_generated/api";
 
 const quickEditSchema = z.object({
   editedCode: z
@@ -51,6 +55,25 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
+
+    // Pre-flight credit check
+    const internalKey = process.env.RUSHED_CONVEX_INTERNAL_KEY;
+    if (internalKey) {
+      const creditCheck = await convex.mutation(api.credits.checkCredits, {
+        internalKey,
+        userId,
+      });
+
+      if (!creditCheck.allowed) {
+        const errorMessage = CREDIT_ERROR_MESSAGES[creditCheck.error ?? ""]
+          ?? "Unable to process request. Please check your subscription.";
+        return NextResponse.json(
+          { error: errorMessage, code: creditCheck.error },
+          { status: 403 }
+        );
+      }
+    }
+
 
     if (!selectedCode) {
       return NextResponse.json(

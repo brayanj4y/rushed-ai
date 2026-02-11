@@ -2,9 +2,12 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
-import { CloudCheckIcon, LoaderIcon } from "lucide-react";
+import { useState, useEffect } from "react";
+import { CloudCheckIcon, LoaderIcon, ExternalLink, ArrowUpRight, Loader2 } from "lucide-react";
+import { useAction, useQuery, useMutation } from "convex/react";
 import { UserButton } from "@clerk/nextjs";
+
+import { CreditBalancePill } from "@/components/credit-balance-pill";
 import { formatDistanceToNow } from "date-fns";
 
 import {
@@ -25,6 +28,7 @@ import { cn } from "@/lib/utils";
 
 import { ImportGithubDialog } from "./import-github-dialog";
 import { Id } from "../../../../convex/_generated/dataModel";
+import { api } from "../../../../convex/_generated/api";
 import { useProject, useRenameProject } from "../hooks/use-projects";
 
 
@@ -35,9 +39,23 @@ export const Navbar = ({
 }) => {
   const project = useProject(projectId);
   const renameProject = useRenameProject();
+  const subscription = useQuery(api.subscriptions.getByUserId);
+  const getPortal = useAction(api.payments.getCustomerPortal);
+  const syncMapping = useMutation(api.credits.syncCustomerMapping);
 
   const [isRenaming, setIsRenaming] = useState(false);
   const [name, setName] = useState("");
+  const [portalLoading, setPortalLoading] = useState(false);
+  const [hasSynced, setHasSynced] = useState(false);
+
+  const isSubscribed = subscription?.status === "active";
+
+  // Auto-sync customer mapping
+  useEffect(() => {
+    if (subscription === null && !hasSynced) {
+      syncMapping().then(() => setHasSynced(true)).catch(() => { });
+    }
+  }, [subscription, hasSynced, syncMapping]);
 
   const handleStartRename = () => {
     if (!project) return;
@@ -60,6 +78,20 @@ export const Navbar = ({
       handleSubmit();
     } else if (e.key === "Escape") {
       setIsRenaming(false);
+    }
+  };
+
+  const handleManageSubscription = async () => {
+    setPortalLoading(true);
+    try {
+      const result = await getPortal({});
+      if (result?.portal_url) {
+        window.open(result.portal_url, "_blank");
+      }
+    } catch {
+      // silently fail
+    } finally {
+      setPortalLoading(false);
     }
   };
 
@@ -145,6 +177,29 @@ export const Navbar = ({
         )}
       </div>
       <div className="flex items-center gap-2">
+        <CreditBalancePill />
+        {isSubscribed && (
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-7 text-xs gap-1.5"
+            onClick={handleManageSubscription}
+            disabled={portalLoading}
+          >
+            {portalLoading ? (
+              <Loader2 className="size-3 animate-spin" />
+            ) : (
+              <ExternalLink className="size-3" />
+            )}
+            Manage Subscription
+          </Button>
+        )}
+        <Link href="/pricing">
+          <Button variant="outline" size="sm" className="h-7 text-xs gap-1.5">
+            <ArrowUpRight className="size-3" />
+            Upgrade / Buy Credits
+          </Button>
+        </Link>
         <UserButton />
       </div>
     </nav>

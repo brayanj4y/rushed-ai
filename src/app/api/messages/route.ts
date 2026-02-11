@@ -4,6 +4,7 @@ import { auth } from "@clerk/nextjs/server";
 
 import { inngest } from "@/inngest/client";
 import { convex } from "@/lib/convex-client";
+import { CREDIT_ERROR_MESSAGES } from "@/lib/credits";
 
 import { api } from "../../../../convex/_generated/api";
 import { Id } from "../../../../convex/_generated/dataModel";
@@ -26,6 +27,21 @@ export async function POST(request: Request) {
     return NextResponse.json(
       { error: "Internal key not configured" },
       { status: 500 }
+    );
+  }
+
+  // Pre-flight credit check
+  const creditCheck = await convex.mutation(api.credits.checkCredits, {
+    internalKey,
+    userId,
+  });
+
+  if (!creditCheck.allowed) {
+    const errorMessage = CREDIT_ERROR_MESSAGES[creditCheck.error ?? ""]
+      ?? "Unable to process request. Please check your subscription.";
+    return NextResponse.json(
+      { error: errorMessage, code: creditCheck.error },
+      { status: 403 }
     );
   }
 
@@ -98,7 +114,7 @@ export async function POST(request: Request) {
     }
   );
 
-  // Trigger Inngest to process the message
+  // Trigger Inngest to process the message (userId passed for credit deduction after response)
   const event = await inngest.send({
     name: "message/sent",
     data: {
@@ -106,6 +122,7 @@ export async function POST(request: Request) {
       conversationId,
       projectId,
       message,
+      userId,
     },
   });
 
@@ -114,4 +131,4 @@ export async function POST(request: Request) {
     eventId: event.ids[0],
     messageId: assistantMessageId,
   });
-};
+}
