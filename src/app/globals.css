@@ -2,6 +2,17 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@font-face {
+  font-family: 'Edit Undo Line BRK';
+  src: url('/font undo/edunline.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-logo {
+  font-family: 'Edit Undo Line BRK', sans-serif;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

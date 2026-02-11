@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Poppins } from "next/font/google";
 import { FaGithub, FaPlus } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -27,10 +26,6 @@ import { ImportGithubDialog } from "./import-github-dialog";
 
 import { Id } from "../../../../convex/_generated/dataModel";
 
-const font = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
 
 export const ProjectsView = () => {
   const router = useRouter();
@@ -121,8 +116,7 @@ export const ProjectsView = () => {
             <div className="flex items-center gap-2 w-full group/logo">
               <img src="/logo.png" alt="Rushed" className="size-[32px] md:size-[46px]" />
               <h1 className={cn(
-                "text-4xl md:text-5xl font-semibold",
-                font.className,
+                "text-4xl md:text-5xl font-semibold font-logo",
               )}>
                 Rushed
               </h1>

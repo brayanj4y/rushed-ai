@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useState } from "react";
 import { CloudCheckIcon, LoaderIcon } from "lucide-react";
 import { UserButton } from "@clerk/nextjs";
-import { Poppins } from "next/font/google";
 import { formatDistanceToNow } from "date-fns";
 
 import {
@@ -28,10 +27,6 @@ import { ImportGithubDialog } from "./import-github-dialog";
 import { Id } from "../../../../convex/_generated/dataModel";
 import { useProject, useRenameProject } from "../hooks/use-projects";
 
-const font = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-})
 
 export const Navbar = ({
   projectId
@@ -92,8 +87,7 @@ export const Navbar = ({
                     />
                     <span
                       className={cn(
-                        "text-sm font-medium",
-                        font.className,
+                        "text-sm font-medium font-logo",
                       )}
                     >
                       Rushed
@@ -113,12 +107,12 @@ export const Navbar = ({
                   onFocus={(e) => e.currentTarget.select()}
                   onBlur={handleSubmit}
                   onKeyDown={handleKeyDown}
-                  className="text-sm bg-transparent text-foreground outline-none focus:ring-1 focus:ring-inset focus:ring-ring font-medium max-w-40 truncate"
+                  className="text-sm bg-transparent text-foreground outline-none focus:ring-1 focus:ring-inset focus:ring-ring font-medium max-w-40 truncate font-logo"
                 />
               ) : (
                 <BreadcrumbPage
                   onClick={handleStartRename}
-                  className="text-sm cursor-pointer hover:text-primary font-medium max-w-40 truncate"
+                  className="text-sm cursor-pointer hover:text-primary font-medium max-w-40 truncate font-logo"
                 >
                   {project?.name ?? "Loading..."}
                 </BreadcrumbPage>
