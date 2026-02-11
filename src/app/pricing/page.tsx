@@ -8,7 +8,6 @@ import {
     Check,
     ArrowLeft,
     Loader2,
-    Settings,
     Package,
 } from "lucide-react";
 
@@ -143,33 +142,14 @@ export default function PricingPage() {
 
     return (
         <div className="min-h-screen bg-sidebar">
-            {/* Header */}
-            <div className="border-b bg-sidebar/80 backdrop-blur-xl sticky top-0 z-50">
-                <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-                    <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                        <ArrowLeft className="size-4" />
-                        <img src="/logo.png" alt="Rushed" className="size-6" />
-                        <span className="font-semibold font-logo">Rushed</span>
-                    </Link>
-                    <div className="flex items-center gap-3">
-                        {isSubscribed && (
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={handleManageSubscription}
-                                disabled={loadingPortal}
-                                className="gap-1.5"
-                            >
-                                {loadingPortal ? (
-                                    <Loader2 className="size-3.5 animate-spin" />
-                                ) : (
-                                    <Settings className="size-3.5" />
-                                )}
-                                Manage Subscription
-                            </Button>
-                        )}
-                    </div>
-                </div>
+            {/* Back button */}
+            <div className="max-w-6xl mx-auto px-6 pt-8">
+                <button
+                    onClick={() => window.history.back()}
+                    className="flex items-center justify-center size-12 rounded-xl border border-border/60 bg-card/60 hover:bg-card hover:border-border transition-all cursor-pointer"
+                >
+                    <ArrowLeft className="size-5" />
+                </button>
             </div>
 
             <div className="max-w-6xl mx-auto px-6 py-16">
@@ -280,9 +260,6 @@ export default function PricingPage() {
                             One-time purchases that add to your balance. Packs do not increase daily caps.
                         </p>
                     </div>
-                    <p className="text-xs text-muted-foreground max-w-xs">
-                        1 credit ≈ $0.30 of compute. Each AI request costs credits based on token usage.
-                    </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
