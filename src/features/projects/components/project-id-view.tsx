@@ -42,7 +42,10 @@ export const ProjectIdView = ({
         open={importDialogOpen}
         onOpenChange={setImportDialogOpen}
       />
-      <nav className="flex items-center justify-between p-2 px-4 gap-2">
+      <nav className={cn(
+        "flex items-center justify-between p-2 px-4 gap-2 transition-colors",
+        activeView === "editor" && "border-b"
+      )}>
         <div className="flex bg-background/50 rounded-lg p-0.5 border">
           <Button
             variant={activeView === "editor" ? "secondary" : "ghost"}
@@ -75,10 +78,10 @@ export const ProjectIdView = ({
           {(files?.length ?? 0) > 0 && <ExportPopover projectId={projectId} />}
         </div>
       </nav>
-      <div className="flex-1 relative">
+      <div className="flex-1 relative bg-background">
         <div className={cn(
-          "absolute inset-0",
-          activeView === "editor" ? "visible" : "invisible"
+          "absolute inset-0 bg-background",
+          activeView === "editor" ? "z-10" : "z-0"
         )}>
           <Allotment defaultSizes={[DEFAULT_SIDEBAR_WIDTH, DEFAULT_MAIN_SIZE]}>
             <Allotment.Pane
@@ -95,8 +98,8 @@ export const ProjectIdView = ({
           </Allotment>
         </div>
         <div className={cn(
-          "absolute inset-0",
-          activeView === "preview" ? "visible" : "invisible"
+          "absolute inset-0 bg-background",
+          activeView === "preview" ? "z-10" : "z-0"
         )}>
           <PreviewView projectId={projectId} />
         </div>
