@@ -1,11 +1,12 @@
 import ky from "ky";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import {
   CopyIcon,
   HistoryIcon,
   LoaderIcon,
-  PlusIcon
+  PlusIcon,
+  FileCodeIcon
 } from "lucide-react";
 
 import {
@@ -27,9 +28,21 @@ import {
   PromptInputSubmit,
   PromptInputTextarea,
   PromptInputTools,
+  PromptInputProvider,
+  usePromptInputController,
+  PromptInputCommand,
+  PromptInputCommandList,
+  PromptInputCommandEmpty,
+  PromptInputCommandGroup,
+  PromptInputCommandItem,
   type PromptInputMessage,
 } from "@/components/ai-elements/prompt-input";
 import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverAnchor,
+} from "@/components/ui/popover";
 
 import {
   useConversation,
@@ -37,6 +50,7 @@ import {
   useCreateConversation,
   useMessages,
 } from "../hooks/use-conversations";
+import { useFiles } from "@/features/projects/hooks/use-files";
 
 import { Id } from "../../../../convex/_generated/dataModel";
 import { DEFAULT_CONVERSATION_TITLE } from "../constants";
@@ -46,10 +60,10 @@ interface ConversationSidebarProps {
   projectId: Id<"projects">;
 };
 
-export const ConversationSidebar = ({
+const ConversationSidebarInner = ({
   projectId,
 }: ConversationSidebarProps) => {
-  const [input, setInput] = useState("");
+  const { textInput } = usePromptInputController();
   const [
     selectedConversationId,
     setSelectedConversationId,
@@ -59,14 +73,86 @@ export const ConversationSidebar = ({
     setPastConversationsOpen
   ] = useState(false);
 
+  // Mention state
+  const [mentionState, setMentionState] = useState<{
+    isOpen: boolean;
+    filter: string;
+    cursorPos: number;
+  }>({
+    isOpen: false,
+    filter: "",
+    cursorPos: 0,
+  });
+
   const createConversation = useCreateConversation();
   const conversations = useConversations(projectId);
+  const files = useFiles(projectId);
 
   const activeConversationId =
     selectedConversationId ?? conversations?.[0]?._id ?? null;
 
   const activeConversation = useConversation(activeConversationId);
   const conversationMessages = useMessages(activeConversationId);
+
+  // Handle "Add to Chat" event from the editor
+  useEffect(() => {
+    const handleAdd = (e: any) => {
+      const { text, fileName } = e.detail;
+      const formattedText = `**@${fileName}**\n\`\`\`\n${text}\n\`\`\`\n`;
+      textInput.setInput(textInput.value + (textInput.value ? "\n" : "") + formattedText);
+    };
+
+    window.addEventListener("rushed:add-to-chat" as any, handleAdd);
+    return () => window.removeEventListener("rushed:add-to-chat" as any, handleAdd);
+  }, [textInput]);
+
+  // Handle detecting @ in the input
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    const selectionStart = e.target.selectionStart;
+
+    // Look for @ before the cursor
+    const textBeforeCursor = value.slice(0, selectionStart);
+    const lastAtSign = textBeforeCursor.lastIndexOf("@");
+
+    if (lastAtSign !== -1) {
+      // Check if there's no whitespace between @ and cursor
+      const term = textBeforeCursor.slice(lastAtSign + 1);
+      if (!term.includes(" ")) {
+        setMentionState({
+          isOpen: true,
+          filter: term,
+          cursorPos: selectionStart,
+        });
+        return;
+      }
+    }
+
+    if (mentionState.isOpen) {
+      setMentionState(prev => ({ ...prev, isOpen: false }));
+    }
+  };
+
+  const onSelectFile = (fileName: string) => {
+    const value = textInput.value;
+    const textBeforeCursor = value.slice(0, mentionState.cursorPos);
+    const textAfterCursor = value.slice(mentionState.cursorPos);
+
+    const lastAtSign = textBeforeCursor.lastIndexOf("@");
+    const newTextBefore = textBeforeCursor.slice(0, lastAtSign) + `**@${fileName}** `;
+
+    textInput.setInput(newTextBefore + textAfterCursor);
+    setMentionState({ isOpen: false, filter: "", cursorPos: 0 });
+  };
+
+  const filteredFiles = useMemo(() => {
+    if (!files) return [];
+    return files
+      .filter(f => f.type === "file")
+      .filter(f =>
+        f.name.toLowerCase().includes(mentionState.filter.toLowerCase())
+      );
+  }, [files, mentionState.filter]);
 
   // Check if any message is currently processing
   const isProcessing = conversationMessages?.some(
@@ -101,7 +187,7 @@ export const ConversationSidebar = ({
     // If processing and no new message, this is just a stop function
     if (isProcessing && !message.text) {
       await handleCancel()
-      setInput("");
+      textInput.clear();
       return;
     }
 
@@ -126,7 +212,7 @@ export const ConversationSidebar = ({
       toast.error("Message failed to send");
     }
 
-    setInput("");
+    textInput.clear();
   }
 
   return (
@@ -204,29 +290,62 @@ export const ConversationSidebar = ({
           </ConversationContent>
           <ConversationScrollButton />
         </Conversation>
-        <div className="p-3">
-          <PromptInput
-            onSubmit={handleSubmit}
-            className="mt-2"
-          >
-            <PromptInputBody>
-              <PromptInputTextarea
-                placeholder="Ask Rushed whatever..."
-                onChange={(e) => setInput(e.target.value)}
-                value={input}
-                disabled={isProcessing}
-              />
-            </PromptInputBody>
-            <PromptInputFooter>
-              <PromptInputTools />
-              <PromptInputSubmit
-                disabled={isProcessing ? false : !input}
-                status={isProcessing ? "streaming" : undefined}
-              />
-            </PromptInputFooter>
-          </PromptInput>
+        <div className="p-3 relative">
+          <Popover open={mentionState.isOpen} onOpenChange={(open) => !open && setMentionState(prev => ({ ...prev, isOpen: false }))}>
+            <PopoverAnchor asChild>
+              <PromptInput
+                onSubmit={handleSubmit}
+                className="mt-2"
+              >
+                <PromptInputBody>
+                  <PromptInputTextarea
+                    placeholder="Ask Rushed whatever... (type @ to tag files)"
+                    disabled={isProcessing}
+                    onChange={handleInputChange}
+                  />
+                </PromptInputBody>
+                <PromptInputFooter>
+                  <PromptInputTools />
+                  <PromptInputSubmit
+                    disabled={isProcessing ? false : !textInput.value}
+                    status={isProcessing ? "streaming" : undefined}
+                  />
+                </PromptInputFooter>
+              </PromptInput>
+            </PopoverAnchor>
+            <PopoverContent
+              className="p-0 w-64 mb-2"
+              side="top"
+              align="start"
+              onOpenAutoFocus={(e) => e.preventDefault()}
+            >
+              <PromptInputCommand>
+                <PromptInputCommandList className="max-h-64">
+                  <PromptInputCommandEmpty>No files found.</PromptInputCommandEmpty>
+                  <PromptInputCommandGroup heading="Tag File">
+                    {filteredFiles.map(f => (
+                      <PromptInputCommandItem
+                        key={f._id}
+                        onSelect={() => onSelectFile(f.name)}
+                        className="flex items-center gap-2"
+                      >
+                        <FileCodeIcon className="size-4 opacity-70" />
+                        <span className="truncate">{f.name}</span>
+                      </PromptInputCommandItem>
+                    ))}
+                  </PromptInputCommandGroup>
+                </PromptInputCommandList>
+              </PromptInputCommand>
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
     </>
   );
 };
+
+export const ConversationSidebar = (props: ConversationSidebarProps) => (
+  <PromptInputProvider>
+    <ConversationSidebarInner {...props} />
+  </PromptInputProvider>
+);

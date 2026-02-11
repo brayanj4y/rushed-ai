@@ -2,15 +2,30 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@font-face {
-  font-family: 'Edit Undo Line BRK';
-  src: url('/font undo/edunline.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
+@layer base {
+  @font-face {
+    font-family: 'Edit Undo Line BRK';
+    src: url('/font-undo/edunline.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
 
-.font-logo {
-  font-family: 'Edit Undo Line BRK', sans-serif;
+  @font-face {
+    font-family: 'Edit Undo Dot BRK';
+    src: url('/font-undo/edundot.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  .font-logo {
+    font-family: 'Edit Undo Line BRK', ui-sans-serif, system-ui, sans-serif;
+  }
+
+  .font-logo-dot {
+    font-family: 'Edit Undo Dot BRK', ui-sans-serif, system-ui, sans-serif;
+  }
 }
 
 @custom-variant dark (&:is(.dark *));

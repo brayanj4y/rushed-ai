@@ -5,7 +5,8 @@ import { showQuickEditEffect, quickEditState } from "./quick-edit";
 let editorView: EditorView | null = null;
 
 const createTooltipForSelection = (
-  state: EditorState
+  state: EditorState,
+  fileName: string
 ): readonly Tooltip[] => {
   const selection = state.selection.main;
 
@@ -32,6 +33,17 @@ const createTooltipForSelection = (
         addToChatButton.textContent = "Add to Chat";
         addToChatButton.className =
             "font-sans p-1 px-2 hover:bg-foreground/10 rounded-sm";
+        
+        addToChatButton.onclick = () => {
+          const selectedText = state.doc.sliceString(selection.from, selection.to);
+          const event = new CustomEvent("rushed:add-to-chat", {
+            detail: {
+              text: selectedText,
+              fileName,
+            }
+          });
+          window.dispatchEvent(event);
+        };
         
         const quickEditButton = document.createElement("button");
         quickEditButton.className =
@@ -64,18 +76,18 @@ const createTooltipForSelection = (
   ]
 }
 
-const selectionTooltipField = StateField.define<readonly Tooltip[]>({
+const selectionTooltipField = (fileName: string) => StateField.define<readonly Tooltip[]>({
   create(state) {
-    return createTooltipForSelection(state);
+    return createTooltipForSelection(state, fileName);
   },
 
   update(tooltips, transaction) {
     if (transaction.docChanged || transaction.selection) {
-      return createTooltipForSelection(transaction.state);
+      return createTooltipForSelection(transaction.state, fileName);
     }
     for (const effect of transaction.effects) {
       if (effect.is(showQuickEditEffect)) {
-        return createTooltipForSelection(transaction.state);
+        return createTooltipForSelection(transaction.state, fileName);
       }
     }
     return tooltips;
@@ -91,7 +103,7 @@ const captureViewExtension = EditorView.updateListener.of((update) => {
   editorView = update.view;
 });
 
-export const selectionTooltip = () => [
-  selectionTooltipField,
+export const selectionTooltip = (fileName: string) => [
+  selectionTooltipField(fileName),
   captureViewExtension,
 ];
