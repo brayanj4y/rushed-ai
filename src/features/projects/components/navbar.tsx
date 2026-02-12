@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { CloudSavingDone01Icon, LinkSquare02Icon, ArrowUpRight01Icon, Loading03Icon } from "@hugeicons/core-free-icons";
+import { CloudIcon, LinkSquare02Icon, ArrowUpRight01Icon, Loading03Icon } from "@hugeicons/core-free-icons";
 import { useAction, useQuery } from "convex/react";
 import { UserButton } from "@clerk/nextjs";
 
@@ -27,7 +27,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-import { ImportGithubDialog } from "./import-github-dialog";
 import { Id } from "../../../../convex/_generated/dataModel";
 import { api } from "../../../../convex/_generated/api";
 import { useProject, useRenameProject } from "../hooks/use-projects";
@@ -154,7 +153,7 @@ export const Navbar = ({
         ) : (
           <Tooltip>
             <TooltipTrigger asChild>
-              <HugeiconsIcon icon={CloudSavingDone01Icon} strokeWidth={2} className="size-4 text-muted-foreground" />
+              <HugeiconsIcon icon={CloudIcon} strokeWidth={2} className="size-4 text-muted-foreground" />
             </TooltipTrigger>
             <TooltipContent>
               Saved{" "}
