@@ -17,6 +17,7 @@ http.route({
                 customerEmail: data.customer?.email ?? "",
                 productId: data.product_id ?? "",
                 status: data.status,
+                clerkUserId: data.metadata?.clerkUserId ?? "",
                 payload: JSON.stringify(payload),
             });
         },
@@ -28,6 +29,7 @@ http.route({
                 subscriptionId: data.subscription_id,
                 customerId: data.customer?.customer_id ?? payload.business_id,
                 productId: data.product_id ?? "",
+                clerkUserId: data.metadata?.clerkUserId ?? "",
                 payload: JSON.stringify(payload),
             });
         },
@@ -60,6 +62,7 @@ http.route({
                 productId: data.product_id ?? "",
                 amount: data.total_amount ?? 0,
                 currency: data.currency ?? "USD",
+                clerkUserId: data.metadata?.clerkUserId ?? "",
                 payload: JSON.stringify(payload),
             });
         },

@@ -3,7 +3,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useForm } from "@tanstack/react-form";
-import { useClerk } from "@clerk/nextjs";
+
 
 import { Button } from "@/components/ui/button";
 import {
@@ -33,7 +33,6 @@ export const ImportGithubDialog = ({
   onOpenChange,
 }: ImportGithubDialogProps) => {
   const router = useRouter();
-  const { openUserProfile } = useClerk();
 
   const form = useForm({
     defaultValues: {
@@ -65,8 +64,8 @@ export const ImportGithubDialog = ({
           if (body.error?.includes("Pro plan required")) {
             toast.error("Upgrade to import repositories", {
               action: {
-                label: "Upgrade",
-                onClick: () => openUserProfile(),
+                label: "Subscribe",
+                onClick: () => router.push("/pricing"),
               },
             });
             onOpenChange(false);
@@ -77,7 +76,7 @@ export const ImportGithubDialog = ({
             toast.error("GitHub account not connected", {
               action: {
                 label: "Connect",
-                onClick: () => openUserProfile(),
+                onClick: () => router.push("/pricing"),
               },
             });
             onOpenChange(false);

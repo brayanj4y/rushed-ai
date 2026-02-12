@@ -1,7 +1,6 @@
 "use client";
 
-import { useQuery, useMutation } from "convex/react";
-import { useEffect } from "react";
+import { useQuery } from "convex/react";
 import { CoinsIcon } from "lucide-react";
 import Link from "next/link";
 
@@ -16,14 +15,6 @@ import { api } from "../../convex/_generated/api";
 
 export const CreditBalancePill = ({ className }: { className?: string }) => {
     const usage = useQuery(api.credits.getUserUsage);
-    const syncMapping = useMutation(api.credits.syncCustomerMapping);
-
-    // Auto-sync customer mapping if usage is null (userId mismatch fix)
-    useEffect(() => {
-        if (usage === null) {
-            syncMapping().catch(() => { });
-        }
-    }, [usage, syncMapping]);
 
     if (!usage) {
         return (

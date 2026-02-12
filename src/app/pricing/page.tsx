@@ -1,7 +1,7 @@
 "use client";
 
-import { useQuery, useAction, useMutation } from "convex/react";
-import { useState, useEffect } from "react";
+import { useQuery, useAction } from "convex/react";
+import { useState } from "react";
 import { toast } from "sonner";
 import Link from "next/link";
 import {
@@ -52,7 +52,7 @@ const PLANS = [
         name: "Scale",
         price: 99,
         badge: null,
-        tagline: "Robust capacity for teams and heavy workloads with priority access.",
+        tagline: "Maximum capacity for power users and heavy workloads with priority access.",
         featuresTitle: "Everything in Pro, plus:",
         features: [
             "400 credits/month",
@@ -92,17 +92,8 @@ export default function PricingPage() {
     const subscription = useQuery(api.subscriptions.getByUserId);
     const createCheckout = useAction(api.payments.createCheckout);
     const getCustomerPortal = useAction(api.payments.getCustomerPortal);
-    const syncMapping = useMutation(api.credits.syncCustomerMapping);
     const [loadingProduct, setLoadingProduct] = useState<string | null>(null);
     const [loadingPortal, setLoadingPortal] = useState(false);
-    const [hasSynced, setHasSynced] = useState(false);
-
-    // Auto-sync customer mapping on load
-    useEffect(() => {
-        if (subscription === null && !hasSynced) {
-            syncMapping().then(() => setHasSynced(true)).catch(() => { });
-        }
-    }, [subscription, hasSynced, syncMapping]);
 
     const handleCheckout = async (productId: string) => {
         setLoadingProduct(productId);
@@ -160,7 +151,7 @@ export default function PricingPage() {
                     </h1>
                     <p className="text-muted-foreground max-w-sm text-sm leading-relaxed">
                         {isSubscribed
-                            ? "Switch plans, buy credit packs, or manage your subscription. All changes take effect immediately."
+                            ? "You're all set. Grab extra credits, switch plans, or manage your billing anytime."
                             : "Credit-based pricing that scales with your usage. No hidden fees, cancel anytime."}
                     </p>
                 </div>

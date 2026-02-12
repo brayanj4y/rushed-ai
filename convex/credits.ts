@@ -26,43 +26,10 @@ export const getUserUsage = query({
 
         const userId = identity.subject;
 
-        // Step 1: Direct lookup by Clerk subject
-        let sub = await ctx.db
+        const sub = await ctx.db
             .query("subscriptions")
             .withIndex("by_user_id", (q) => q.eq("userId", userId))
             .first();
-
-        // Step 2: If not found, check via customers table (handles Dodo customer ID mismatch)
-        if (!sub) {
-            // Try to find a customer record for this auth user
-            const customer = await ctx.db
-                .query("customers")
-                .withIndex("by_auth_id", (q) => q.eq("authId", userId))
-                .first();
-
-            if (customer && customer.dodoCustomerId) {
-                // Look for subscription stored with the Dodo customer ID
-                sub = await ctx.db
-                    .query("subscriptions")
-                    .withIndex("by_user_id", (q) => q.eq("userId", customer.dodoCustomerId))
-                    .first();
-            }
-        }
-
-        // Step 3: Also try finding by email from identity (last resort)
-        if (!sub && identity.email) {
-            const customerByEmail = await ctx.db
-                .query("customers")
-                .withIndex("by_email", (q) => q.eq("email", identity.email!))
-                .first();
-
-            if (customerByEmail && customerByEmail.dodoCustomerId) {
-                sub = await ctx.db
-                    .query("subscriptions")
-                    .withIndex("by_user_id", (q) => q.eq("userId", customerByEmail.dodoCustomerId))
-                    .first();
-            }
-        }
 
         if (!sub) return null;
 
@@ -90,7 +57,7 @@ export const getUserUsage = query({
     },
 });
 
-// Query: Get recent transactions for billing popup
+// Query: Get recent transactions
 export const getTransactions = query({
     args: {
         limit: v.optional(v.number()),
@@ -101,93 +68,11 @@ export const getTransactions = query({
 
         const userId = identity.subject;
 
-        // Try direct lookup first
-        let transactions = await ctx.db
+        return await ctx.db
             .query("transactions")
             .withIndex("by_user_id", (q) => q.eq("userId", userId))
             .order("desc")
             .take(args.limit ?? 20);
-
-        // Fallback: check via customers table
-        if (transactions.length === 0) {
-            const customer = await ctx.db
-                .query("customers")
-                .withIndex("by_auth_id", (q) => q.eq("authId", userId))
-                .first();
-
-            if (customer && customer.dodoCustomerId) {
-                transactions = await ctx.db
-                    .query("transactions")
-                    .withIndex("by_user_id", (q) => q.eq("userId", customer.dodoCustomerId))
-                    .order("desc")
-                    .take(args.limit ?? 20);
-            }
-        }
-
-        return transactions;
-    },
-});
-
-// Mutation: Sync customer mapping — fixes userId mismatch between Clerk and Dodo
-// Call this when the user returns from checkout or loads the billing page
-export const syncCustomerMapping = mutation({
-    args: {},
-    handler: async (ctx) => {
-        const identity = await ctx.auth.getUserIdentity();
-        if (!identity) return { synced: false };
-
-        const userId = identity.subject;
-
-        // Check if subscription already has the correct userId
-        const existingSub = await ctx.db
-            .query("subscriptions")
-            .withIndex("by_user_id", (q) => q.eq("userId", userId))
-            .first();
-
-        if (existingSub) return { synced: true }; // Already correct
-
-        // Find customer by auth ID or email
-        let customer = await ctx.db
-            .query("customers")
-            .withIndex("by_auth_id", (q) => q.eq("authId", userId))
-            .first();
-
-        if (!customer && identity.email) {
-            customer = await ctx.db
-                .query("customers")
-                .withIndex("by_email", (q) => q.eq("email", identity.email!))
-                .first();
-
-            // Update authId to the Clerk subject
-            if (customer) {
-                await ctx.db.patch(customer._id, { authId: userId });
-            }
-        }
-
-        if (!customer || !customer.dodoCustomerId) return { synced: false };
-
-        // Find subscription stored with the Dodo customer ID
-        const sub = await ctx.db
-            .query("subscriptions")
-            .withIndex("by_user_id", (q) => q.eq("userId", customer!.dodoCustomerId))
-            .first();
-
-        if (!sub) return { synced: false };
-
-        // Fix the userId on the subscription
-        await ctx.db.patch(sub._id, { userId });
-
-        // Also fix transactions
-        const transactions = await ctx.db
-            .query("transactions")
-            .withIndex("by_user_id", (q) => q.eq("userId", customer!.dodoCustomerId))
-            .collect();
-
-        for (const tx of transactions) {
-            await ctx.db.patch(tx._id, { userId });
-        }
-
-        return { synced: true };
     },
 });
 

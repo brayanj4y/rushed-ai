@@ -3,7 +3,7 @@ import ky, { HTTPError } from "ky";
 import { z } from "zod";
 import { toast } from "sonner";
 import { useForm } from "@tanstack/react-form";
-import { useClerk } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 import { FaGithub } from "react-icons/fa";
 import {
   CheckCheckIcon,
@@ -55,7 +55,7 @@ interface ExportPopoverProps {
 export const ExportPopover = ({ projectId }: ExportPopoverProps) => {
   const project = useProject(projectId);
   const [open, setOpen] = React.useState(false);
-  const { openUserProfile } = useClerk();
+  const router = useRouter();
 
   const exportStatus = project?.exportStatus;
   const exportRepoUrl = project?.exportRepoUrl;
@@ -88,8 +88,8 @@ export const ExportPopover = ({ projectId }: ExportPopoverProps) => {
           if (body.error?.includes("Pro plan required")) {
             toast.error("Upgrade to import repositories", {
               action: {
-                label: "Upgrade",
-                onClick: () => openUserProfile(),
+                label: "Subscribe",
+                onClick: () => router.push("/pricing"),
               },
             });
             setOpen(false);
@@ -100,7 +100,7 @@ export const ExportPopover = ({ projectId }: ExportPopoverProps) => {
             toast.error("GitHub account not connected", {
               action: {
                 label: "Connect",
-                onClick: () => openUserProfile(),
+                onClick: () => router.push("/pricing"),
               },
             });
             setOpen(false);

@@ -13,12 +13,21 @@ export const createCheckout = action({
         returnUrl: v.optional(v.string()),
     },
     handler: async (ctx, args) => {
+        // Get Clerk user identity so we can pass the userId in metadata
+        const identity = await ctx.auth.getUserIdentity();
+        if (!identity) {
+            throw new Error("You must be signed in to checkout.");
+        }
+
         try {
             const session = await checkout(ctx, {
                 payload: {
                     product_cart: args.product_cart,
                     return_url: args.returnUrl ?? `${process.env.NEXT_PUBLIC_APP_URL ?? ""}/`,
                     billing_currency: "USD",
+                    metadata: {
+                        clerkUserId: identity.subject,
+                    },
                     feature_flags: {
                         allow_discount_code: true,
                     },

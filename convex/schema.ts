@@ -70,7 +70,8 @@ export default defineSchema({
       v.literal("failed")
     ),
     timestamp: v.number(),
-  }).index("by_user_id", ["userId"]),
+  }).index("by_user_id", ["userId"])
+    .index("by_dodo_payment_id", ["dodoPaymentId"]),
 
   projects: defineTable({
     name: v.string(),

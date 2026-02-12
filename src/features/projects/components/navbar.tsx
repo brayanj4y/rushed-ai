@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { CloudCheckIcon, LoaderIcon, ExternalLink, ArrowUpRight, Loader2 } from "lucide-react";
-import { useAction, useQuery, useMutation } from "convex/react";
+import { useAction, useQuery } from "convex/react";
 import { UserButton } from "@clerk/nextjs";
 
 import { CreditBalancePill } from "@/components/credit-balance-pill";
@@ -41,21 +41,12 @@ export const Navbar = ({
   const renameProject = useRenameProject();
   const subscription = useQuery(api.subscriptions.getByUserId);
   const getPortal = useAction(api.payments.getCustomerPortal);
-  const syncMapping = useMutation(api.credits.syncCustomerMapping);
 
   const [isRenaming, setIsRenaming] = useState(false);
   const [name, setName] = useState("");
   const [portalLoading, setPortalLoading] = useState(false);
-  const [hasSynced, setHasSynced] = useState(false);
 
   const isSubscribed = subscription?.status === "active";
-
-  // Auto-sync customer mapping
-  useEffect(() => {
-    if (subscription === null && !hasSynced) {
-      syncMapping().then(() => setHasSynced(true)).catch(() => { });
-    }
-  }, [subscription, hasSynced, syncMapping]);
 
   const handleStartRename = () => {
     if (!project) return;

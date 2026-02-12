@@ -30,43 +30,10 @@ export const getByUserId = query({
 
         const userId = identity.subject;
 
-        // Step 1: Direct lookup by Clerk subject
-        let sub = await ctx.db
+        return await ctx.db
             .query("subscriptions")
             .withIndex("by_user_id", (q) => q.eq("userId", userId))
             .first();
-
-        // Step 2: Fallback via customers table (Dodo customer ID mismatch)
-        if (!sub) {
-            const customer = await ctx.db
-                .query("customers")
-                .withIndex("by_auth_id", (q) => q.eq("authId", userId))
-                .first();
-
-            if (customer && customer.dodoCustomerId) {
-                sub = await ctx.db
-                    .query("subscriptions")
-                    .withIndex("by_user_id", (q) => q.eq("userId", customer.dodoCustomerId))
-                    .first();
-            }
-        }
-
-        // Step 3: Email fallback
-        if (!sub && identity.email) {
-            const customerByEmail = await ctx.db
-                .query("customers")
-                .withIndex("by_email", (q) => q.eq("email", identity.email!))
-                .first();
-
-            if (customerByEmail && customerByEmail.dodoCustomerId) {
-                sub = await ctx.db
-                    .query("subscriptions")
-                    .withIndex("by_user_id", (q) => q.eq("userId", customerByEmail.dodoCustomerId))
-                    .first();
-            }
-        }
-
-        return sub;
     },
 });
 
