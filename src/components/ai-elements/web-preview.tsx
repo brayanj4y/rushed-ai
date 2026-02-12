@@ -223,6 +223,7 @@ export const WebPreviewConsole = ({
           Console
           <HugeiconsIcon
             icon={ArrowDown01Icon}
+            strokeWidth={2}
             className={cn(
               "h-4 w-4 transition-transform duration-200",
               consoleOpen && "rotate-180"

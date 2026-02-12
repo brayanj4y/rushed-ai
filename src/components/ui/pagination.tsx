@@ -77,7 +77,7 @@ function PaginationPrevious({
       className={cn("gap-1 px-2.5 sm:pl-2.5", className)}
       {...props}
     >
-      <HugeiconsIcon icon={ArrowLeft01Icon} />
+      <HugeiconsIcon icon={ArrowLeft01Icon} strokeWidth={2} />
       <span className="hidden sm:block">Previous</span>
     </PaginationLink>
   )
@@ -95,7 +95,7 @@ function PaginationNext({
       {...props}
     >
       <span className="hidden sm:block">Next</span>
-      <HugeiconsIcon icon={ArrowRight01Icon} />
+      <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} />
     </PaginationLink>
   )
 }
@@ -111,7 +111,7 @@ function PaginationEllipsis({
       className={cn("flex size-9 items-center justify-center", className)}
       {...props}
     >
-      <HugeiconsIcon icon={MoreHorizontalIcon} className="size-4" />
+      <HugeiconsIcon icon={MoreHorizontalIcon} strokeWidth={2} className="size-4" />
       <span className="sr-only">More pages</span>
     </span>
   )

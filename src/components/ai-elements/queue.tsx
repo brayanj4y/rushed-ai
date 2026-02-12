@@ -175,7 +175,7 @@ export const QueueItemFile = ({
     )}
     {...props}
   >
-    <HugeiconsIcon icon={Attachment01Icon} size={12} />
+    <HugeiconsIcon icon={Attachment01Icon} size={12} strokeWidth={2} />
     <span className="max-w-[100px] truncate">{children}</span>
   </span>
 );
@@ -242,7 +242,7 @@ export const QueueSectionLabel = ({
   ...props
 }: QueueSectionLabelProps) => (
   <span className={cn("flex items-center gap-2", className)} {...props}>
-    <HugeiconsIcon icon={ArrowDown01Icon} className="group-data-[state=closed]:-rotate-90 size-4 transition-transform" />
+    <HugeiconsIcon icon={ArrowDown01Icon} strokeWidth={2} className="group-data-[state=closed]:-rotate-90 size-4 transition-transform" />
     {icon}
     <span>
       {count} {label}

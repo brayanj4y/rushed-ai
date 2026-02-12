@@ -5,9 +5,9 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import {
   Copy01Icon,
   Clock01Icon,
-  Loading01Icon,
+  Loading03Icon,
   PlusSignIcon,
-  SourceCodeIcon
+  FileScriptIcon
 } from "@hugeicons/core-free-icons";
 
 import {
@@ -237,7 +237,7 @@ const ConversationSidebarInner = ({
               onClick={() => setPastConversationsOpen(true)}
               title="History"
             >
-              <HugeiconsIcon icon={Clock01Icon} className="size-3.5" />
+              <HugeiconsIcon icon={Clock01Icon} strokeWidth={2} className="size-3.5" />
             </Button>
             <Button
               size="icon-xs"
@@ -246,7 +246,7 @@ const ConversationSidebarInner = ({
               onClick={handleCreateConversation}
               title="New Conversation"
             >
-              <HugeiconsIcon icon={PlusSignIcon} className="size-3.5" />
+              <HugeiconsIcon icon={PlusSignIcon} strokeWidth={2} className="size-3.5" />
             </Button>
           </div>
         </div>
@@ -260,7 +260,7 @@ const ConversationSidebarInner = ({
                 <MessageContent>
                   {message.status === "processing" ? (
                     <div className="flex items-center gap-2 text-muted-foreground">
-                      <HugeiconsIcon icon={Loading01Icon} className="size-4 animate-spin" />
+                      <HugeiconsIcon icon={Loading03Icon} strokeWidth={2} className="size-4 animate-spin" />
                       <span>Thinking...</span>
                     </div>
                   ) : message.status === "cancelled" ? (
@@ -281,7 +281,7 @@ const ConversationSidebarInner = ({
                         }}
                         label="Copy"
                       >
-                        <HugeiconsIcon icon={Copy01Icon} className="size-3" />
+                        <HugeiconsIcon icon={Copy01Icon} strokeWidth={2} className="size-3" />
                       </MessageAction>
                     </MessageActions>
                   )
@@ -330,7 +330,7 @@ const ConversationSidebarInner = ({
                         onSelect={() => onSelectFile(f.name)}
                         className="flex items-center gap-2"
                       >
-                        <HugeiconsIcon icon={SourceCodeIcon} className="size-4 opacity-70" />
+                        <HugeiconsIcon icon={FileScriptIcon} strokeWidth={2} className="size-4 opacity-70" />
                         <span className="truncate">{f.name}</span>
                       </PromptInputCommandItem>
                     ))}

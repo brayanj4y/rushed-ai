@@ -136,7 +136,7 @@ export const PlanTrigger = ({ className, ...props }: PlanTriggerProps) => (
       variant="ghost"
       {...props}
     >
-      <HugeiconsIcon icon={ArrowUpDownIcon} className="size-4" />
+      <HugeiconsIcon icon={ArrowUpDownIcon} strokeWidth={2} className="size-4" />
       <span className="sr-only">Toggle plan</span>
     </Button>
   </CollapsibleTrigger>

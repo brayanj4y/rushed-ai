@@ -49,13 +49,13 @@ const getStatusBadge = (status: ToolUIPart["state"]) => {
   };
 
   const icons: Record<ToolUIPart["state"], ReactNode> = {
-    "input-streaming": <HugeiconsIcon icon={RecordIcon} className="size-4" />,
-    "input-available": <HugeiconsIcon icon={Time01Icon} className="size-4 animate-pulse" />,
-    "approval-requested": <HugeiconsIcon icon={Time01Icon} className="size-4 text-yellow-600" />,
-    "approval-responded": <HugeiconsIcon icon={Tick02Icon} className="size-4 text-blue-600" />,
-    "output-available": <HugeiconsIcon icon={Tick02Icon} className="size-4 text-green-600" />,
-    "output-error": <HugeiconsIcon icon={RemoveCircleIcon} className="size-4 text-red-600" />,
-    "output-denied": <HugeiconsIcon icon={RemoveCircleIcon} className="size-4 text-orange-600" />,
+    "input-streaming": <HugeiconsIcon icon={RecordIcon} strokeWidth={2} className="size-4" />,
+    "input-available": <HugeiconsIcon icon={Time01Icon} strokeWidth={2} className="size-4 animate-pulse" />,
+    "approval-requested": <HugeiconsIcon icon={Time01Icon} strokeWidth={2} className="size-4 text-yellow-600" />,
+    "approval-responded": <HugeiconsIcon icon={Tick02Icon} strokeWidth={2} className="size-4 text-blue-600" />,
+    "output-available": <HugeiconsIcon icon={Tick02Icon} strokeWidth={2} className="size-4 text-green-600" />,
+    "output-error": <HugeiconsIcon icon={RemoveCircleIcon} strokeWidth={2} className="size-4 text-red-600" />,
+    "output-denied": <HugeiconsIcon icon={RemoveCircleIcon} strokeWidth={2} className="size-4 text-orange-600" />,
   };
 
   return (
@@ -81,13 +81,13 @@ export const ToolHeader = ({
     {...props}
   >
     <div className="flex items-center gap-2">
-      <HugeiconsIcon icon={Wrench01Icon} className="size-4 text-muted-foreground" />
+      <HugeiconsIcon icon={Wrench01Icon} strokeWidth={2} className="size-4 text-muted-foreground" />
       <span className="font-medium text-sm">
         {title ?? type.split("-").slice(1).join("-")}
       </span>
       {getStatusBadge(state)}
     </div>
-    <HugeiconsIcon icon={ArrowDown01Icon} className="size-4 text-muted-foreground transition-transform group-data-[state=open]:rotate-180" />
+    <HugeiconsIcon icon={ArrowDown01Icon} strokeWidth={2} className="size-4 text-muted-foreground transition-transform group-data-[state=open]:rotate-180" />
   </CollapsibleTrigger>
 );
 

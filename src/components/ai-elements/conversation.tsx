@@ -94,7 +94,7 @@ export const ConversationScrollButton = ({
         variant="outline"
         {...props}
       >
-        <HugeiconsIcon icon={ArrowDown01Icon} className="size-4" />
+        <HugeiconsIcon icon={ArrowDown01Icon} strokeWidth={2} className="size-4" />
       </Button>
     )
   );

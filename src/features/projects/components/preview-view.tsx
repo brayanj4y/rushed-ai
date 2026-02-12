@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import { Allotment } from "allotment";
 import { HugeiconsIcon } from "@hugeicons/react"
-import { RefreshIcon, Copy01Icon, Loading02Icon, ComputerTerminal01Icon, Alert02Icon } from "@hugeicons/core-free-icons"
+import { RefreshIcon, Copy01Icon, ComputerTerminal01Icon, Alert02Icon } from "@hugeicons/core-free-icons"
 
 import { useWebContainer } from "@/features/preview/hooks/use-webcontainer";
 import { PreviewSettingsPopover } from "@/features/preview/components/preview-settings-popover";
@@ -42,7 +42,7 @@ export const PreviewView = ({ projectId }: { projectId: Id<"projects"> }) => {
             onClick={restart}
             disabled={isLoading}
           >
-            <HugeiconsIcon icon={RefreshIcon} className={isLoading ? "animate-spin size-4" : "size-4"} />
+            <HugeiconsIcon icon={RefreshIcon} strokeWidth={2} className={isLoading ? "animate-spin size-4" : "size-4"} />
           </Button>
         </div>
 
@@ -63,7 +63,7 @@ export const PreviewView = ({ projectId }: { projectId: Id<"projects"> }) => {
                   className="size-5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                   onClick={() => navigator.clipboard.writeText(previewUrl)}
                 >
-                  <HugeiconsIcon icon={Copy01Icon} className="size-3" />
+                  <HugeiconsIcon icon={Copy01Icon} strokeWidth={2} className="size-3" />
                 </Button>
               )}
             </div>
@@ -77,7 +77,7 @@ export const PreviewView = ({ projectId }: { projectId: Id<"projects"> }) => {
             className="rounded-full"
             onClick={() => setShowTerminal((v) => !v)}
           >
-            <HugeiconsIcon icon={ComputerTerminal01Icon} className="size-4" />
+            <HugeiconsIcon icon={ComputerTerminal01Icon} strokeWidth={2} className="size-4" />
           </Button>
           <PreviewSettingsPopover
             projectId={projectId}
@@ -93,10 +93,10 @@ export const PreviewView = ({ projectId }: { projectId: Id<"projects"> }) => {
             {error && (
               <div className="size-full flex items-center justify-center text-muted-foreground">
                 <div className="flex flex-col items-center gap-2 max-w-md mx-auto text-center">
-                  <HugeiconsIcon icon={Alert02Icon} className="size-6" />
+                  <HugeiconsIcon icon={Alert02Icon} strokeWidth={2} className="size-6" />
                   <p className="text-sm font-medium">{error}</p>
                   <Button size="sm" variant="outline" onClick={restart}>
-                    <HugeiconsIcon icon={RefreshIcon} className="size-4" />
+                    <HugeiconsIcon icon={RefreshIcon} strokeWidth={2} className="size-4" />
                     Restart
                   </Button>
                 </div>
@@ -126,7 +126,7 @@ export const PreviewView = ({ projectId }: { projectId: Id<"projects"> }) => {
             <Allotment.Pane minSize={100} maxSize={500} preferredSize={200}>
               <div className="h-full flex flex-col bg-background border-t">
                 <div className="h-7 flex items-center px-3 text-xs gap-1.5 text-muted-foreground border-b border-border/50 shrink-0">
-                  <HugeiconsIcon icon={ComputerTerminal01Icon} className="size-3" />
+                  <HugeiconsIcon icon={ComputerTerminal01Icon} strokeWidth={2} className="size-3" />
                   Terminal
                 </div>
                 <PreviewTerminal output={terminalOutput} />

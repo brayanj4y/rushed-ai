@@ -141,9 +141,10 @@ export const ReasoningTrigger = memo(
       >
         {children ?? (
           <>
-            <HugeiconsIcon icon={Brain02Icon} className="size-4" />
+            <HugeiconsIcon icon={Brain02Icon} strokeWidth={2} className="size-4" />
             {getThinkingMessage(isStreaming, duration)}
             <HugeiconsIcon icon={ArrowDown01Icon}
+              strokeWidth={2}
               className={cn(
                 "size-4 transition-transform",
                 isOpen ? "rotate-180" : "rotate-0"

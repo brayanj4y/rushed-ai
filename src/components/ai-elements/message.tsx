@@ -255,7 +255,7 @@ export const MessageBranchPrevious = ({
       variant="ghost"
       {...props}
     >
-      {children ?? <HugeiconsIcon icon={ArrowLeft01Icon} size={14} />}
+      {children ?? <HugeiconsIcon icon={ArrowLeft01Icon} strokeWidth={2} size={14} />}
     </Button>
   );
 };
@@ -279,7 +279,7 @@ export const MessageBranchNext = ({
       variant="ghost"
       {...props}
     >
-      {children ?? <HugeiconsIcon icon={ArrowRight01Icon} size={14} />}
+      {children ?? <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} size={14} />}
     </Button>
   );
 };
@@ -369,7 +369,7 @@ export function MessageAttachment({
               type="button"
               variant="ghost"
             >
-              <HugeiconsIcon icon={Cancel01Icon} />
+              <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
               <span className="sr-only">Remove</span>
             </Button>
           )}
@@ -379,7 +379,7 @@ export function MessageAttachment({
           <Tooltip>
             <TooltipTrigger asChild>
               <div className="flex size-full shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
-                <HugeiconsIcon icon={Attachment01Icon} className="size-4" />
+                <HugeiconsIcon icon={Attachment01Icon} strokeWidth={2} className="size-4" />
               </div>
             </TooltipTrigger>
             <TooltipContent>
@@ -397,7 +397,7 @@ export function MessageAttachment({
               type="button"
               variant="ghost"
             >
-              <HugeiconsIcon icon={Cancel01Icon} />
+              <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
               <span className="sr-only">Remove</span>
             </Button>
           )}

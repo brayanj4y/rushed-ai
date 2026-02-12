@@ -274,7 +274,7 @@ function SidebarTrigger({
       }}
       {...props}
     >
-      <HugeiconsIcon icon={SidebarLeft01Icon} />
+      <HugeiconsIcon icon={SidebarLeft01Icon} strokeWidth={2} />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   )

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { GithubIcon, ArrowRight01Icon, AlertCircleIcon, Globe02Icon, Loading02Icon } from "@hugeicons/core-free-icons";
+import { GithubIcon, ArrowRight01Icon, AlertCircleIcon, Globe02Icon, Loading03Icon } from "@hugeicons/core-free-icons";
 import { formatDistanceToNow } from "date-fns";
 
 import { Kbd } from "@/components/ui/kbd";
@@ -19,20 +19,20 @@ const formatTimestamp = (timestamp: number) => {
 
 const getProjectIcon = (project: Doc<"projects">) => {
   if (project.importStatus === "completed") {
-    return <HugeiconsIcon icon={GithubIcon} className="size-3.5 text-muted-foreground" />
+    return <HugeiconsIcon icon={GithubIcon} strokeWidth={2} className="size-3.5 text-muted-foreground" />
   }
 
   if (project.importStatus === "failed") {
-    return <HugeiconsIcon icon={AlertCircleIcon} className="size-3.5 text-muted-foreground" />;
+    return <HugeiconsIcon icon={AlertCircleIcon} strokeWidth={2} className="size-3.5 text-muted-foreground" />;
   }
 
   if (project.importStatus === "importing") {
     return (
-      <HugeiconsIcon icon={Loading02Icon} className="size-3.5 text-muted-foreground animate-spin" />
+      <HugeiconsIcon icon={Loading03Icon} strokeWidth={2} className="size-3.5 text-muted-foreground animate-spin" />
     );
   }
 
-  return <HugeiconsIcon icon={Globe02Icon} className="size-3.5 text-muted-foreground" />;
+  return <HugeiconsIcon icon={Globe02Icon} strokeWidth={2} className="size-3.5 text-muted-foreground" />;
 }
 
 interface ProjectsListProps {
@@ -62,7 +62,7 @@ const ContinueCard = ({
                 {data.name}
               </span>
             </div>
-            <HugeiconsIcon icon={ArrowRight01Icon} className="size-3 text-muted-foreground group-hover:translate-x-0.5 transition-transform" />
+            <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} className="size-3 text-muted-foreground group-hover:translate-x-0.5 transition-transform" />
           </div>
           <span className="text-xs text-muted-foreground">
             {formatTimestamp(data.updatedAt)}

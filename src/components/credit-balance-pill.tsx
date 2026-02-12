@@ -27,7 +27,7 @@ export const CreditBalancePill = ({ className }: { className?: string }) => {
                         className
                     )}
                 >
-                    <HugeiconsIcon icon={Coins01Icon} className="size-3" />
+                    <HugeiconsIcon icon={Coins01Icon} strokeWidth={2} className="size-3" />
                     <span>Subscribe</span>
                 </button>
             </Link>
@@ -72,7 +72,7 @@ export const CreditBalancePill = ({ className }: { className?: string }) => {
                         className
                     )}
                 >
-                    <HugeiconsIcon icon={Coins01Icon} className="size-3" />
+                    <HugeiconsIcon icon={Coins01Icon} strokeWidth={2} className="size-3" />
                     <span>{usage.currentBalance.toFixed(1)}</span>
                 </div>
             </TooltipTrigger>

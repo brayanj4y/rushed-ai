@@ -6,9 +6,8 @@ import { useEditor } from "../hooks/use-editor";
 import { Id } from "../../../../convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
 import { Spinner } from "@/components/ui/spinner";
-import { FileIcon } from "@react-symbols/icons/utils";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Cancel01Icon } from "@hugeicons/core-free-icons";
+import { Cancel01Icon, File02Icon } from "@hugeicons/core-free-icons";
 
 const Tab = ({
   fileId,
@@ -46,7 +45,7 @@ const Tab = ({
       {file === undefined ? (
         <Spinner className="text-ring" />
       ) : (
-        <FileIcon fileName={fileName} autoAssign className="size-4" />
+        <HugeiconsIcon icon={File02Icon} strokeWidth={2} className="size-4" />
       )}
       <span className={cn(
         "text-sm whitespace-nowrap",
@@ -72,7 +71,7 @@ const Tab = ({
           isActive && "opacity-100"
         )}
       >
-        <HugeiconsIcon icon={Cancel01Icon} className="size-3.5" />
+        <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} className="size-3.5" />
       </button>
     </div>
   );

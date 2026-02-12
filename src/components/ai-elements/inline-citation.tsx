@@ -208,7 +208,7 @@ export const InlineCitationCarouselPrev = ({
       type="button"
       {...props}
     >
-      <HugeiconsIcon icon={ArrowLeft01Icon} className="size-4 text-muted-foreground" />
+      <HugeiconsIcon icon={ArrowLeft01Icon} strokeWidth={2} className="size-4 text-muted-foreground" />
     </button>
   );
 };
@@ -235,7 +235,7 @@ export const InlineCitationCarouselNext = ({
       type="button"
       {...props}
     >
-      <HugeiconsIcon icon={ArrowRight01Icon} className="size-4 text-muted-foreground" />
+      <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} className="size-4 text-muted-foreground" />
     </button>
   );
 };

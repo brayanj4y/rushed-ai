@@ -70,7 +70,7 @@ function CommandInput({
       data-slot="command-input-wrapper"
       className="flex h-9 items-center gap-2 border-b px-3"
     >
-      <HugeiconsIcon icon={Search01Icon} className="size-4 shrink-0 opacity-50" />
+      <HugeiconsIcon icon={Search01Icon} strokeWidth={2} className="size-4 shrink-0 opacity-50" />
       <CommandPrimitive.Input
         data-slot="command-input"
         className={cn(

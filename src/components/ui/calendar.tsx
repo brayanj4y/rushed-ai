@@ -146,7 +146,7 @@ function Calendar({
         Chevron: ({ className, orientation, ...props }) => {
           if (orientation === "left") {
             return (
-              <HugeiconsIcon icon={ArrowLeft01Icon} className={cn("size-4", className)} {...props} />
+              <HugeiconsIcon icon={ArrowLeft01Icon} strokeWidth={2} className={cn("size-4", className)} {...props} />
             )
           }
 
@@ -154,6 +154,7 @@ function Calendar({
             return (
               <HugeiconsIcon
                 icon={ArrowRight01Icon}
+                strokeWidth={2}
                 className={cn("size-4", className)}
                 {...props}
               />
@@ -161,7 +162,7 @@ function Calendar({
           }
 
           return (
-            <HugeiconsIcon icon={ArrowDown01Icon} className={cn("size-4", className)} {...props} />
+            <HugeiconsIcon icon={ArrowDown01Icon} strokeWidth={2} className={cn("size-4", className)} {...props} />
           )
         },
         DayButton: CalendarDayButton,

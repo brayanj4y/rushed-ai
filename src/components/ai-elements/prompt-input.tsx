@@ -43,7 +43,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import {
   ArrowTurnBackwardIcon,
   Image01Icon,
-  Loading01Icon,
+  Loading03Icon,
   Mic01Icon,
   Attachment01Icon,
   PlusSignIcon,
@@ -1034,14 +1034,14 @@ export const PromptInputSubmit = ({
   children,
   ...props
 }: PromptInputSubmitProps) => {
-  let Icon = <HugeiconsIcon icon={ArrowTurnBackwardIcon} className="size-4" />;
+  let Icon = <HugeiconsIcon icon={ArrowTurnBackwardIcon} strokeWidth={2} className="size-4" />;
 
   if (status === "submitted") {
-    Icon = <HugeiconsIcon icon={Loading01Icon} className="size-4 animate-spin" />;
+    Icon = <HugeiconsIcon icon={Loading03Icon} strokeWidth={2} className="size-4 animate-spin" />;
   } else if (status === "streaming") {
-    Icon = <HugeiconsIcon icon={StopIcon} className="size-4" />;
+    Icon = <HugeiconsIcon icon={StopIcon} strokeWidth={2} className="size-4" />;
   } else if (status === "error") {
-    Icon = <HugeiconsIcon icon={Cancel01Icon} className="size-4" />;
+    Icon = <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} className="size-4" />;
   }
 
   return (
@@ -1213,7 +1213,7 @@ export const PromptInputSpeechButton = ({
       onClick={toggleListening}
       {...props}
     >
-      <HugeiconsIcon icon={Mic01Icon} className="size-4" />
+      <HugeiconsIcon icon={Mic01Icon} strokeWidth={2} className="size-4" />
     </PromptInputButton>
   );
 };

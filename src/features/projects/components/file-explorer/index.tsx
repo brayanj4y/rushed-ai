@@ -68,6 +68,7 @@ export const FileExplorer = ({
             "size-4 shrink-0 text-muted-foreground transition-transform",
             isOpen && "rotate-90"
           )}
+          strokeWidth={2}
         />
         <p className="text-xs uppercase line-clamp-1">
           {project?.name ?? "Loading..."}
@@ -83,7 +84,7 @@ export const FileExplorer = ({
             variant="highlight"
             size="icon-xs"
           >
-            <HugeiconsIcon icon={FileAddIcon} className="size-3.5" />
+            <HugeiconsIcon icon={FileAddIcon} strokeWidth={2} className="size-3.5" />
           </Button>
           <Button
             onClick={(e) => {
@@ -95,7 +96,7 @@ export const FileExplorer = ({
             variant="highlight"
             size="icon-xs"
           >
-            <HugeiconsIcon icon={FolderAddIcon} className="size-3.5" />
+            <HugeiconsIcon icon={FolderAddIcon} strokeWidth={2} className="size-3.5" />
           </Button>
           <Button
             onClick={(e) => {
@@ -106,7 +107,7 @@ export const FileExplorer = ({
             variant="highlight"
             size="icon-xs"
           >
-            <HugeiconsIcon icon={Copy01Icon} className="size-3.5" />
+            <HugeiconsIcon icon={Copy01Icon} strokeWidth={2} className="size-3.5" />
           </Button>
         </div>
       </div>
