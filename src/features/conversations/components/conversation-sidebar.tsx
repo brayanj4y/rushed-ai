@@ -300,7 +300,7 @@ const ConversationSidebarInner = ({
               >
                 <PromptInputBody>
                   <PromptInputTextarea
-                    placeholder="Ask Rushed whatever... (type @ to tag files)"
+                    placeholder="Ask Rushed whatever..."
                     disabled={isProcessing}
                     onChange={handleInputChange}
                   />
