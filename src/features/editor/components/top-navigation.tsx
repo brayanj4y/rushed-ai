@@ -7,7 +7,8 @@ import { Id } from "../../../../convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
 import { Spinner } from "@/components/ui/spinner";
 import { FileIcon } from "@react-symbols/icons/utils";
-import { XIcon } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Cancel01Icon } from "@hugeicons/core-free-icons";
 
 const Tab = ({
   fileId,
@@ -38,7 +39,7 @@ const Tab = ({
       className={cn(
         "flex items-center gap-2 h-8.75 pl-2 pr-1.5 cursor-pointer text-muted-foreground group border-y border-x border-transparent hover:bg-accent/30",
         isActive &&
-          "bg-background text-foreground border-x-border border-b-background -mb-px drop-shadow",
+        "bg-background text-foreground border-x-border border-b-background -mb-px drop-shadow",
         isFirst && "border-l-transparent!"
       )}
     >
@@ -71,15 +72,15 @@ const Tab = ({
           isActive && "opacity-100"
         )}
       >
-        <XIcon className="size-3.5" />
+        <HugeiconsIcon icon={Cancel01Icon} className="size-3.5" />
       </button>
     </div>
   );
 };
 
-export const TopNavigation = ({ 
+export const TopNavigation = ({
   projectId
-}: { 
+}: {
   projectId: Id<"projects">
 }) => {
   const { openTabs } = useEditor(projectId);

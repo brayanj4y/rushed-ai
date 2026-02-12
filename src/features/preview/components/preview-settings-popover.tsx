@@ -3,7 +3,8 @@
 import { z } from "zod";
 import { useState } from "react";
 import { useForm } from "@tanstack/react-form";
-import { SettingsIcon } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Settings01Icon } from "@hugeicons/core-free-icons";
 
 import { useUpdateProjectSettings } from "@/features/projects/hooks/use-projects";
 
@@ -77,7 +78,7 @@ export const PreviewSettingsPopover = ({
           className="rounded-full"
           title="Preview settings"
         >
-          <SettingsIcon className="size-4" />
+          <HugeiconsIcon icon={Settings01Icon} className="size-4" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-80" align="end">

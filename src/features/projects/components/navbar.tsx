@@ -3,7 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { CloudCheckIcon, LoaderIcon, ExternalLink, ArrowUpRight, Loader2 } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { CloudSavingDone01Icon, Loading01Icon, LinkSquare02Icon, ArrowUpRight01Icon, Loading02Icon } from "@hugeicons/core-free-icons";
 import { useAction, useQuery } from "convex/react";
 import { UserButton } from "@clerk/nextjs";
 
@@ -146,14 +147,14 @@ export const Navbar = ({
         {project?.importStatus === "importing" ? (
           <Tooltip>
             <TooltipTrigger asChild>
-              <LoaderIcon className="size-4 text-muted-foreground animate-spin" />
+              <HugeiconsIcon icon={Loading01Icon} className="size-4 text-muted-foreground animate-spin" />
             </TooltipTrigger>
             <TooltipContent>Importing...</TooltipContent>
           </Tooltip>
         ) : (
           <Tooltip>
             <TooltipTrigger asChild>
-              <CloudCheckIcon className="size-4 text-muted-foreground" />
+              <HugeiconsIcon icon={CloudSavingDone01Icon} className="size-4 text-muted-foreground" />
             </TooltipTrigger>
             <TooltipContent>
               Saved{" "}
@@ -178,16 +179,16 @@ export const Navbar = ({
             disabled={portalLoading}
           >
             {portalLoading ? (
-              <Loader2 className="size-3 animate-spin" />
+              <HugeiconsIcon icon={Loading02Icon} className="size-3 animate-spin" />
             ) : (
-              <ExternalLink className="size-3" />
+              <HugeiconsIcon icon={LinkSquare02Icon} className="size-3" />
             )}
             Manage Subscription
           </Button>
         )}
         <Link href="/pricing">
           <Button variant="outline" size="sm" className="h-7 text-xs gap-1.5">
-            <ArrowUpRight className="size-3" />
+            <HugeiconsIcon icon={ArrowUpRight01Icon} className="size-3" />
             Upgrade / Buy Credits
           </Button>
         </Link>

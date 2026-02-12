@@ -4,12 +4,13 @@ import { useQuery, useAction } from "convex/react";
 import { useState } from "react";
 import { toast } from "sonner";
 import Link from "next/link";
+import { HugeiconsIcon } from "@hugeicons/react";
 import {
-    Check,
-    ArrowLeft,
-    Loader2,
-    Package,
-} from "lucide-react";
+    Tick02Icon,
+    ArrowLeft01Icon,
+    Loading01Icon,
+    PackageIcon,
+} from "@hugeicons/core-free-icons";
 
 import { Button } from "@/components/ui/button";
 
@@ -139,7 +140,7 @@ export default function PricingPage() {
                     onClick={() => window.history.back()}
                     className="flex items-center justify-center size-12 rounded-xl border border-border/60 bg-card/60 hover:bg-card hover:border-border transition-all cursor-pointer"
                 >
-                    <ArrowLeft className="size-5" />
+                    <HugeiconsIcon icon={ArrowLeft01Icon} className="size-5" />
                 </button>
             </div>
 
@@ -216,7 +217,7 @@ export default function PricingPage() {
                                     onClick={() => handleCheckout(plan.productId)}
                                 >
                                     {loadingProduct === plan.productId ? (
-                                        <Loader2 className="size-4 animate-spin" />
+                                        <HugeiconsIcon icon={Loading01Icon} className="size-4 animate-spin" />
                                     ) : isCurrentPlan ? (
                                         "Current Plan"
                                     ) : isSubscribed ? (
@@ -232,7 +233,7 @@ export default function PricingPage() {
                                     <ul className="space-y-2.5">
                                         {plan.features.map((feature) => (
                                             <li key={feature} className="flex items-center gap-2.5 text-sm text-muted-foreground">
-                                                <Check className="size-4 text-foreground shrink-0" />
+                                                <HugeiconsIcon icon={Tick02Icon} className="size-4 text-foreground shrink-0" />
                                                 {feature}
                                             </li>
                                         ))}
@@ -261,7 +262,7 @@ export default function PricingPage() {
                         >
                             {/* Pack name */}
                             <div className="flex items-center gap-2 mb-3">
-                                <Package className="size-4 text-muted-foreground" />
+                                <HugeiconsIcon icon={PackageIcon} className="size-4 text-muted-foreground" />
                                 <h3 className="text-lg font-semibold">{pack.label}</h3>
                             </div>
 
@@ -287,7 +288,7 @@ export default function PricingPage() {
                                 onClick={() => handleCheckout(pack.productId)}
                             >
                                 {loadingProduct === pack.productId ? (
-                                    <Loader2 className="size-4 animate-spin" />
+                                    <HugeiconsIcon icon={Loading01Icon} className="size-4 animate-spin" />
                                 ) : !isSubscribed ? (
                                     "Subscribe first"
                                 ) : (

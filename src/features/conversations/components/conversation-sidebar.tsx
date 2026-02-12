@@ -1,13 +1,14 @@
 import ky from "ky";
 import { toast } from "sonner";
 import { useState, useEffect, useRef, useMemo } from "react";
+import { HugeiconsIcon } from "@hugeicons/react";
 import {
-  CopyIcon,
-  HistoryIcon,
-  LoaderIcon,
-  PlusIcon,
-  FileCodeIcon
-} from "lucide-react";
+  Copy01Icon,
+  Clock01Icon,
+  Loading01Icon,
+  PlusSignIcon,
+  SourceCodeIcon
+} from "@hugeicons/core-free-icons";
 
 import {
   Conversation,
@@ -236,7 +237,7 @@ const ConversationSidebarInner = ({
               onClick={() => setPastConversationsOpen(true)}
               title="History"
             >
-              <HistoryIcon className="size-3.5" />
+              <HugeiconsIcon icon={Clock01Icon} className="size-3.5" />
             </Button>
             <Button
               size="icon-xs"
@@ -245,7 +246,7 @@ const ConversationSidebarInner = ({
               onClick={handleCreateConversation}
               title="New Conversation"
             >
-              <PlusIcon className="size-3.5" />
+              <HugeiconsIcon icon={PlusSignIcon} className="size-3.5" />
             </Button>
           </div>
         </div>
@@ -259,7 +260,7 @@ const ConversationSidebarInner = ({
                 <MessageContent>
                   {message.status === "processing" ? (
                     <div className="flex items-center gap-2 text-muted-foreground">
-                      <LoaderIcon className="size-4 animate-spin" />
+                      <HugeiconsIcon icon={Loading01Icon} className="size-4 animate-spin" />
                       <span>Thinking...</span>
                     </div>
                   ) : message.status === "cancelled" ? (
@@ -280,7 +281,7 @@ const ConversationSidebarInner = ({
                         }}
                         label="Copy"
                       >
-                        <CopyIcon className="size-3" />
+                        <HugeiconsIcon icon={Copy01Icon} className="size-3" />
                       </MessageAction>
                     </MessageActions>
                   )
@@ -329,7 +330,7 @@ const ConversationSidebarInner = ({
                         onSelect={() => onSelectFile(f.name)}
                         className="flex items-center gap-2"
                       >
-                        <FileCodeIcon className="size-4 opacity-70" />
+                        <HugeiconsIcon icon={SourceCodeIcon} className="size-4 opacity-70" />
                         <span className="truncate">{f.name}</span>
                       </PromptInputCommandItem>
                     ))}

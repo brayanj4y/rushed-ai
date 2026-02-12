@@ -7,7 +7,8 @@ import { useEditor } from "../hooks/use-editor";
 import { TopNavigation } from "./top-navigation";
 import { FileBreadcrumbs } from "./file-breadcrumbs";
 import { Id } from "../../../../convex/_generated/dataModel";
-import { AlertTriangleIcon } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Alert02Icon } from "@hugeicons/core-free-icons";
 
 const DEBOUNCE_MS = 1500;
 
@@ -62,7 +63,7 @@ export const EditorView = ({ projectId }: { projectId: Id<"projects"> }) => {
         {isActiveFileBinary && (
           <div className="size-full flex items-center justify-center">
             <div className="flex flex-col items-center gap-2.5 max-w-md text-center">
-              <AlertTriangleIcon className="size-10 text-yellow-500" />
+              <HugeiconsIcon icon={Alert02Icon} className="size-10 text-yellow-500" />
               <p className="text-sm">
                 The file is not displayed in the text editor because it is either binary or uses an unsupported text encoding.
               </p>

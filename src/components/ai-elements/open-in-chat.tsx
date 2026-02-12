@@ -10,11 +10,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import {
-  ChevronDownIcon,
-  ExternalLinkIcon,
-  MessageCircleIcon,
-} from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ArrowDown01Icon, LinkSquare02Icon, BubbleChatIcon } from "@hugeicons/core-free-icons";
 import { type ComponentProps, createContext, useContext } from "react";
 
 const providers = {
@@ -140,7 +137,7 @@ const providers = {
       `https://t3.chat/new?${new URLSearchParams({
         q,
       })}`,
-    icon: <MessageCircleIcon />,
+    icon: <HugeiconsIcon icon={BubbleChatIcon} />,
   },
   v0: {
     title: "Open in v0",
@@ -238,7 +235,7 @@ export const OpenInTrigger = ({ children, ...props }: OpenInTriggerProps) => (
     {children ?? (
       <Button type="button" variant="outline">
         Open in chat
-        <ChevronDownIcon className="size-4" />
+        <HugeiconsIcon icon={ArrowDown01Icon} className="size-4" />
       </Button>
     )}
   </DropdownMenuTrigger>
@@ -258,7 +255,7 @@ export const OpenInChatGPT = (props: OpenInChatGPTProps) => {
       >
         <span className="shrink-0">{providers.chatgpt.icon}</span>
         <span className="flex-1">{providers.chatgpt.title}</span>
-        <ExternalLinkIcon className="size-4 shrink-0" />
+        <HugeiconsIcon icon={LinkSquare02Icon} className="size-4 shrink-0" />
       </a>
     </DropdownMenuItem>
   );
@@ -278,7 +275,7 @@ export const OpenInClaude = (props: OpenInClaudeProps) => {
       >
         <span className="shrink-0">{providers.claude.icon}</span>
         <span className="flex-1">{providers.claude.title}</span>
-        <ExternalLinkIcon className="size-4 shrink-0" />
+        <HugeiconsIcon icon={LinkSquare02Icon} className="size-4 shrink-0" />
       </a>
     </DropdownMenuItem>
   );
@@ -298,7 +295,7 @@ export const OpenInT3 = (props: OpenInT3Props) => {
       >
         <span className="shrink-0">{providers.t3.icon}</span>
         <span className="flex-1">{providers.t3.title}</span>
-        <ExternalLinkIcon className="size-4 shrink-0" />
+        <HugeiconsIcon icon={LinkSquare02Icon} className="size-4 shrink-0" />
       </a>
     </DropdownMenuItem>
   );
@@ -318,7 +315,7 @@ export const OpenInScira = (props: OpenInSciraProps) => {
       >
         <span className="shrink-0">{providers.scira.icon}</span>
         <span className="flex-1">{providers.scira.title}</span>
-        <ExternalLinkIcon className="size-4 shrink-0" />
+        <HugeiconsIcon icon={LinkSquare02Icon} className="size-4 shrink-0" />
       </a>
     </DropdownMenuItem>
   );
@@ -338,7 +335,7 @@ export const OpenInv0 = (props: OpenInv0Props) => {
       >
         <span className="shrink-0">{providers.v0.icon}</span>
         <span className="flex-1">{providers.v0.title}</span>
-        <ExternalLinkIcon className="size-4 shrink-0" />
+        <HugeiconsIcon icon={LinkSquare02Icon} className="size-4 shrink-0" />
       </a>
     </DropdownMenuItem>
   );
@@ -358,7 +355,7 @@ export const OpenInCursor = (props: OpenInCursorProps) => {
       >
         <span className="shrink-0">{providers.cursor.icon}</span>
         <span className="flex-1">{providers.cursor.title}</span>
-        <ExternalLinkIcon className="size-4 shrink-0" />
+        <HugeiconsIcon icon={LinkSquare02Icon} className="size-4 shrink-0" />
       </a>
     </DropdownMenuItem>
   );

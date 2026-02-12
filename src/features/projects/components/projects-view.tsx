@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FaGithub, FaPlus } from "react-icons/fa";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { GithubIcon, PlusSignIcon } from "@hugeicons/core-free-icons";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import ky from "ky";
@@ -154,7 +155,7 @@ export const ProjectsView = () => {
                 disabled={isCreatingBlank}
                 className="h-10 bg-card border-border"
               >
-                <FaPlus className="size-3.5" />
+                <HugeiconsIcon icon={PlusSignIcon} className="size-3.5" />
                 <span>New</span>
                 <Kbd className="ml-auto">⌘J</Kbd>
               </Button>
@@ -163,7 +164,7 @@ export const ProjectsView = () => {
                 onClick={() => setImportDialogOpen(true)}
                 className="h-10 bg-card border-border"
               >
-                <FaGithub className="size-4" />
+                <HugeiconsIcon icon={GithubIcon} className="size-4" />
                 <span>Import</span>
                 <Kbd className="ml-auto">⌘I</Kbd>
               </Button>

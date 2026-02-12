@@ -1,7 +1,8 @@
 "use client";
 
 import { useQuery } from "convex/react";
-import { CoinsIcon } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Coins01Icon } from "@hugeicons/core-free-icons";
 import Link from "next/link";
 
 import {
@@ -26,7 +27,7 @@ export const CreditBalancePill = ({ className }: { className?: string }) => {
                         className
                     )}
                 >
-                    <CoinsIcon className="size-3" />
+                    <HugeiconsIcon icon={Coins01Icon} className="size-3" />
                     <span>Subscribe</span>
                 </button>
             </Link>
@@ -71,7 +72,7 @@ export const CreditBalancePill = ({ className }: { className?: string }) => {
                         className
                     )}
                 >
-                    <CoinsIcon className="size-3" />
+                    <HugeiconsIcon icon={Coins01Icon} className="size-3" />
                     <span>{usage.currentBalance.toFixed(1)}</span>
                 </div>
             </TooltipTrigger>

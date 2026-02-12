@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { ChevronRightIcon } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { FileIcon, FolderIcon } from "@react-symbols/icons/utils";
 import { getItemPadding } from "./constants";
 
@@ -31,7 +32,7 @@ export const CreateInput = ({
     >
       <div className="flex items-center gap-0.5">
         {type === "folder" && (
-          <ChevronRightIcon className="size-4 shrink-0 text-muted-foreground" />
+          <HugeiconsIcon icon={ArrowRight01Icon} className="size-4 shrink-0 text-muted-foreground" />
         )}
         {type === "file" && (
           <FileIcon fileName={value} autoAssign className="size-4" />

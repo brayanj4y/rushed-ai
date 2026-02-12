@@ -1,5 +1,6 @@
 import { useState } from "react"
-import { ChevronRightIcon, CopyMinusIcon, FilePlusCornerIcon, FolderPlusIcon } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { ArrowRight01Icon, Copy01Icon, FileAddIcon, FolderAddIcon } from "@hugeicons/core-free-icons"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -61,7 +62,8 @@ export const FileExplorer = ({
         onClick={() => setIsOpen((value) => !value)}
         className="group/project cursor-pointer w-full text-left flex items-center gap-0.5 h-8 bg-accent font-bold pr-4 shrink-0 transition-colors"
       >
-        <ChevronRightIcon
+        <HugeiconsIcon
+          icon={ArrowRight01Icon}
           className={cn(
             "size-4 shrink-0 text-muted-foreground transition-transform",
             isOpen && "rotate-90"
@@ -81,7 +83,7 @@ export const FileExplorer = ({
             variant="highlight"
             size="icon-xs"
           >
-            <FilePlusCornerIcon className="size-3.5" />
+            <HugeiconsIcon icon={FileAddIcon} className="size-3.5" />
           </Button>
           <Button
             onClick={(e) => {
@@ -93,7 +95,7 @@ export const FileExplorer = ({
             variant="highlight"
             size="icon-xs"
           >
-            <FolderPlusIcon className="size-3.5" />
+            <HugeiconsIcon icon={FolderAddIcon} className="size-3.5" />
           </Button>
           <Button
             onClick={(e) => {
@@ -104,7 +106,7 @@ export const FileExplorer = ({
             variant="highlight"
             size="icon-xs"
           >
-            <CopyMinusIcon className="size-3.5" />
+            <HugeiconsIcon icon={Copy01Icon} className="size-3.5" />
           </Button>
         </div>
       </div>

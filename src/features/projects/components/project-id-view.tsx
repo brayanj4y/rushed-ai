@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { Allotment } from "allotment";
-import { FaGithub } from "react-icons/fa";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { GithubIcon } from "@hugeicons/core-free-icons";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -70,7 +71,7 @@ export const ProjectIdView = ({
               onClick={() => setImportDialogOpen(true)}
             >
               <Button size="sm" variant="outline" className="h-7 text-xs gap-1.5 font-normal">
-                <FaGithub className="size-3.5" />
+                <HugeiconsIcon icon={GithubIcon} className="size-3.5" />
                 Import
               </Button>
             </div>

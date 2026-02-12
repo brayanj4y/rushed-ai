@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-import { IoChevronForward } from "react-icons/io5";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { FileIcon, FolderIcon } from "@react-symbols/icons/utils";
 
 import { cn } from "@/lib/utils";
@@ -127,7 +128,8 @@ export const Tree = ({
   const folderRender = (
     <>
       <div className="flex items-center gap-0.5">
-        <IoChevronForward
+        <HugeiconsIcon
+          icon={ArrowRight01Icon}
           className={cn(
             "size-4 shrink-0 text-muted-foreground transition-transform duration-200",
             isOpen && "rotate-90"

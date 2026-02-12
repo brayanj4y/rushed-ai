@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
-import { FaGithub } from "react-icons/fa";
-import { AlertCircleIcon, GlobeIcon, Loader2Icon } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { AlertCircleIcon, Globe02Icon, Loading02Icon, GithubIcon } from "@hugeicons/core-free-icons";
 
 import {
   CommandDialog,
@@ -21,20 +21,20 @@ interface ProjectsCommandDialogProps {
 
 const getProjectIcon = (project: Doc<"projects">) => {
   if (project.importStatus === "completed") {
-    return <FaGithub className="size-4 text-muted-foreground" />
+    return <HugeiconsIcon icon={GithubIcon} className="size-4 text-muted-foreground" />
   }
 
   if (project.importStatus === "failed") {
-    return <AlertCircleIcon className="size-4 text-muted-foreground" />;
+    return <HugeiconsIcon icon={AlertCircleIcon} className="size-4 text-muted-foreground" />;
   }
 
   if (project.importStatus === "importing") {
     return (
-      <Loader2Icon className="size-4 text-muted-foreground animate-spin" />
+      <HugeiconsIcon icon={Loading02Icon} className="size-4 text-muted-foreground animate-spin" />
     );
   }
 
-  return <GlobeIcon className="size-4 text-muted-foreground" />;
+  return <HugeiconsIcon icon={Globe02Icon} className="size-4 text-muted-foreground" />;
 }
 
 export const ProjectsCommandDialog = ({

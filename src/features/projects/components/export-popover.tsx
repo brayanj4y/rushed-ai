@@ -4,14 +4,8 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { useForm } from "@tanstack/react-form";
 import { useRouter } from "next/navigation";
-import { FaGithub } from "react-icons/fa";
-import {
-  CheckCheckIcon,
-  CheckCircle2Icon,
-  ExternalLinkIcon,
-  LoaderIcon,
-  XCircleIcon,
-} from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { TickDouble01Icon, CheckmarkCircle01Icon, LinkSquare02Icon, Loading01Icon, RemoveCircleIcon, GithubIcon } from "@hugeicons/core-free-icons";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -129,7 +123,7 @@ export const ExportPopover = ({ projectId }: ExportPopoverProps) => {
     if (exportStatus === "exporting") {
       return (
         <div className="flex flex-col items-center gap-3">
-          <LoaderIcon className="size-6 animate-spin text-muted-foreground" />
+          <HugeiconsIcon icon={Loading01Icon} className="size-6 animate-spin text-muted-foreground" />
           <p className="text-sm text-muted-foreground">
             Exporting to GitHub...
           </p>
@@ -148,7 +142,7 @@ export const ExportPopover = ({ projectId }: ExportPopoverProps) => {
     if (exportStatus === "completed" && exportRepoUrl) {
       return (
         <div className="flex flex-col items-center gap-3">
-          <CheckCircle2Icon className="size-6 text-emerald-500" />
+          <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-6 text-emerald-500" />
           <p className="text-sm font-medium">Repository created</p>
           <p className="text-xs text-muted-foreground text-center">
             Your project has been exported to GitHub.
@@ -156,7 +150,7 @@ export const ExportPopover = ({ projectId }: ExportPopoverProps) => {
           <div className="flex flex-col w-full gap-2">
             <Button size="sm" className="w-full" asChild>
               <Link href={exportRepoUrl} target="_blank" rel="noopener noreferrer">
-                <ExternalLinkIcon className="size-4 mr-1" />
+                <HugeiconsIcon icon={LinkSquare02Icon} className="size-4 mr-1" />
                 View on GitHub
               </Link>
             </Button>
@@ -176,7 +170,7 @@ export const ExportPopover = ({ projectId }: ExportPopoverProps) => {
     if (exportStatus === "failed") {
       return (
         <div className="flex flex-col items-center gap-3">
-          <XCircleIcon className="size-6 text-rose-500" />
+          <HugeiconsIcon icon={RemoveCircleIcon} className="size-6 text-rose-500" />
           <p className="text-sm font-medium">Unable to export</p>
           <p className="text-xs text-muted-foreground text-center">
             Something went wrong. Please try again.
@@ -306,15 +300,15 @@ export const ExportPopover = ({ projectId }: ExportPopoverProps) => {
 
   const getStatusIcon = () => {
     if (exportStatus === "exporting") {
-      return <LoaderIcon className="size-3.5 animate-spin" />;
+      return <HugeiconsIcon icon={Loading01Icon} className="size-3.5 animate-spin" />;
     }
     if (exportStatus === "completed") {
-      return <CheckCheckIcon className="size-3.5 text-emerald-500" />;
+      return <HugeiconsIcon icon={TickDouble01Icon} className="size-3.5 text-emerald-500" />;
     }
     if (exportStatus === "failed") {
-      return <XCircleIcon className="size-3.5 text-red-500" />;
+      return <HugeiconsIcon icon={RemoveCircleIcon} className="size-3.5 text-red-500" />;
     }
-    return <FaGithub className="size-3.5" />;
+    return <HugeiconsIcon icon={GithubIcon} className="size-3.5" />;
   };
 
   return (

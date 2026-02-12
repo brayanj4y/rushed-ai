@@ -1,4 +1,5 @@
-import { FaShieldHalved } from "react-icons/fa6";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Shield02Icon } from "@hugeicons/core-free-icons";
 
 import {
   Item,
@@ -17,7 +18,7 @@ export const UnauthenticatedView = () => {
       <div className="w-full max-w-lg bg-muted rounded-xl border border-border overflow-hidden">
         <Item variant="default" className="border-none!">
           <ItemMedia variant="icon" className="rounded-md">
-            <FaShieldHalved className="size-4" />
+            <HugeiconsIcon icon={Shield02Icon} className="size-4" />
           </ItemMedia>
           <ItemContent>
             <ItemTitle>Unauthorized Access</ItemTitle>

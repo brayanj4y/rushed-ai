@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Spinner } from "@/components/ui/spinner";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import { getItemPadding } from "./constants";
 
@@ -11,13 +11,20 @@ export const LoadingRow = ({
   level?: number;
 }) => {
   return (
-    <div className={cn(
-      "h-5.5 flex items-center text-muted-foreground",
-      className,
-    )}
-      style={{ paddingLeft: getItemPadding(level, true) }}
-    >
-      <Spinner className="size-4 text-ring ml-0.5" />
-    </div>
+    <>
+      {Array.from({ length: 4 }).map((_, i) => (
+        <div
+          key={i}
+          className={cn(
+            "h-5.5 flex items-center text-muted-foreground gap-1 w-full",
+            className,
+          )}
+          style={{ paddingLeft: getItemPadding(level, false) }}
+        >
+          <Skeleton className="size-3.5 rounded-sm shrink-0" />
+          <Skeleton className="h-3 w-24 rounded-sm" />
+        </div>
+      ))}
+    </>
   );
 };
