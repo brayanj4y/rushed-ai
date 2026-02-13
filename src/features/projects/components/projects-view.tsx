@@ -41,22 +41,22 @@ export const ProjectsView = () => {
 
   // Handle prompt submission - creates project with AI prompt
   const handlePromptSubmit = async (message: PromptInputMessage) => {
-    if (!message.text) return;
-
+    const text = message.text.trim();
+    setInput("");
     setIsSubmitting(true);
 
     try {
       const { projectId } = await ky
         .post("/api/projects/create-with-prompt", {
-          json: { prompt: message.text.trim() },
+          json: { prompt: text },
         })
         .json<{ projectId: Id<"projects"> }>();
 
       toast.success("Project created");
-      setInput("");
       router.push(`/projects/${projectId}`);
     } catch {
       toast.error("Unable to create project");
+      setInput(text); // Restore on error
     } finally {
       setIsSubmitting(false);
     }

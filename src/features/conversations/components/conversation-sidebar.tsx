@@ -31,13 +31,12 @@ import {
   PromptInputTools,
   PromptInputProvider,
   usePromptInputController,
+  usePromptInputAttachments,
   PromptInputCommand,
   PromptInputCommandList,
   PromptInputCommandEmpty,
   PromptInputCommandGroup,
   PromptInputCommandItem,
-  PromptInputAttachments,
-  PromptInputAttachment,
   type PromptInputMessage,
 } from "@/components/ai-elements/prompt-input";
 import { Button } from "@/components/ui/button";
@@ -63,10 +62,63 @@ interface ConversationSidebarProps {
   projectId: Id<"projects">;
 };
 
+const MessageList = ({ messages }: { messages: any[] | undefined }) => {
+  return (
+    <Conversation className="flex-1">
+      <ConversationContent>
+        {messages?.map((message, messageIndex) => (
+          <Message key={message._id} from={message.role}>
+            <MessageContent>
+              {message.status === "processing" ? (
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <HugeiconsIcon
+                    icon={Loading03Icon}
+                    strokeWidth={2}
+                    className="size-4 animate-spin"
+                  />
+                  <span>Thinking...</span>
+                </div>
+              ) : message.status === "cancelled" ? (
+                <span className="text-muted-foreground italic">
+                  Request cancelled
+                </span>
+              ) : (
+                <MessageResponse>{message.content}</MessageResponse>
+              )}
+            </MessageContent>
+            {message.role === "assistant" &&
+              message.status === "completed" &&
+              messageIndex === (messages?.length ?? 0) - 1 && (
+                <MessageActions>
+                  <MessageAction
+                    onClick={() => {
+                      navigator.clipboard.writeText(message.content);
+                    }}
+                    label="Copy"
+                  >
+                    <HugeiconsIcon
+                      icon={Copy01Icon}
+                      strokeWidth={2}
+                      className="size-3"
+                    />
+                  </MessageAction>
+                </MessageActions>
+              )}
+          </Message>
+        ))}
+      </ConversationContent>
+      <ConversationScrollButton />
+    </Conversation>
+  );
+};
+
+const MemoizedMessageList = React.memo(MessageList);
+
+import React from "react";
 const ConversationSidebarInner = ({
   projectId,
 }: ConversationSidebarProps) => {
-  const { textInput, attachments } = usePromptInputController();
+  const { textInput } = usePromptInputController();
   const [
     selectedConversationId,
     setSelectedConversationId,
@@ -119,15 +171,20 @@ const ConversationSidebarInner = ({
     const lastAtSign = textBeforeCursor.lastIndexOf("@");
 
     if (lastAtSign !== -1) {
-      // Check if there's no whitespace between @ and cursor
-      const term = textBeforeCursor.slice(lastAtSign + 1);
-      if (!term.includes(" ")) {
-        setMentionState({
-          isOpen: true,
-          filter: term,
-          cursorPos: selectionStart,
-        });
-        return;
+      // Check if @ is at start or preceded by space/newline
+      const charBeforeAt = lastAtSign > 0 ? textBeforeCursor[lastAtSign - 1] : "";
+      const isStartOrSpace = !charBeforeAt || charBeforeAt === " " || charBeforeAt === "\n";
+
+      if (isStartOrSpace) {
+        const term = textBeforeCursor.slice(lastAtSign + 1);
+        if (!term.includes(" ")) {
+          setMentionState({
+            isOpen: true,
+            filter: term,
+            cursorPos: selectionStart,
+          });
+          return;
+        }
       }
     }
 
@@ -137,34 +194,56 @@ const ConversationSidebarInner = ({
   };
 
   const onSelectFile = (fileName: string) => {
-    // Create a dummy file object
-    const file = new File([""], fileName, { type: "text/plain" });
-
-    // Add to attachments
-    attachments.add([file]);
-
-    setMentionState({ isOpen: false, filter: "", cursorPos: 0 });
-
-    // Clear the @mention text from input
     const value = textInput.value;
-    const textBeforeCursor = value.slice(0, mentionState.cursorPos);
-    const textAfterCursor = value.slice(mentionState.cursorPos);
+    const lastAtSign = value.slice(0, mentionState.cursorPos).lastIndexOf("@");
 
-    const lastAtSign = textBeforeCursor.lastIndexOf("@");
     if (lastAtSign !== -1) {
-      const newTextBefore = textBeforeCursor.slice(0, lastAtSign);
-      textInput.setInput(newTextBefore + textAfterCursor);
+      const newValue =
+        value.slice(0, lastAtSign) +
+        `@${fileName} ` +
+        value.slice(mentionState.cursorPos);
+
+      textInput.setInput(newValue);
     }
+
+    setMentionState(prev => ({ ...prev, isOpen: false }));
   };
+
+  // Build path Map for files
+  const filePaths = useMemo(() => {
+    if (!files) return new Map<Id<"files">, string>();
+    const fileMap = new Map(files.map(f => [f._id, f]));
+    const paths = new Map<Id<"files">, string>();
+
+    files.forEach(file => {
+      const parts: string[] = [];
+      let current = file;
+      while (current) {
+        parts.unshift(current.name);
+        if (current.parentId && fileMap.has(current.parentId)) {
+          current = fileMap.get(current.parentId)!;
+        } else {
+          break;
+        }
+      }
+      paths.set(file._id, parts.join("/"));
+    });
+
+    return paths;
+  }, [files]);
 
   const filteredFiles = useMemo(() => {
     if (!files) return [];
     return files
       .filter(f => f.type === "file")
+      .map(f => ({
+        ...f,
+        path: filePaths.get(f._id) ?? f.name
+      }))
       .filter(f =>
-        f.name.toLowerCase().includes(mentionState.filter.toLowerCase())
+        f.path.toLowerCase().includes(mentionState.filter.toLowerCase())
       );
-  }, [files, mentionState.filter]);
+  }, [files, filePaths, mentionState.filter]);
 
   // Check if any message is currently processing
   const isProcessing = conversationMessages?.some(
@@ -224,6 +303,9 @@ const ConversationSidebarInner = ({
 
     // Trigger Inngest function via API
     try {
+      // Clear input immediately for better UX
+      textInput.clear();
+
       await ky.post("/api/messages", {
         json: {
           conversationId,
@@ -232,9 +314,8 @@ const ConversationSidebarInner = ({
       });
     } catch {
       toast.error("Message failed to send");
+      // Optional: Restore text on failure
     }
-
-    textInput.clear();
   }
 
   return (
@@ -271,47 +352,7 @@ const ConversationSidebarInner = ({
             </Button>
           </div>
         </div>
-        <Conversation className="flex-1">
-          <ConversationContent>
-            {conversationMessages?.map((message, messageIndex) => (
-              <Message
-                key={message._id}
-                from={message.role}
-              >
-                <MessageContent>
-                  {message.status === "processing" ? (
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <HugeiconsIcon icon={Loading03Icon} strokeWidth={2} className="size-4 animate-spin" />
-                      <span>Thinking...</span>
-                    </div>
-                  ) : message.status === "cancelled" ? (
-                    <span className="text-muted-foreground italic">
-                      Request cancelled
-                    </span>
-                  ) : (
-                    <MessageResponse>{message.content}</MessageResponse>
-                  )}
-                </MessageContent>
-                {message.role === "assistant" &&
-                  message.status === "completed" &&
-                  messageIndex === (conversationMessages?.length ?? 0) - 1 && (
-                    <MessageActions>
-                      <MessageAction
-                        onClick={() => {
-                          navigator.clipboard.writeText(message.content)
-                        }}
-                        label="Copy"
-                      >
-                        <HugeiconsIcon icon={Copy01Icon} strokeWidth={2} className="size-3" />
-                      </MessageAction>
-                    </MessageActions>
-                  )
-                }
-              </Message>
-            ))}
-          </ConversationContent>
-          <ConversationScrollButton />
-        </Conversation>
+        <MemoizedMessageList messages={conversationMessages} />
         <div className="p-3 relative">
           <Popover open={mentionState.isOpen} onOpenChange={(open) => !open && setMentionState(prev => ({ ...prev, isOpen: false }))}>
             <PopoverAnchor asChild>
@@ -320,15 +361,6 @@ const ConversationSidebarInner = ({
                 className="mt-2"
               >
                 <PromptInputBody>
-                  <PromptInputAttachments>
-                    {(file) => (
-                      <PromptInputAttachment
-                        key={file.id}
-                        data={file}
-                        icon={(props) => <HugeiconsIcon icon={FileScriptIcon} {...props} />}
-                      />
-                    )}
-                  </PromptInputAttachments>
                   <PromptInputTextarea
                     placeholder="Ask Rushed whatever..."
                     disabled={isProcessing}
@@ -357,11 +389,16 @@ const ConversationSidebarInner = ({
                     {filteredFiles.map(f => (
                       <PromptInputCommandItem
                         key={f._id}
-                        onSelect={() => onSelectFile(f.name)}
+                        onSelect={() => onSelectFile(f.path)}
                         className="flex items-center gap-2"
                       >
                         <HugeiconsIcon icon={FileScriptIcon} strokeWidth={2} className="size-4 opacity-70" />
-                        <span className="truncate">{f.name}</span>
+                        <div className="flex flex-col min-w-0">
+                          <span className="truncate font-medium">{f.name}</span>
+                          <span className="truncate text-[10px] text-muted-foreground opacity-70">
+                            {f.path}
+                          </span>
+                        </div>
                       </PromptInputCommandItem>
                     ))}
                   </PromptInputCommandGroup>
