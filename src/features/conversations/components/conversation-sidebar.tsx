@@ -36,6 +36,8 @@ import {
   PromptInputCommandEmpty,
   PromptInputCommandGroup,
   PromptInputCommandItem,
+  PromptInputAttachments,
+  PromptInputAttachment,
   type PromptInputMessage,
 } from "@/components/ai-elements/prompt-input";
 import { Button } from "@/components/ui/button";
@@ -64,7 +66,7 @@ interface ConversationSidebarProps {
 const ConversationSidebarInner = ({
   projectId,
 }: ConversationSidebarProps) => {
-  const { textInput } = usePromptInputController();
+  const { textInput, attachments } = usePromptInputController();
   const [
     selectedConversationId,
     setSelectedConversationId,
@@ -135,15 +137,24 @@ const ConversationSidebarInner = ({
   };
 
   const onSelectFile = (fileName: string) => {
+    // Create a dummy file object
+    const file = new File([""], fileName, { type: "text/plain" });
+
+    // Add to attachments
+    attachments.add([file]);
+
+    setMentionState({ isOpen: false, filter: "", cursorPos: 0 });
+
+    // Clear the @mention text from input
     const value = textInput.value;
     const textBeforeCursor = value.slice(0, mentionState.cursorPos);
     const textAfterCursor = value.slice(mentionState.cursorPos);
 
     const lastAtSign = textBeforeCursor.lastIndexOf("@");
-    const newTextBefore = textBeforeCursor.slice(0, lastAtSign) + `**@${fileName}** `;
-
-    textInput.setInput(newTextBefore + textAfterCursor);
-    setMentionState({ isOpen: false, filter: "", cursorPos: 0 });
+    if (lastAtSign !== -1) {
+      const newTextBefore = textBeforeCursor.slice(0, lastAtSign);
+      textInput.setInput(newTextBefore + textAfterCursor);
+    }
   };
 
   const filteredFiles = useMemo(() => {
@@ -201,12 +212,22 @@ const ConversationSidebarInner = ({
       }
     }
 
+    // Convert file attachments to markdown tags for the backend
+    const fileTags = message.files
+      .filter(f => f.type === "file") // Ensure we only tag files, not images if they are mixed
+      .map(f => `**@${f.filename}**`)
+      .join(" ");
+
+    const fullMessage = fileTags
+      ? `${fileTags}\n\n${message.text}`
+      : message.text;
+
     // Trigger Inngest function via API
     try {
       await ky.post("/api/messages", {
         json: {
           conversationId,
-          message: message.text,
+          message: fullMessage,
         },
       });
     } catch {
@@ -299,6 +320,15 @@ const ConversationSidebarInner = ({
                 className="mt-2"
               >
                 <PromptInputBody>
+                  <PromptInputAttachments>
+                    {(file) => (
+                      <PromptInputAttachment
+                        key={file.id}
+                        data={file}
+                        icon={(props) => <HugeiconsIcon icon={FileScriptIcon} {...props} />}
+                      />
+                    )}
+                  </PromptInputAttachments>
                   <PromptInputTextarea
                     placeholder="Ask Rushed whatever..."
                     disabled={isProcessing}
