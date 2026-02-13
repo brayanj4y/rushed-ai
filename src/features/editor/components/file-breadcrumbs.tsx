@@ -1,5 +1,6 @@
 import React from "react";
-import { FileIcon } from "@react-symbols/icons/utils";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { File02Icon } from "@hugeicons/core-free-icons";
 
 import { useFilePath } from "@/features/projects/hooks/use-files";
 import { useEditor } from "@/features/editor/hooks/use-editor"
@@ -49,10 +50,10 @@ export const FileBreadcrumbs = ({
                 <BreadcrumbItem className="text-sm">
                   {isLast ? (
                     <BreadcrumbPage className="flex items-center gap-1">
-                      <FileIcon
-                        fileName={item.name}
-                        autoAssign
-                        className="size-4"
+                      <HugeiconsIcon
+                        icon={File02Icon}
+                        strokeWidth={2}
+                        className="size-4 text-muted-foreground"
                       />
                       {item.name}
                     </BreadcrumbPage>

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
-import { FileIcon, FolderIcon } from "@react-symbols/icons/utils";
+import { File02Icon, Folder01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { getItemPadding } from "./constants";
 import { cn } from "@/lib/utils";
 
@@ -36,13 +35,13 @@ export const RenameInput = ({
           <HugeiconsIcon icon={ArrowRight01Icon} className={cn(
             "size-4 shrink-0 text-muted-foreground transition-transform duration-200",
             isOpen && "rotate-90",
-          )} />
+          )} strokeWidth={2} />
         )}
         {type === "file" && (
-          <FileIcon fileName={value} autoAssign className="size-4" />
+          <HugeiconsIcon icon={File02Icon} strokeWidth={2} className="size-4 text-muted-foreground" />
         )}
         {type === "folder" && (
-          <FolderIcon className="size-4" folderName={value} />
+          <HugeiconsIcon icon={Folder01Icon} strokeWidth={2} className="size-4 text-muted-foreground" />
         )}
       </div>
       <input

@@ -13,6 +13,7 @@ import {
 
 import { useProjects } from "../hooks/use-projects";
 import { Doc } from "../../../../convex/_generated/dataModel";
+import { ProjectActions } from "./projects-list";
 
 interface ProjectsCommandDialogProps {
   open: boolean;
@@ -65,9 +66,15 @@ export const ProjectsCommandDialog = ({
               key={project._id}
               value={`${project.name}-${project._id}`}
               onSelect={() => handleSelect(project._id)}
+              className="group flex items-center justify-between"
             >
-              {getProjectIcon(project)}
-              <span>{project.name}</span>
+              <div className="flex items-center gap-2">
+                {getProjectIcon(project)}
+                <span>{project.name}</span>
+              </div>
+              <div className="hidden group-aria-selected:block">
+                <ProjectActions project={project} />
+              </div>
             </CommandItem>
           ))}
         </CommandGroup>

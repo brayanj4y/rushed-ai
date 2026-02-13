@@ -1,13 +1,27 @@
+import { useState } from "react";
 import Link from "next/link";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { GithubIcon, ArrowRight01Icon, AlertCircleIcon, Globe02Icon, Loading03Icon } from "@hugeicons/core-free-icons";
+import { GithubIcon, ArrowRight01Icon, AlertCircleIcon, Globe02Icon, Loading03Icon, Delete02Icon } from "@hugeicons/core-free-icons";
 import { formatDistanceToNow } from "date-fns";
+import { useMutation } from "convex/react";
+import { toast } from "sonner";
 
 import { Kbd } from "@/components/ui/kbd";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 import { Doc } from "../../../../convex/_generated/dataModel";
+import { api } from "../../../../convex/_generated/api";
 
 import { useProjectsPartial } from "../hooks/use-projects";
 
@@ -39,6 +53,65 @@ interface ProjectsListProps {
   onViewAll: () => void;
 }
 
+export const ProjectActions = ({
+  project
+}: {
+  project: Doc<"projects">;
+}) => {
+  const deleteProject = useMutation(api.projects.deleteProject);
+  const [open, setOpen] = useState(false);
+
+  const handleDelete = async () => {
+    try {
+      await deleteProject({ id: project._id });
+      toast.success("Project deleted");
+    } catch (error) {
+      toast.error("Failed to delete project");
+    }
+  };
+
+  return (
+    <>
+      <AlertDialog open={open} onOpenChange={setOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the project
+              "{project.name}" and all associated data.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={(e) => e.stopPropagation()}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDelete();
+              }}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <Button
+        variant="ghost"
+        className="h-6 w-6 p-0 hover:bg-muted text-muted-foreground hover:text-destructive transition-colors"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setOpen(true);
+        }}
+      >
+        <HugeiconsIcon icon={Delete02Icon} className="size-4" />
+        <span className="sr-only">Delete project</span>
+      </Button>
+    </>
+  );
+};
+
 const ContinueCard = ({
   data
 }: {
@@ -46,13 +119,16 @@ const ContinueCard = ({
 }) => {
   return (
     <div className="flex flex-col gap-2">
-      <span className="text-xs text-muted-foreground">
-        Last updated
-      </span>
+      <div className="flex items-center justify-between">
+        <span className="text-xs text-muted-foreground">
+          Last updated
+        </span>
+        <ProjectActions project={data} />
+      </div>
       <Button
         variant="outline"
         asChild
-        className="h-auto items-start justify-start p-4 bg-background border rounded-xl flex flex-col gap-2"
+        className="h-auto items-start justify-start p-4 bg-background border rounded-xl flex flex-col gap-2 w-full"
       >
         <Link href={`/projects/${data._id}`} className="group">
           <div className="flex items-center justify-between w-full">
@@ -79,18 +155,23 @@ const ProjectItem = ({
   data: Doc<"projects">;
 }) => {
   return (
-    <Link
-      href={`/projects/${data._id}`}
-      className="text-sm text-foreground/60 font-medium hover:text-foreground py-1 flex items-center justify-between w-full group"
-    >
-      <div className="flex items-center gap-2">
+    <div className="group relative flex items-center justify-between w-full hover:bg-accent/50 rounded-lg pr-2 transition-colors h-8">
+      <Link
+        href={`/projects/${data._id}`}
+        className="text-sm text-foreground/60 font-medium hover:text-foreground py-1.5 pl-2 flex items-center gap-2 flex-1 min-w-0"
+      >
         {getProjectIcon(data)}
         <span className="truncate">{data.name}</span>
+      </Link>
+      <div className="hidden group-hover:flex items-center gap-2">
+        <ProjectActions project={data} />
       </div>
-      <span className="text-xs text-muted-foreground group-hover:text-foreground/60 transition-colors">
-        {formatTimestamp(data.updatedAt)}
-      </span>
-    </Link>
+      <div className="flex group-hover:hidden items-center gap-2">
+        <span className="text-xs text-muted-foreground">
+          {formatTimestamp(data.updatedAt)}
+        </span>
+      </div>
+    </div>
   );
 };
 
