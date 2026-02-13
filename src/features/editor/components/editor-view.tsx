@@ -62,17 +62,17 @@ export const EditorView = ({ projectId }: { projectId: Id<"projects"> }) => {
               <span className="text-8xl opacity-45 font-logo-dot select-none">
                 Rushed
               </span>
-              <div className="flex gap-8 text-muted-foreground/60 text-sm">
+              <div className="flex gap-8 text-muted-foreground/60 text-sm select-none cursor-default">
                 <div className="flex items-center gap-2">
-                  <span className="bg-muted px-1.5 py-0.5 rounded text-xs">@</span>
+                  <span className="bg-muted px-1.5 py-0.5 rounded-sm text-xs font-medium border-b-2 border-border">@</span>
                   <span>Type @ to tag files</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="bg-muted px-1.5 py-0.5 rounded text-xs">Select</span>
+                  <span className="bg-muted px-1.5 py-0.5 rounded-sm text-xs font-medium border-b-2 border-border">Select</span>
                   <span>Select code to chat</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="bg-muted px-1.5 py-0.5 rounded text-xs">⌘ K</span>
+                  <span className="bg-muted px-1.5 py-0.5 rounded-sm text-xs font-medium border-b-2 border-border">⌘ K</span>
                   <span>Search projects</span>
                 </div>
               </div>
