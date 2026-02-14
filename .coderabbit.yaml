@@ -1,0 +1,4 @@
+reviews:
+  path_filters:
+    - "!src/components/ai-elements/**"
+    - "!src/components/ui/**"
