@@ -175,7 +175,7 @@ const quickEditTooltipField = StateField.define<readonly Tooltip[]>({
 
 const quickEditKeymap = keymap.of([
   {
-    key: "Mod-k",
+    key: "Mod-e",
     run: (view) => {
       const selection = view.state.selection.main;
       if (selection.empty) {

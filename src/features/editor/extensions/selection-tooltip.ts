@@ -32,8 +32,8 @@ const createTooltipForSelection = (
         const addToChatButton = document.createElement("button");
         addToChatButton.textContent = "Add to Chat";
         addToChatButton.className =
-            "font-sans p-1 px-2 hover:bg-foreground/10 rounded-sm";
-        
+          "font-sans p-1 px-2 hover:bg-foreground/10 rounded-sm";
+
         addToChatButton.onclick = () => {
           const selectedText = state.doc.sliceString(selection.from, selection.to);
           const event = new CustomEvent("rushed:add-to-chat", {
@@ -44,7 +44,7 @@ const createTooltipForSelection = (
           });
           window.dispatchEvent(event);
         };
-        
+
         const quickEditButton = document.createElement("button");
         quickEditButton.className =
           "font-sans p-1 px-2 hover:bg-foreground/10 rounded-sm flex items-center gap-1";
@@ -53,7 +53,7 @@ const createTooltipForSelection = (
         quickEditButtonText.textContent = "Quick Edit";
 
         const quickEditButtonShortcut = document.createElement("span");
-        quickEditButtonShortcut.textContent = "⌘K";
+        quickEditButtonShortcut.textContent = "⌘E";
         quickEditButtonShortcut.className = "text-sm opacity-60";
 
         quickEditButton.appendChild(quickEditButtonText);
