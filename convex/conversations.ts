@@ -68,7 +68,7 @@ export const getByProject = query({
     const project = await ctx.db.get("projects", args.projectId);
 
     if (!project) {
-      throw new Error("Project not found");
+      return [];
     }
 
     if (project.ownerId !== identity.subject) {
