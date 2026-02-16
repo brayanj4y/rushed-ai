@@ -54,9 +54,11 @@ interface ProjectsListProps {
 }
 
 export const ProjectActions = ({
-  project
+  project,
+  hideDelete = false
 }: {
   project: Doc<"projects">;
+  hideDelete?: boolean;
 }) => {
   const deleteProject = useMutation(api.projects.deleteProject);
   const [open, setOpen] = useState(false);
@@ -96,18 +98,20 @@ export const ProjectActions = ({
         </AlertDialogContent>
       </AlertDialog>
 
-      <Button
-        variant="ghost"
-        className="h-6 w-6 p-0 hover:bg-muted text-muted-foreground hover:text-destructive transition-colors"
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setOpen(true);
-        }}
-      >
-        <HugeiconsIcon icon={Delete02Icon} className="size-4" />
-        <span className="sr-only">Delete project</span>
-      </Button>
+      {!hideDelete && (
+        <Button
+          variant="ghost"
+          className="h-6 w-6 p-0 hover:bg-muted text-muted-foreground hover:text-destructive transition-colors"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setOpen(true);
+          }}
+        >
+          <HugeiconsIcon icon={Delete02Icon} className="size-4" />
+          <span className="sr-only">Delete project</span>
+        </Button>
+      )}
     </>
   );
 };

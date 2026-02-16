@@ -42,3 +42,7 @@ next-env.d.ts
 
 # Sentry Config File
 .env.sentry-build-plugin
+
+# Removed file
+SETUP_AND_TEST.md
+ai_scan_report.md

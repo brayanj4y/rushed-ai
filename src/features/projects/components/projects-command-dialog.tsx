@@ -1,4 +1,4 @@
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { AlertCircleIcon, Globe02Icon, Loading02Icon, GithubIcon } from "@hugeicons/core-free-icons";
 
@@ -43,7 +43,10 @@ export const ProjectsCommandDialog = ({
   onOpenChange,
 }: ProjectsCommandDialogProps) => {
   const router = useRouter();
+  const pathname = usePathname();
   const projects = useProjects();
+
+  const isProjectPage = pathname?.startsWith("/projects/");
 
   const handleSelect = (projectId: string) => {
     router.push(`/projects/${projectId}`);
@@ -73,7 +76,7 @@ export const ProjectsCommandDialog = ({
                 <span>{project.name}</span>
               </div>
               <div className="hidden group-aria-selected:block">
-                <ProjectActions project={project} />
+                <ProjectActions project={project} hideDelete={isProjectPage} />
               </div>
             </CommandItem>
           ))}

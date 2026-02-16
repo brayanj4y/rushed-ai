@@ -1,6 +1,9 @@
 "use client";
 
 import { Allotment } from "allotment";
+import { notFound } from "next/navigation";
+import { useQuery } from "convex/react";
+import { api } from "../../../../convex/_generated/api";
 
 import { ConversationSidebar } from "@/features/conversations/components/conversation-sidebar";
 
@@ -19,6 +22,12 @@ export const ProjectIdLayout = ({
   children: React.ReactNode;
   projectId: Id<"projects">;
 }) => {
+  const project = useQuery(api.projects.getById, { id: projectId });
+
+  if (project === null) {
+    notFound();
+  }
+
   return (
     <div className="w-full h-screen flex flex-col bg-sidebar">
       <Navbar projectId={projectId} />
