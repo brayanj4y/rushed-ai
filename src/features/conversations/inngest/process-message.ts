@@ -24,6 +24,7 @@ interface MessageEvent {
   conversationId: Id<"conversations">;
   projectId: Id<"projects">;
   message: string;
+  userId: string;
 };
 
 export const processMessage = inngest.createFunction(
@@ -60,7 +61,8 @@ export const processMessage = inngest.createFunction(
       messageId,
       conversationId,
       projectId,
-      message
+      message,
+      userId,
     } = event.data as MessageEvent;
 
     const internalKey = process.env.RUSHED_CONVEX_INTERNAL_KEY;
@@ -221,6 +223,30 @@ export const processMessage = inngest.createFunction(
         content: assistantResponse,
       })
     });
+
+
+    if (userId) {
+      await step.run("deduct-credits", async () => {
+        try {
+          const result = await convex.mutation(api.credits.deductCredits, {
+            internalKey,
+            userId,
+            inputTokens: 4000,  // Estimated average for agent-kit (no token exposure)
+            outputTokens: 2000, // Estimated average output
+            description: "AI message processing",
+            relatedTo: "message",
+          });
+
+          if (!result.success) {
+            console.warn(`Credit deduction failed for ${userId}: ${result.error}`);
+          } else {
+            console.log(`💰 Credits deducted: ${result.creditsDeducted?.toFixed(4)}, balance: ${result.balanceAfter?.toFixed(2)}`);
+          }
+        } catch (error) {
+          console.error("Credit deduction error:", error);
+        }
+      });
+    }
 
     return { success: true, messageId, conversationId };
   }

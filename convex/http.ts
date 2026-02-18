@@ -10,10 +10,11 @@ http.route({
     handler: createDodoWebhookHandler({
         onSubscriptionActive: async (ctx, payload) => {
             console.log("🎉 Subscription Activated!");
+            console.log("📦 Full subscription payload:", JSON.stringify(payload, null, 2));
             const data = payload.data as any;
             await ctx.runMutation(internal.webhooks.handleSubscriptionActive, {
                 subscriptionId: data.subscription_id,
-                customerId: data.customer?.customer_id ?? payload.business_id,
+                customerId: data.customer?.customer_id ?? "",
                 customerEmail: data.customer?.email ?? "",
                 productId: data.product_id ?? "",
                 status: data.status,
@@ -27,7 +28,7 @@ http.route({
             const data = payload.data as any;
             await ctx.runMutation(internal.webhooks.handleSubscriptionRenewed, {
                 subscriptionId: data.subscription_id,
-                customerId: data.customer?.customer_id ?? payload.business_id,
+                customerId: data.customer?.customer_id ?? "",
                 productId: data.product_id ?? "",
                 clerkUserId: data.metadata?.clerkUserId ?? "",
                 payload: JSON.stringify(payload),
@@ -54,15 +55,26 @@ http.route({
 
         onPaymentSucceeded: async (ctx, payload) => {
             console.log("💰 Payment Succeeded!");
+            console.log("📦 Full payment payload:", JSON.stringify(payload, null, 2));
             const data = payload.data as any;
+
+            // Payment uses product_cart (array), NOT product_id
+            // Extract first product from the cart
+            const productId = data.product_cart?.[0]?.product_id ?? "";
+
+            // metadata is at data.metadata (top level of Payment schema)
+            const clerkUserId = data.metadata?.clerkUserId ?? "";
+
+            console.log(`📋 Extracted — productId: ${productId}, clerkUserId: ${clerkUserId}, paymentId: ${data.payment_id}`);
+
             await ctx.runMutation(internal.webhooks.handlePaymentSucceeded, {
                 paymentId: data.payment_id,
-                customerId: data.customer?.customer_id ?? payload.business_id,
+                customerId: data.customer?.customer_id ?? "",
                 customerEmail: data.customer?.email ?? "",
-                productId: data.product_id ?? "",
+                productId,
                 amount: data.total_amount ?? 0,
                 currency: data.currency ?? "USD",
-                clerkUserId: data.metadata?.clerkUserId ?? "",
+                clerkUserId,
                 payload: JSON.stringify(payload),
             });
         },
@@ -72,7 +84,7 @@ http.route({
             const data = payload.data as any;
             await ctx.runMutation(internal.webhooks.handlePaymentFailed, {
                 paymentId: data.payment_id ?? "",
-                customerId: data.customer?.customer_id ?? payload.business_id,
+                customerId: data.customer?.customer_id ?? "",
                 payload: JSON.stringify(payload),
             });
         },

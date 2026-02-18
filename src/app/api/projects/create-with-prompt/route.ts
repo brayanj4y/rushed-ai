@@ -12,6 +12,7 @@ import { DEFAULT_CONVERSATION_TITLE } from "@/features/conversations/constants";
 
 import { inngest } from "@/inngest/client";
 import { convex } from "@/lib/convex-client";
+import { CREDIT_ERROR_MESSAGES } from "@/lib/credits";
 
 import { api } from "../../../../../convex/_generated/api";
 
@@ -38,7 +39,22 @@ export async function POST(request: Request) {
   const body = await request.json();
   const { prompt } = requestSchema.parse(body);
 
-  // Generate a random project name
+
+  const creditCheck = await convex.mutation(api.credits.checkCredits, {
+    internalKey,
+    userId,
+  });
+
+  if (!creditCheck.allowed) {
+    const errorMessage = CREDIT_ERROR_MESSAGES[creditCheck.error ?? ""]
+      ?? "Unable to process request. Please check your subscription.";
+    return NextResponse.json(
+      { error: errorMessage, code: creditCheck.error },
+      { status: 403 }
+    );
+  }
+
+
   const projectName = uniqueNamesGenerator({
     dictionaries: [adjectives, animals, colors],
     separator: "-",

@@ -3,7 +3,11 @@ import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { anthropic } from "@ai-sdk/anthropic";
-// import { google } from "@ai-sdk/google";
+
+import { convex } from "@/lib/convex-client";
+import { CREDIT_ERROR_MESSAGES } from "@/lib/credits";
+
+import { api } from "../../../../convex/_generated/api";
 
 const suggestionSchema = z.object({
   suggestion: z
@@ -54,6 +58,24 @@ export async function POST(request: Request) {
       );
     }
 
+    // Pre-flight credit check
+    const internalKey = process.env.RUSHED_CONVEX_INTERNAL_KEY;
+    if (internalKey) {
+      const creditCheck = await convex.mutation(api.credits.checkCredits, {
+        internalKey,
+        userId,
+      });
+
+      if (!creditCheck.allowed) {
+        const errorMessage = CREDIT_ERROR_MESSAGES[creditCheck.error ?? ""]
+          ?? "Unable to process request. Please check your subscription.";
+        return NextResponse.json(
+          { error: errorMessage, code: creditCheck.error },
+          { status: 403 },
+        );
+      }
+    }
+
     const {
       fileName,
       code,
@@ -82,11 +104,27 @@ export async function POST(request: Request) {
       .replace("{nextLines}", nextLines || "")
       .replace("{lineNumber}", lineNumber.toString());
 
-    const { output } = await generateText({
+    const { output, usage } = await generateText({
       model: anthropic("claude-3-7-sonnet-20250219"),
       output: Output.object({ schema: suggestionSchema }),
       prompt,
     });
+
+    // Deduct credits based on actual token usage
+    if (internalKey && userId) {
+      try {
+        await convex.mutation(api.credits.deductCredits, {
+          internalKey,
+          userId,
+          inputTokens: usage.inputTokens ?? 0,
+          outputTokens: usage.outputTokens ?? 0,
+          description: "Code suggestion",
+          relatedTo: "suggestion",
+        });
+      } catch (error) {
+        console.error("Credit deduction error:", error);
+      }
+    }
 
     return NextResponse.json({ suggestion: output.suggestion })
   } catch (error) {

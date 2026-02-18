@@ -1,8 +1,9 @@
-import { internalMutation } from "./_generated/server";
+import { internalAction, internalMutation } from "./_generated/server";
+import { internal } from "./_generated/api";
 import { v } from "convex/values";
 import { PLAN_CONFIG } from "./subscriptions";
 
-// Build product maps at runtime (env vars are only available inside handlers in Convex)
+
 function getSubscriptionPlan(productId: string): "starter" | "pro" | "scale" | null {
     const map: Record<string, "starter" | "pro" | "scale"> = {};
     if (process.env.DODO_STARTER_PRODUCT_ID) map[process.env.DODO_STARTER_PRODUCT_ID] = "starter";
@@ -19,10 +20,7 @@ function getCreditPackSize(productId: string): 50 | 150 | 400 | null {
     return map[productId] ?? null;
 }
 
-/**
- * Ensure customer record exists and is properly mapped.
- * Uses the clerkUserId from checkout metadata as the canonical ID.
- */
+
 async function ensureCustomer(
     ctx: any,
     clerkUserId: string,
@@ -63,7 +61,47 @@ async function ensureCustomer(
     });
 }
 
-// ─── Webhook: Subscription activated ────────────────────────────────────────
+
+export const cancelDodoSubscription = internalAction({
+    args: {
+        dodoSubscriptionId: v.string(),
+    },
+    handler: async (_ctx, args) => {
+        const apiKey = process.env.DODO_PAYMENTS_API_KEY;
+        const environment = process.env.DODO_PAYMENTS_ENVIRONMENT ?? "test_mode";
+
+        if (!apiKey) {
+            console.error("DODO_PAYMENTS_API_KEY not configured, cannot cancel old subscription");
+            return;
+        }
+
+        const baseUrl = environment === "live_mode"
+            ? "https://api.dodopayments.com"
+            : "https://test.dodopayments.com";
+
+        try {
+            const response = await fetch(`${baseUrl}/subscriptions/${args.dodoSubscriptionId}`, {
+                method: "PATCH",
+                headers: {
+                    "Authorization": `Bearer ${apiKey}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ status: "cancelled" }),
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error(`Failed to cancel old Dodo subscription ${args.dodoSubscriptionId}: ${response.status} ${errorText}`);
+            } else {
+                console.log(`✅ Old Dodo subscription ${args.dodoSubscriptionId} cancelled via API`);
+            }
+        } catch (error) {
+            console.error(`Error cancelling old Dodo subscription ${args.dodoSubscriptionId}:`, error);
+        }
+    },
+});
+
+
 export const handleSubscriptionActive = internalMutation({
     args: {
         subscriptionId: v.string(),
@@ -103,12 +141,25 @@ export const handleSubscriptionActive = internalMutation({
             .first();
 
         if (existingSub) {
+
+            if (existingSub.dodoSubscriptionId !== args.subscriptionId) {
+
+                await ctx.scheduler.runAfter(0, internal.webhooks.cancelDodoSubscription, {
+                    dodoSubscriptionId: existingSub.dodoSubscriptionId,
+                });
+                console.log(`🔄 Scheduling cancellation of old subscription ${existingSub.dodoSubscriptionId}`);
+            }
+
+
+            const packCredits = Math.max(0, existingSub.currentBalance - existingSub.creditsMonthly);
+            const newBalance = config.creditsMonthly + packCredits;
             const balanceBefore = existingSub.currentBalance;
+
             await ctx.db.patch(existingSub._id, {
                 plan,
                 status: "active",
                 creditsMonthly: config.creditsMonthly,
-                currentBalance: config.creditsMonthly,
+                currentBalance: newBalance,
                 dailyCap: config.dailyCap,
                 dailyTokenLimit: config.dailyTokenLimit,
                 dailyCreditsUsed: 0,
@@ -124,14 +175,14 @@ export const handleSubscriptionActive = internalMutation({
                 userId,
                 type: "grant",
                 amount: config.creditsMonthly,
-                description: `${plan.charAt(0).toUpperCase() + plan.slice(1)} plan activated`,
+                description: `${plan.charAt(0).toUpperCase() + plan.slice(1)} plan activated (pack credits preserved: ${packCredits})`,
                 relatedTo: "subscription_activation",
                 balanceBefore,
-                balanceAfter: config.creditsMonthly,
+                balanceAfter: newBalance,
                 timestamp: now,
             });
 
-            console.log(`✅ Subscription reactivated: balance ${balanceBefore} → ${config.creditsMonthly}`);
+            console.log(`✅ Subscription updated: balance ${balanceBefore} → ${newBalance} (pack credits: ${packCredits})`);
         } else {
             await ctx.db.insert("subscriptions", {
                 userId,
@@ -167,7 +218,7 @@ export const handleSubscriptionActive = internalMutation({
     },
 });
 
-// ─── Webhook: Subscription renewed ──────────────────────────────────────────
+
 export const handleSubscriptionRenewed = internalMutation({
     args: {
         subscriptionId: v.string(),
@@ -177,7 +228,7 @@ export const handleSubscriptionRenewed = internalMutation({
         payload: v.string(),
     },
     handler: async (ctx, args) => {
-        // Renewals use dodoSubscriptionId — metadata may not be present
+
         const sub = await ctx.db
             .query("subscriptions")
             .withIndex("by_dodo_subscription_id", (q: any) =>
@@ -195,7 +246,10 @@ export const handleSubscriptionRenewed = internalMutation({
         const now = Date.now();
 
         const balanceBefore = sub.currentBalance;
-        const newBalance = config.creditsMonthly;
+
+
+        const packCredits = Math.max(0, balanceBefore - sub.creditsMonthly);
+        const newBalance = config.creditsMonthly + packCredits;
 
         await ctx.db.patch(sub._id, {
             plan,
@@ -215,18 +269,18 @@ export const handleSubscriptionRenewed = internalMutation({
             userId: sub.userId,
             type: "grant",
             amount: config.creditsMonthly,
-            description: `Monthly renewal — ${plan.charAt(0).toUpperCase() + plan.slice(1)} plan`,
+            description: `Monthly renewal — ${plan.charAt(0).toUpperCase() + plan.slice(1)} plan (pack credits preserved: ${packCredits})`,
             relatedTo: "subscription_renewal",
             balanceBefore,
             balanceAfter: newBalance,
             timestamp: now,
         });
 
-        console.log(`✅ Subscription renewed for ${sub.userId}, plan: ${plan}`);
+        console.log(`✅ Subscription renewed for ${sub.userId}, plan: ${plan}, balance: ${balanceBefore} → ${newBalance} (pack credits: ${packCredits})`);
     },
 });
 
-// ─── Webhook: Subscription cancelled ────────────────────────────────────────
+
 export const handleSubscriptionCancelled = internalMutation({
     args: {
         subscriptionId: v.string(),
@@ -250,7 +304,7 @@ export const handleSubscriptionCancelled = internalMutation({
     },
 });
 
-// ─── Webhook: Subscription payment failed ───────────────────────────────────
+
 export const handleSubscriptionFailed = internalMutation({
     args: {
         subscriptionId: v.string(),
@@ -274,7 +328,7 @@ export const handleSubscriptionFailed = internalMutation({
     },
 });
 
-// ─── Webhook: Payment succeeded (credit packs) ─────────────────────────────
+
 export const handlePaymentSucceeded = internalMutation({
     args: {
         paymentId: v.string(),
@@ -287,13 +341,36 @@ export const handlePaymentSucceeded = internalMutation({
         payload: v.string(),
     },
     handler: async (ctx, args) => {
+        console.log(`💳 Processing payment: paymentId=${args.paymentId}, productId="${args.productId}", clerkUserId="${args.clerkUserId}", customerId=${args.customerId}`);
+
         const packSize = getCreditPackSize(args.productId);
 
-        // Not a credit pack → subscription payment, skip
-        if (!packSize) return;
 
-        if (!args.clerkUserId) {
-            console.error(`No clerkUserId in metadata for payment ${args.paymentId}`);
+        if (!packSize) {
+            console.log(`ℹ️ Product ${args.productId} is not a credit pack, skipping`);
+            return;
+        }
+
+
+        let userId = args.clerkUserId;
+
+
+        if (!userId && args.customerId) {
+            const customer = await ctx.db
+                .query("customers")
+                .withIndex("by_dodo_customer_id", (q: any) =>
+                    q.eq("dodoCustomerId", args.customerId)
+                )
+                .first();
+
+            if (customer) {
+                userId = customer.authId;
+                console.log(`🔍 Resolved userId from dodoCustomerId: ${userId}`);
+            }
+        }
+
+        if (!userId) {
+            console.error(`❌ Cannot resolve userId for payment ${args.paymentId} — no clerkUserId in metadata and no customer found for dodoCustomerId=${args.customerId}`);
             return;
         }
 
@@ -310,7 +387,6 @@ export const handlePaymentSucceeded = internalMutation({
             return;
         }
 
-        const userId = args.clerkUserId;
 
         // Ensure customer record exists
         await ensureCustomer(ctx, userId, args.customerId, args.customerEmail);
@@ -361,7 +437,7 @@ export const handlePaymentSucceeded = internalMutation({
     },
 });
 
-// ─── Webhook: Payment failed ────────────────────────────────────────────────
+
 export const handlePaymentFailed = internalMutation({
     args: {
         paymentId: v.string(),

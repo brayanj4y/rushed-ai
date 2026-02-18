@@ -124,11 +124,27 @@ export async function POST(request: Request) {
       .replace("{instruction}", instruction)
       .replace("{documentation}", documentationContext);
 
-    const { output } = await generateText({
+    const { output, usage } = await generateText({
       model: anthropic("claude-3-7-sonnet-20250219"),
       output: Output.object({ schema: quickEditSchema }),
       prompt,
     });
+
+
+    if (internalKey && userId) {
+      try {
+        await convex.mutation(api.credits.deductCredits, {
+          internalKey,
+          userId,
+          inputTokens: usage.inputTokens ?? 0,
+          outputTokens: usage.outputTokens ?? 0,
+          description: "Quick edit",
+          relatedTo: "quick_edit",
+        });
+      } catch (error) {
+        console.error("Credit deduction error:", error);
+      }
+    }
 
     return NextResponse.json({ editedCode: output.editedCode });
   } catch (error) {
