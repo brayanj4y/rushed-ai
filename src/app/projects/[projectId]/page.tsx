@@ -1,37 +1,15 @@
-import { ProjectView } from "@/modules/projects/ui/views/project-view";
-import { getQueryClient, trpc } from "@/trpc/server";
-import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { Suspense } from "react";
+import { ProjectIdView } from "@/features/projects/components/project-id-view";
 
-interface Props {
-  params: Promise<{
-    projectId: string;
-  }>;
-}
+import { Id } from "../../../../convex/_generated/dataModel";
 
-const Page = async ({ params }: Props) => {
+const ProjectIdPage = async ({
+  params,
+}: {
+  params: Promise<{ projectId: string }>
+}) => {
   const { projectId } = await params;
 
-  const queryClient = getQueryClient();
-  void queryClient.prefetchQuery(
-    // needs to match useSuspenseQuery in the ProjectView!
-    trpc.messages.getMany.queryOptions({
-      projectId,
-    }),
-  );
-  void queryClient.prefetchQuery(
-    trpc.projects.getOne.queryOptions({
-      id: projectId,
-    }),
-  );
-
-  return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <Suspense fallback={<p>Loading...</p>}>
-        <ProjectView projectId={projectId} />
-      </Suspense>
-    </HydrationBoundary>
-  );
-};
-
-export default Page;
+  return  <ProjectIdView projectId={projectId as Id<"projects">} />;
+}
+ 
+export default ProjectIdPage;
